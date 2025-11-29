@@ -19,6 +19,22 @@ class TrelloCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Use Jira-style card if task has subtasks
+    if (task.subTasks.isNotEmpty) {
+      return JiraTaskCard(
+        task: task,
+        workStep: workStep,
+        onTap: onTap,
+        onSubTaskComplete: (subTask) async {
+          try {
+            await context.read<ITaskService>().completeSubTask(subTask.id);
+          } catch (e) {
+            // Error handling
+          }
+        },
+      );
+    }
+
     final remainingSteps = task.workSteps
         .where((ws) =>
             ws.sequenceOrder > workStep.sequenceOrder &&

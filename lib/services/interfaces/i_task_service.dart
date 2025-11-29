@@ -1,5 +1,6 @@
 import '../../models/task.dart';
 import '../../models/work_step.dart';
+import '../../models/subtask.dart';
 import '../../models/enums.dart';
 
 abstract class ITaskService {
@@ -10,7 +11,10 @@ abstract class ITaskService {
   Future<void> completeWorkStep(String workStepId);
   Future<void> updateWorkStepPriority(String workStepId, Priority priority);
   Future<Task> getTask(String taskId);
-  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps);
+  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps, {List<SubTask>? subTasks, String? assignedToActorId});
+  Future<void> addSubTask(String taskId, SubTask subTask);
+  Future<void> completeSubTask(String subTaskId);
+  Future<void> assignTask(String taskId, String actorId);
   void dispose();
 }
 

@@ -134,6 +134,8 @@ class ActorController extends ChangeNotifier {
         task.name,
         task.deadline,
         task.workSteps,
+        subTasks: task.subTasks,
+        assignedToActorId: task.assignedToActorId,
       );
       // Update happens via stream
     } catch (e) {

@@ -3,6 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import '../interfaces/i_task_service.dart';
 import '../../models/task.dart';
 import '../../models/work_step.dart';
+import '../../models/subtask.dart';
 import '../../models/enums.dart';
 
 class MockTaskService implements ITaskService {
@@ -588,7 +589,7 @@ class MockTaskService implements ITaskService {
   }
 
   @override
-  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps) async {
+  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps, {List<SubTask>? subTasks, String? assignedToActorId}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     
     final newTaskId = 'task-${_tasks.length + 1}';
@@ -600,12 +601,67 @@ class MockTaskService implements ITaskService {
         id: 'ws-${DateTime.now().millisecondsSinceEpoch}-${ws.sequenceOrder}',
         taskId: newTaskId,
       )).toList(),
+      subTasks: subTasks?.map((st) => st.copyWith(
+        id: 'st-${DateTime.now().millisecondsSinceEpoch}-${st.sequenceOrder}',
+        taskId: newTaskId,
+      )).toList() ?? [],
+      assignedToActorId: assignedToActorId,
     );
     
     _tasks.add(newTask);
     _tasksSubject.add(_tasks);
     
     return newTask;
+  }
+
+  @override
+  Future<void> addSubTask(String taskId, SubTask subTask) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    
+    for (var i = 0; i < _tasks.length; i++) {
+      if (_tasks[i].id == taskId) {
+        final task = _tasks[i];
+        final updatedSubTasks = List<SubTask>.from(task.subTasks)..add(subTask);
+        _tasks[i] = task.copyWith(subTasks: updatedSubTasks);
+        break;
+      }
+    }
+    
+    _tasksSubject.add(_tasks);
+  }
+
+  @override
+  Future<void> completeSubTask(String subTaskId) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    
+    for (var i = 0; i < _tasks.length; i++) {
+      final task = _tasks[i];
+      final subTaskIndex = task.subTasks.indexWhere((st) => st.id == subTaskId);
+      if (subTaskIndex != -1) {
+        final subTask = task.subTasks[subTaskIndex];
+        final updatedSubTask = subTask.copyWith(status: WorkStepStatus.completed);
+        final updatedSubTasks = List<SubTask>.from(task.subTasks);
+        updatedSubTasks[subTaskIndex] = updatedSubTask;
+        _tasks[i] = task.copyWith(subTasks: updatedSubTasks);
+        break;
+      }
+    }
+    
+    _tasksSubject.add(_tasks);
+  }
+
+  @override
+  Future<void> assignTask(String taskId, String actorId) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    
+    for (var i = 0; i < _tasks.length; i++) {
+      if (_tasks[i].id == taskId) {
+        _tasks[i] = _tasks[i].copyWith(assignedToActorId: actorId);
+        break;
+      }
+    }
+    
+    _tasksSubject.add(_tasks);
   }
 
   @override
