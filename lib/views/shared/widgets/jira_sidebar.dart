@@ -14,7 +14,7 @@ class JiraSidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 260,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
           right: BorderSide(
@@ -28,7 +28,7 @@ class JiraSidebar extends StatelessWidget {
           // Logo/Brand Section
           Container(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(
                   color: AppColors.borderLight,
@@ -41,7 +41,7 @@ class JiraSidebar extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: AppColors.primaryGradient,
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -118,8 +118,8 @@ class JiraSidebar extends StatelessWidget {
                 const SizedBox(height: 24),
                 const Divider(height: 1),
                 const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     'QUICK ACCESS',
                     style: TextStyle(
@@ -165,7 +165,7 @@ class JiraSidebar extends StatelessWidget {
           // Footer
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(
                   color: AppColors.borderLight,
@@ -181,14 +181,14 @@ class JiraSidebar extends StatelessWidget {
                     color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(
                         Icons.add_circle_outline,
                         size: 20,
                         color: AppColors.primary,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         'Create Task',
                         style: TextStyle(
@@ -300,7 +300,7 @@ class _NavItemState extends State<_NavItem> {
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppColors.primary,
                         shape: BoxShape.circle,
                       ),

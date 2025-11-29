@@ -181,14 +181,14 @@ class _TaskCardState extends State<TaskCard> {
                           color: AppColors.textSecondary,
                         ),
                         if (isOverdue)
-                          _MetaChip(
+                          const _MetaChip(
                             icon: Icons.warning_rounded,
                             label: 'OVERDUE',
                             color: AppColors.overdue,
                             isUrgent: true,
                           )
                         else if (isUrgent)
-                          _MetaChip(
+                          const _MetaChip(
                             icon: Icons.priority_high_rounded,
                             label: 'URGENT',
                             color: AppColors.warning,

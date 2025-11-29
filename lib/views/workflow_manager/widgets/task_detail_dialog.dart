@@ -317,7 +317,7 @@ class _WorkStepItem extends StatelessWidget {
                       ),
                       child: Text(
                         workStep.role,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -325,11 +325,11 @@ class _WorkStepItem extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Icon(Icons.access_time, size: 14, color: AppColors.textTertiary),
+                    const Icon(Icons.access_time, size: 14, color: AppColors.textTertiary),
                     const SizedBox(width: 4),
                     Text(
                       '${workStep.durationHours}h',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.textTertiary,
                         fontSize: 12,
                       ),

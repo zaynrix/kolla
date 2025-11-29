@@ -51,7 +51,7 @@ class _AddSubtaskFormState extends State<AddSubtaskForm> {
           Expanded(
             child: TextField(
               controller: _controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Add a subtask...',
                 border: InputBorder.none,
                 isDense: true,

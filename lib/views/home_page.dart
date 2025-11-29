@@ -73,7 +73,7 @@ class HomePage extends StatelessWidget {
                                     width: 4,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      gradient: LinearGradient(
+                                      gradient: const LinearGradient(
                                         colors: AppColors.primaryGradient,
                                       ),
                                       borderRadius: BorderRadius.circular(2),
@@ -181,7 +181,7 @@ class _HeroSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: AppColors.primaryGradient,
@@ -301,7 +301,7 @@ class _ModernActorCardState extends State<_ModernActorCard> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: AppColors.primaryGradient,
@@ -407,7 +407,7 @@ class _ModernDashboardCardState extends State<_ModernDashboardCard> {
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [

@@ -32,7 +32,7 @@ class MockTaskDataFactory {
       deadline: now.add(const Duration(hours: 16)),
       assignedToActorId: 'actor-1',
       workSteps: [
-        WorkStep(
+        const WorkStep(
           id: 'ws-1',
           taskId: 'task-1',
           name: 'Create design mockups and wireframes',
@@ -42,7 +42,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-2',
           sequenceOrder: 1,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-2',
           taskId: 'task-1',
           name: 'Develop frontend components',
@@ -52,7 +52,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-1',
           sequenceOrder: 2,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-3',
           taskId: 'task-1',
           name: 'Integrate backend APIs',
@@ -62,7 +62,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-5',
           sequenceOrder: 3,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-4',
           taskId: 'task-1',
           name: 'Conduct user acceptance testing',
@@ -74,7 +74,7 @@ class MockTaskDataFactory {
         ),
       ],
       subTasks: [
-        SubTask(
+        const SubTask(
           id: 'st-1-1',
           taskId: 'task-1',
           name: 'Research competitor designs',
@@ -82,7 +82,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-2',
           sequenceOrder: 1,
         ),
-        SubTask(
+        const SubTask(
           id: 'st-1-2',
           taskId: 'task-1',
           name: 'Gather user feedback for current site',
@@ -90,7 +90,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-2',
           sequenceOrder: 2,
         ),
-        SubTask(
+        const SubTask(
           id: 'st-1-3',
           taskId: 'task-1',
           name: 'Optimize images for web',
@@ -98,7 +98,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-1',
           sequenceOrder: 3,
         ),
-        SubTask(
+        const SubTask(
           id: 'st-1-4',
           taskId: 'task-1',
           name: 'Implement dark mode toggle',
@@ -119,7 +119,7 @@ class MockTaskDataFactory {
       deadline: now.add(const Duration(days: 3)),
       assignedToActorId: 'actor-4',
       workSteps: [
-        WorkStep(
+        const WorkStep(
           id: 'ws-5',
           taskId: 'task-2',
           name: 'Backup current database',
@@ -129,7 +129,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-4',
           sequenceOrder: 1,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-6',
           taskId: 'task-2',
           name: 'Create PostgreSQL schema',
@@ -139,7 +139,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-1',
           sequenceOrder: 2,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-7',
           taskId: 'task-2',
           name: 'Migrate data and validate',
@@ -151,7 +151,7 @@ class MockTaskDataFactory {
         ),
       ],
       subTasks: [
-        SubTask(
+        const SubTask(
           id: 'st-2-1',
           taskId: 'task-2',
           name: 'Set up PostgreSQL server',
@@ -159,7 +159,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-4',
           sequenceOrder: 1,
         ),
-        SubTask(
+        const SubTask(
           id: 'st-2-2',
           taskId: 'task-2',
           name: 'Document migration process',
@@ -180,7 +180,7 @@ class MockTaskDataFactory {
       deadline: now.add(const Duration(days: 15)),
       assignedToActorId: 'actor-1',
       workSteps: [
-        WorkStep(
+        const WorkStep(
           id: 'ws-8',
           taskId: 'task-3',
           name: 'UI/UX Design',
@@ -190,7 +190,7 @@ class MockTaskDataFactory {
           assignedToActorId: 'actor-2',
           sequenceOrder: 1,
         ),
-        WorkStep(
+        const WorkStep(
           id: 'ws-9',
           taskId: 'task-3',
           name: 'Backend API Integration',
@@ -213,7 +213,7 @@ class MockTaskDataFactory {
       deadline: now.add(const Duration(hours: 6)),
       assignedToActorId: 'actor-1',
       workSteps: [
-        WorkStep(
+        const WorkStep(
           id: 'ws-10',
           taskId: 'task-4',
           name: 'Write API specs',
@@ -236,7 +236,7 @@ class MockTaskDataFactory {
       deadline: now.add(const Duration(days: 7)),
       assignedToActorId: 'actor-4',
       workSteps: [
-        WorkStep(
+        const WorkStep(
           id: 'ws-11',
           taskId: 'task-5',
           name: 'Code review',

@@ -30,7 +30,7 @@ class AssigneeSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.person_outline,
+            const Icon(Icons.person_outline,
                 size: 20, color: AppColors.textSecondary),
             const SizedBox(width: 8),
             Text(
@@ -67,7 +67,7 @@ class AssigneeSection extends StatelessWidget {
                             Container(
                               width: 32,
                               height: 32,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: AppColors.primaryGradient,
                                 ),
@@ -107,7 +107,7 @@ class AssigneeSection extends StatelessWidget {
                         Container(
                           width: 40,
                           height: 40,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             gradient: LinearGradient(
                               colors: AppColors.primaryGradient,
                             ),
@@ -141,7 +141,7 @@ class AssigneeSection extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_outline,
                           size: 20,
                           color: AppColors.textTertiary,

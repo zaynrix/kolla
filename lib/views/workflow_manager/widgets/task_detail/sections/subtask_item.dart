@@ -71,7 +71,7 @@ class SubtaskItem extends StatelessWidget {
               width: 28,
               height: 28,
               margin: const EdgeInsets.only(left: 8),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: AppColors.primaryGradient,
                 ),

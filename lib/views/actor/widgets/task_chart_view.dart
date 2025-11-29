@@ -72,7 +72,7 @@ class TaskChartView extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: AppColors.primaryGradient,
                           ),
                           borderRadius: BorderRadius.circular(12),

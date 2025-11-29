@@ -47,7 +47,7 @@ class TaskStatusChart extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: AppColors.primaryGradient,
                   ),
                   borderRadius: BorderRadius.circular(10),

@@ -19,7 +19,7 @@ class SearchAndFiltersBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(
             color: AppColors.borderLight,
             width: 1,
@@ -147,7 +147,7 @@ class _ModernSearchFieldState extends State<_ModernSearchField> {
           },
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: AppColors.textTertiary,
               fontSize: 15,
             ),
@@ -160,7 +160,7 @@ class _ModernSearchFieldState extends State<_ModernSearchField> {
             ),
             suffixIcon: _controller.text.isNotEmpty
                 ? IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.clear_rounded,
                       size: 20,
                       color: AppColors.textTertiary,

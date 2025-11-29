@@ -35,7 +35,7 @@ class ActorHeaderSection extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border(
+            border: const Border(
               bottom: BorderSide(
                 color: AppColors.borderLight,
                 width: 1,
@@ -61,7 +61,7 @@ class ActorHeaderSection extends StatelessWidget {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: AppColors.primaryGradient,
@@ -115,7 +115,7 @@ class ActorHeaderSection extends StatelessWidget {
                               ),
                               child: Text(
                                 actor.role,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColors.primary,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -123,7 +123,7 @@ class ActorHeaderSection extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Icon(
+                            const Icon(
                               Icons.circle,
                               size: 6,
                               color: AppColors.textTertiary,

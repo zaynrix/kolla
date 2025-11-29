@@ -22,7 +22,7 @@ class DescriptionSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.description_outlined,
+            const Icon(Icons.description_outlined,
                 size: 20, color: AppColors.textSecondary),
             const SizedBox(width: 8),
             Text(
@@ -42,7 +42,7 @@ class DescriptionSection extends StatelessWidget {
                   hintText: 'Add a description...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.borderLight),
+                    borderSide: const BorderSide(color: AppColors.borderLight),
                   ),
                   filled: true,
                   fillColor: AppColors.backgroundLight,

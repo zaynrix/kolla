@@ -72,7 +72,7 @@ class PriorityDistributionChart extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: AppColors.primaryGradient,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -124,17 +124,17 @@ class PriorityDistributionChart extends StatelessWidget {
                       },
                     ),
                   ),
-                  leftTitles: AxisTitles(
+                  leftTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
-                gridData: FlGridData(show: false),
+                gridData: const FlGridData(show: false),
                 borderData: FlBorderData(show: false),
                 barGroups: [
                   BarChartGroupData(

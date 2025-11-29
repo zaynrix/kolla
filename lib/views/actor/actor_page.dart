@@ -96,6 +96,7 @@ class ActorPage extends StatelessWidget {
     final actorService = context.read<IActorService>();
     
     actorService.getActor(controller.actorId).then((actor) {
+      if (!context.mounted) return;
       showDialog(
         context: context,
         builder: (context) => CreateTaskDialog(
@@ -164,7 +165,7 @@ class _ActorKanbanView extends StatelessWidget {
     }).toList();
 
     if (actorTasks.isEmpty) {
-      return _ModernEmptyState(
+      return const _ModernEmptyState(
         message: 'No tasks assigned to you yet',
         icon: Icons.assignment_outlined,
         onCreateTask: null,
@@ -297,7 +298,7 @@ class _ModernCreateButtonState extends State<_ModernCreateButton> {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: AppColors.primaryGradient,
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -317,16 +318,16 @@ class _ModernCreateButtonState extends State<_ModernCreateButton> {
                         ),
                       ],
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.add_rounded,
                     size: 20,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 8),
-                  const Text(
+                  SizedBox(width: 8),
+                  Text(
                     'New Task',
                     style: TextStyle(
                       color: Colors.white,

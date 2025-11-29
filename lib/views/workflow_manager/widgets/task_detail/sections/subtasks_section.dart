@@ -33,7 +33,7 @@ class SubtasksSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.checklist_outlined,
+            const Icon(Icons.checklist_outlined,
                 size: 20, color: AppColors.textSecondary),
             const SizedBox(width: 8),
             Text(
@@ -51,7 +51,7 @@ class SubtasksSection extends StatelessWidget {
               ),
               child: Text(
                 '${subTasks.where((st) => st.status == WorkStepStatus.completed).length}/${subTasks.length}',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.primary,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -71,7 +71,7 @@ class SubtasksSection extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.add_task_outlined,
+                const Icon(Icons.add_task_outlined,
                     size: 20, color: AppColors.textTertiary),
                 const SizedBox(width: 12),
                 Text(

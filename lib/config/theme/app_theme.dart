@@ -214,19 +214,19 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.borderRadius),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.primary,
             width: 2,
           ),
         ),
         contentPadding: const EdgeInsets.all(AppSizes.paddingMedium),
       ),
-      dividerTheme: DividerThemeData(
+      dividerTheme: const DividerThemeData(
         color: AppColors.borderLight,
         thickness: 1,
         space: 1,
       ),
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: AppColors.textSecondary,
         size: 24,
       ),

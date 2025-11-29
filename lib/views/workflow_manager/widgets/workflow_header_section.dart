@@ -39,7 +39,7 @@ class WorkflowHeaderSection extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
+        border: const Border(
           bottom: BorderSide(
             color: AppColors.borderLight,
             width: 1,
@@ -63,7 +63,7 @@ class WorkflowHeaderSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: AppColors.primaryGradient,

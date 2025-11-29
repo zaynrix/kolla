@@ -60,7 +60,7 @@ class ActorPerformanceWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: AppColors.primaryGradient,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -106,7 +106,7 @@ class ActorPerformanceWidget extends StatelessWidget {
           Container(
             width: 56,
             height: 56,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: AppColors.primaryGradient,
               ),

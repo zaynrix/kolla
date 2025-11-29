@@ -96,7 +96,7 @@ class TrelloCard extends StatelessWidget {
                         color: AppColors.overdue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Text(
+                      child: const Text(
                         'OVERDUE',
                         style: TextStyle(
                           color: AppColors.overdue,

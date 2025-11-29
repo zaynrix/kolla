@@ -98,7 +98,7 @@ class JiraTaskCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.checklist,
                           size: 16,
                           color: AppColors.textSecondary,
@@ -140,7 +140,7 @@ class JiraTaskCard extends StatelessWidget {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: AppColors.primaryGradient,
                             ),
                             shape: BoxShape.circle,
@@ -387,7 +387,7 @@ class _SubTaskItemState extends State<_SubTaskItem> {
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: AppColors.primaryGradient,
                           ),
                           shape: BoxShape.circle,

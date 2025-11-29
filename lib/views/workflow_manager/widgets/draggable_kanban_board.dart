@@ -245,7 +245,7 @@ class _WebOptimizedColumn extends StatelessWidget {
                   // Cards - Scrollable with Drag & Drop
                   Flexible(
                     child: DragTarget<WorkStep>(
-                      onAccept: (workStep) {
+                      onAcceptWithDetails: (workStep) {
                         // Update work step status when dropped
                         if (workStep.status != status) {
                           final taskService = context.read<ITaskService>();
@@ -373,7 +373,7 @@ class _DraggableCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 workStep.name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                 ),

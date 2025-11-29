@@ -23,7 +23,7 @@ class WorkStepsSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.list_alt_outlined,
+            const Icon(Icons.list_alt_outlined,
                 size: 20, color: AppColors.textSecondary),
             const SizedBox(width: 8),
             Text(

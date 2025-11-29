@@ -34,7 +34,7 @@ class JiraLayout extends StatelessWidget {
                   height: 72,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border(
+                    border: const Border(
                       bottom: BorderSide(
                         color: AppColors.borderLight,
                         width: 1,
@@ -64,7 +64,7 @@ class JiraLayout extends StatelessWidget {
                               width: 4,
                               height: 28,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   colors: AppColors.primaryGradient,
                                 ),
                                 borderRadius: BorderRadius.circular(2),

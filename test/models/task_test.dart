@@ -11,7 +11,7 @@ void main() {
         name: 'Test Task',
         deadline: DateTime.now().add(const Duration(days: 1)),
         workSteps: [
-          WorkStep(
+          const WorkStep(
             id: 'ws-1',
             taskId: 'task-1',
             name: 'Step 1',
@@ -20,7 +20,7 @@ void main() {
             status: WorkStepStatus.completed,
             sequenceOrder: 1,
           ),
-          WorkStep(
+          const WorkStep(
             id: 'ws-2',
             taskId: 'task-1',
             name: 'Step 2',
@@ -43,7 +43,7 @@ void main() {
         name: 'Test Task',
         deadline: DateTime.now().subtract(const Duration(hours: 1)),
         workSteps: [
-          WorkStep(
+          const WorkStep(
             id: 'ws-1',
             taskId: 'task-1',
             name: 'Step 1',
@@ -64,7 +64,7 @@ void main() {
         name: 'Test Task',
         deadline: DateTime.now().add(const Duration(hours: 20)),
         workSteps: [
-          WorkStep(
+          const WorkStep(
             id: 'ws-1',
             taskId: 'task-1',
             name: 'Step 1',
@@ -73,7 +73,7 @@ void main() {
             status: WorkStepStatus.pending,
             sequenceOrder: 1,
           ),
-          WorkStep(
+          const WorkStep(
             id: 'ws-2',
             taskId: 'task-1',
             name: 'Step 2',
@@ -82,7 +82,7 @@ void main() {
             status: WorkStepStatus.pending,
             sequenceOrder: 2,
           ),
-          WorkStep(
+          const WorkStep(
             id: 'ws-3',
             taskId: 'task-1',
             name: 'Step 3',

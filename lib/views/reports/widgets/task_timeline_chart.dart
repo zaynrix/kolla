@@ -63,7 +63,7 @@ class TaskTimelineChart extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: AppColors.primaryGradient,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -94,7 +94,7 @@ class TaskTimelineChart extends StatelessWidget {
                   drawVerticalLine: false,
                   horizontalInterval: 1,
                   getDrawingHorizontalLine: (value) {
-                    return FlLine(
+                    return const FlLine(
                       color: AppColors.borderLight,
                       strokeWidth: 1,
                     );
@@ -149,10 +149,10 @@ class TaskTimelineChart extends StatelessWidget {
                       },
                     ),
                   ),
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                 ),
@@ -169,7 +169,7 @@ class TaskTimelineChart extends StatelessWidget {
                     isCurved: true,
                     color: AppColors.overdue,
                     barWidth: 3,
-                    dotData: FlDotData(show: true),
+                    dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(
                       show: true,
                       color: AppColors.overdue.withValues(alpha: 0.1),
@@ -180,7 +180,7 @@ class TaskTimelineChart extends StatelessWidget {
                     isCurved: true,
                     color: AppColors.primary,
                     barWidth: 3,
-                    dotData: FlDotData(show: true),
+                    dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(
                       show: true,
                       color: AppColors.primary.withValues(alpha: 0.1),

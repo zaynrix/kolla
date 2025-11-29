@@ -8,7 +8,7 @@ void main() {
       final now = DateTime.now();
       final deadline = now.add(const Duration(hours: 6)); // 6 hours from now
       
-      final workStep = WorkStep(
+      const workStep = WorkStep(
         id: 'ws-1',
         taskId: 'task-1',
         name: 'Test Step',
@@ -26,7 +26,7 @@ void main() {
       final now = DateTime.now();
       final deadline = now.add(const Duration(hours: 20)); // 20 hours from now
       
-      final workStep = WorkStep(
+      const workStep = WorkStep(
         id: 'ws-1',
         taskId: 'task-1',
         name: 'Test Step',
@@ -44,7 +44,7 @@ void main() {
       final now = DateTime.now();
       final deadline = now.add(const Duration(days: 2)); // 48 hours from now
       
-      final workStep = WorkStep(
+      const workStep = WorkStep(
         id: 'ws-1',
         taskId: 'task-1',
         name: 'Test Step',
@@ -62,7 +62,7 @@ void main() {
       final now = DateTime.now();
       final deadline = now.add(const Duration(hours: 6)); // Would be immediate
       
-      final workStep = WorkStep(
+      const workStep = WorkStep(
         id: 'ws-1',
         taskId: 'task-1',
         name: 'Test Step',

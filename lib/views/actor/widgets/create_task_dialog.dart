@@ -71,7 +71,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: AppColors.primaryGradient,
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -140,9 +140,9 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                               borderRadius: BorderRadius.circular(14),
                             ),
                           ),
-                          value: _selectedAssigneeId,
+                          initialValue: _selectedAssigneeId,
                           items: [
-                            DropdownMenuItem(
+                            const DropdownMenuItem(
                               value: null,
                               child: Text('Unassigned', style: TextStyle(color: AppColors.textSecondary)),
                             ),
@@ -153,7 +153,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                                   Container(
                                     width: 24,
                                     height: 24,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: AppColors.primaryGradient,
                                       ),
@@ -175,7 +175,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                                   const SizedBox(width: 8),
                                   Text(
                                     '(${actor.role})',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: AppColors.textTertiary,
                                       fontSize: 12,
                                     ),
@@ -213,7 +213,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                           firstDate: DateTime.now(),
                           lastDate: DateTime.now().add(const Duration(days: 365)),
                         );
-                        if (date != null) {
+                        if (date != null && context.mounted) {
                           final time = await showTimePicker(
                             context: context,
                             initialTime: TimeOfDay.now(),
@@ -308,7 +308,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                                   if (snapshot.hasData) {
                                     return Text(
                                       'Assigned to ${snapshot.data!.name}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: AppColors.textTertiary,
                                         fontSize: 12,
                                       ),

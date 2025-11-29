@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import '../interfaces/i_task_service.dart';
 import '../../models/task.dart';
@@ -52,7 +53,10 @@ class MockTaskService implements ITaskService {
 
     // Complete it
     completeWorkStep(stepToComplete.id);
-    print('Auto-completed: ${stepToComplete.name} from task ${stepToComplete.taskId}');
+    // Note: In production, use a logging framework instead of print
+    if (kDebugMode) {
+      debugPrint('Auto-completed: ${stepToComplete.name} from task ${stepToComplete.taskId}');
+    }
   }
 
   @override
