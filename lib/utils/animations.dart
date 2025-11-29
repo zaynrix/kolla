@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/constants/app_colors.dart';
 
 /// Modern animation utilities for smooth transitions
 class AppAnimations {
@@ -184,20 +185,21 @@ class _ModernCardState extends State<ModernCard>
                       BorderRadius.circular(16),
                   border: Border.all(
                     color: _isHovered
-                        ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                        ? theme.colorScheme.primary.withValues(alpha: 0.4)
                         : (isDark
                             ? Colors.white.withValues(alpha: 0.1)
-                            : Colors.grey.shade200),
-                    width: _isHovered ? 2 : 1,
+                            : AppColors.borderLight),
+                    width: _isHovered ? 1.5 : 1,
                   ),
                   boxShadow: widget.boxShadow ??
                       [
                         BoxShadow(
                           color: _isHovered
-                              ? theme.colorScheme.primary.withValues(alpha: 0.2)
-                              : Colors.black.withValues(alpha: 0.05),
-                          blurRadius: _isHovered ? 20 : 8,
+                              ? theme.colorScheme.primary.withValues(alpha: 0.15)
+                              : Colors.black.withValues(alpha: 0.03),
+                          blurRadius: _isHovered ? 24 : 12,
                           offset: Offset(0, _isHovered ? 8 : 4),
+                          spreadRadius: _isHovered ? 0 : 0,
                         ),
                       ],
                 ),

@@ -46,10 +46,14 @@ class AppColors {
   static const Color atRisk = Color(0xFFFFB84D);
   static const Color overdue = Color(0xFFFF4757);
   
-  // Modern background colors - soft and clean
-  static const Color backgroundLight = Color(0xFFFAFBFC);
+  // Modern background colors - soft and clean (web optimized)
+  static const Color backgroundLight = Color(0xFFF8F9FA);
   static const Color surfaceLight = Color(0xFFFFFFFF);
   static const Color cardBackground = Color(0xFFFFFFFF);
+  
+  // Web-specific colors
+  static const Color borderLight = Color(0xFFE9ECEF);
+  static const Color hoverBackground = Color(0xFFF1F3F5);
   
   // Glassmorphism colors
   static const Color glassBackground = Color(0x40FFFFFF);

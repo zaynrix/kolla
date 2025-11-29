@@ -32,8 +32,8 @@ class HomePage extends StatelessWidget {
           child: Center(
             child: SingleChildScrollView(
               child: Container(
-                constraints: const BoxConstraints(maxWidth: 700),
-                padding: const EdgeInsets.all(32),
+                constraints: const BoxConstraints(maxWidth: 900),
+                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 40),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -44,15 +44,25 @@ class HomePage extends StatelessWidget {
                         begin: 0.9,
                         duration: const Duration(milliseconds: 500),
                         child: Container(
-                          padding: const EdgeInsets.all(24),
+                          padding: const EdgeInsets.all(40),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(28),
+                            border: Border.all(
+                              color: AppColors.borderLight,
+                              width: 1,
+                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.1),
+                                color: AppColors.primary.withValues(alpha: 0.08),
+                                blurRadius: 30,
+                                offset: const Offset(0, 12),
+                                spreadRadius: 0,
+                              ),
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.02),
                                 blurRadius: 20,
-                                offset: const Offset(0, 10),
+                                offset: const Offset(0, 4),
                               ),
                             ],
                           ),
@@ -170,24 +180,28 @@ class _ActorCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey.shade200),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: AppColors.borderLight,
+              width: 1,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 16,
                 offset: const Offset(0, 4),
+                spreadRadius: 0,
               ),
             ],
           ),
           child: Row(
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -197,9 +211,9 @@ class _ActorCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
+                      color: AppColors.primary.withValues(alpha: 0.25),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
                     ),
                   ],
                 ),
@@ -221,13 +235,17 @@ class _ActorCard extends StatelessWidget {
                   children: [
                     Text(
                       actor.name,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.2,
+                          ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       actor.role,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppColors.textSecondary,
+                            fontWeight: FontWeight.w500,
                           ),
                     ),
                   ],
@@ -259,25 +277,26 @@ class _DashboardCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColors.accent,
-                          AppColors.warning,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.accent.withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.accent,
+                AppColors.warning,
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.accent.withValues(alpha: 0.35),
+                blurRadius: 24,
+                offset: const Offset(0, 12),
+                spreadRadius: 0,
+              ),
+            ],
+          ),
           child: Row(
             children: [
               Container(

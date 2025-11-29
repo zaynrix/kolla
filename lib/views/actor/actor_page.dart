@@ -31,21 +31,23 @@ class ActorPage extends StatelessWidget {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
+              surfaceTintColor: Colors.transparent,
+              shadowColor: Colors.transparent,
               title: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: AppColors.primaryGradient,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          color: AppColors.primary.withValues(alpha: 0.25),
+                          blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -53,26 +55,26 @@ class ActorPage extends StatelessWidget {
                     child: const Icon(
                       Icons.person,
                       color: Colors.white,
-                      size: 20,
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         AppStrings.myTasks,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.3,
+                            ),
                       ),
                       Text(
                         '${controller.workSteps.length} active tasks',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textTertiary,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.textTertiary,
+                            ),
                       ),
                     ],
                   ),
@@ -83,12 +85,18 @@ class ActorPage extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                     color: controller.viewMode == ViewMode.list
-                        ? AppColors.primary.withValues(alpha: 0.1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
+                        ? AppColors.primary.withValues(alpha: 0.12)
+                        : AppColors.hoverBackground,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.view_list),
+                    icon: Icon(
+                      Icons.view_list,
+                      size: 22,
+                      color: controller.viewMode == ViewMode.list
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
+                    ),
                     onPressed: controller.viewMode == ViewMode.list
                         ? null
                         : controller.toggleViewMode,
@@ -99,27 +107,56 @@ class ActorPage extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                     color: controller.viewMode == ViewMode.chart
-                        ? AppColors.primary.withValues(alpha: 0.1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
+                        ? AppColors.primary.withValues(alpha: 0.12)
+                        : AppColors.hoverBackground,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.bar_chart),
+                    icon: Icon(
+                      Icons.bar_chart,
+                      size: 22,
+                      color: controller.viewMode == ViewMode.chart
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
+                    ),
                     onPressed: controller.viewMode == ViewMode.chart
                         ? null
                         : controller.toggleViewMode,
                     tooltip: 'Chart View',
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: controller.refresh,
-                  tooltip: AppStrings.refresh,
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.hoverBackground,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh, size: 22),
+                    onPressed: controller.refresh,
+                    tooltip: AppStrings.refresh,
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => _showCreateTaskDialog(context, controller),
-                  tooltip: 'Create New Task',
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: AppColors.primaryGradient,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.add, size: 22, color: Colors.white),
+                    onPressed: () => _showCreateTaskDialog(context, controller),
+                    tooltip: 'Create New Task',
+                  ),
                 ),
               ],
             ),

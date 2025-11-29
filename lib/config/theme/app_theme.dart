@@ -26,31 +26,46 @@ class AppTheme {
       highlightColor: AppColors.primary.withValues(alpha: 0.05),
       textTheme: GoogleFonts.interTextTheme().copyWith(
         displayLarge: GoogleFonts.inter(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
+          fontSize: 48,
+          fontWeight: FontWeight.w800,
           color: AppColors.textPrimary,
+          letterSpacing: -0.5,
+        ),
+        displayMedium: GoogleFonts.inter(
+          fontSize: 36,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textPrimary,
+          letterSpacing: -0.3,
         ),
         titleLarge: GoogleFonts.inter(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
+          letterSpacing: -0.2,
         ),
         titleMedium: GoogleFonts.inter(
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
+          letterSpacing: -0.1,
         ),
         bodyLarge: GoogleFonts.inter(
           fontSize: 16,
+          fontWeight: FontWeight.w400,
           color: AppColors.textPrimary,
+          height: 1.6,
         ),
         bodyMedium: GoogleFonts.inter(
           fontSize: 14,
+          fontWeight: FontWeight.w400,
           color: AppColors.textSecondary,
+          height: 1.5,
         ),
         bodySmall: GoogleFonts.inter(
           fontSize: 12,
+          fontWeight: FontWeight.w400,
           color: AppColors.textTertiary,
+          height: 1.4,
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -58,37 +73,47 @@ class AppTheme {
         centerTitle: false,
         backgroundColor: AppColors.surfaceLight,
         foregroundColor: AppColors.textPrimary,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
         titleTextStyle: GoogleFonts.inter(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
+          letterSpacing: -0.2,
         ),
+        toolbarHeight: 72,
       ),
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: AppColors.primary.withValues(alpha: 0.08),
+            color: AppColors.primary.withValues(alpha: 0.06),
             width: 1,
           ),
         ),
         color: AppColors.cardBackground,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.paddingLarge,
-            vertical: AppSizes.paddingMedium,
+            horizontal: 28,
+            vertical: 16,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+            borderRadius: BorderRadius.circular(14),
           ),
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
+          textStyle: GoogleFonts.inter(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.2,
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(

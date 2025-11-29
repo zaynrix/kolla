@@ -27,21 +27,23 @@ class WorkflowManagerPage extends StatelessWidget {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
+              surfaceTintColor: Colors.transparent,
+              shadowColor: Colors.transparent,
               title: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: AppColors.primaryGradient,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.3),
-                          blurRadius: 8,
+                          color: AppColors.primary.withValues(alpha: 0.25),
+                          blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
                       ],
@@ -49,28 +51,55 @@ class WorkflowManagerPage extends StatelessWidget {
                     child: const Icon(
                       Icons.dashboard,
                       color: Colors.white,
-                      size: 20,
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    AppStrings.workflowManager,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        AppStrings.workflowManager,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.3,
+                            ),
+                      ),
+                      Text(
+                        '${controller.filteredTasks.length} tasks',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.textTertiary,
+                            ),
+                      ),
+                    ],
                   ),
                 ],
               ),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.view_kanban),
-                  onPressed: () {},
-                  tooltip: 'Kanban View',
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.hoverBackground,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.view_kanban, size: 22),
+                    onPressed: () {},
+                    tooltip: 'Kanban View',
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: controller.refresh,
-                  tooltip: AppStrings.refresh,
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.hoverBackground,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh, size: 22),
+                    onPressed: controller.refresh,
+                    tooltip: AppStrings.refresh,
+                  ),
                 ),
               ],
             ),
@@ -98,49 +127,73 @@ class WorkflowManagerPage extends StatelessWidget {
 
     return Column(
       children: [
-        // Top bar with search and filters
+        // Top bar with search and filters - Web optimized
         Container(
-          padding: const EdgeInsets.all(16),
-          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              bottom: BorderSide(
+                color: AppColors.borderLight,
+                width: 1,
+              ),
+            ),
+          ),
           child: Row(
             children: [
               Expanded(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: 500),
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: AppStrings.search,
-                      prefixIcon: const Icon(Icons.search),
+                      hintStyle: TextStyle(color: AppColors.textTertiary),
+                      prefixIcon: Icon(Icons.search, color: AppColors.textTertiary),
                       filled: true,
                       fillColor: AppColors.backgroundLight,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide(
+                          color: AppColors.borderLight,
+                          width: 1,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide(
+                          color: AppColors.primary,
+                          width: 2,
+                        ),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                        horizontal: 20,
+                        vertical: 16,
                       ),
                     ),
                     onChanged: controller.setSearchQuery,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 20),
               _buildFilterChip(
                 context,
                 controller,
                 TaskFilter.all,
                 AppStrings.allTasks,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               _buildFilterChip(
                 context,
                 controller,
                 TaskFilter.atRisk,
                 AppStrings.atRiskTasks,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               _buildFilterChip(
                 context,
                 controller,
@@ -176,13 +229,32 @@ class WorkflowManagerPage extends StatelessWidget {
   ) {
     final isSelected = controller.filter == filter;
     return FilterChip(
-      label: Text(label),
+      label: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+          ),
+        ),
+      ),
       selected: isSelected,
-      selectedColor: AppColors.primary.withValues(alpha: 0.1),
+      selectedColor: AppColors.primary.withValues(alpha: 0.12),
       checkmarkColor: AppColors.primary,
+      backgroundColor: AppColors.hoverBackground,
       labelStyle: TextStyle(
         color: isSelected ? AppColors.primary : AppColors.textSecondary,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.3)
+              : Colors.transparent,
+          width: 1.5,
+        ),
       ),
       onSelected: (selected) {
         if (selected) {

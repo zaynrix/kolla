@@ -36,9 +36,9 @@ class TaskCard extends StatelessWidget {
     return ModernCard(
       onTap: () {},
       margin: EdgeInsets.zero,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       backgroundColor: null, // Use theme default
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(20),
       child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
