@@ -90,7 +90,7 @@ class JiraSidebar extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Navigation Items
           Expanded(
             child: ListView(
@@ -216,7 +216,7 @@ class JiraSidebar extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Footer
           Container(
             padding: const EdgeInsets.all(16),
@@ -269,9 +269,10 @@ class _NavItemState extends State<_NavItem> {
     // Only mark as active if the exact route matches
     // For actor routes, check exact match to avoid highlighting all actors
     final isActive = widget.currentRoute == widget.route;
-    
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.isCompact ? 2 : 0),
+      padding: EdgeInsets.symmetric(
+          horizontal: 12, vertical: widget.isCompact ? 2 : 0),
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
@@ -285,7 +286,9 @@ class _NavItemState extends State<_NavItem> {
               duration: const Duration(milliseconds: 150),
               padding: EdgeInsets.symmetric(
                 horizontal: 14,
-                vertical: widget.isCompact ? 10 : 14, // Web-optimized: min 44px height
+                vertical: widget.isCompact
+                    ? 10
+                    : 14, // Web-optimized: min 44px height
               ),
               decoration: BoxDecoration(
                 color: isActive
@@ -306,9 +309,8 @@ class _NavItemState extends State<_NavItem> {
                   Icon(
                     isActive ? widget.activeIcon : widget.icon,
                     size: widget.isCompact ? 20 : 24,
-                    color: isActive
-                        ? AppColors.primary
-                        : AppColors.textSecondary,
+                    color:
+                        isActive ? AppColors.primary : AppColors.textSecondary,
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -320,9 +322,8 @@ class _NavItemState extends State<_NavItem> {
                           widget.label,
                           style: TextStyle(
                             fontSize: widget.isCompact ? 14 : 15,
-                            fontWeight: isActive
-                                ? FontWeight.w600
-                                : FontWeight.w500,
+                            fontWeight:
+                                isActive ? FontWeight.w600 : FontWeight.w500,
                             color: isActive
                                 ? AppColors.primary
                                 : AppColors.textPrimary,
@@ -377,18 +378,18 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
   void _showCreateTaskDialog() {
     final actorService = context.read<IActorService>();
     final taskService = context.read<ITaskService>();
-    
+
     // Get first actor as default (can be improved later)
     actorService.getAllActors().then((actors) {
       if (!context.mounted) return;
       if (actors.isEmpty) return;
-      
+
       final firstActor = actors.first;
       if (!context.mounted) return;
-      
+
       final navigator = Navigator.of(context);
       final scaffoldMessenger = ScaffoldMessenger.of(context);
-      
+
       showDialog(
         context: context,
         builder: (dialogContext) => CreateTaskDialog(
@@ -438,9 +439,8 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
                       colors: AppColors.primaryGradient,
                     )
                   : null,
-              color: _isHovered
-                  ? null
-                  : AppColors.primary.withValues(alpha: 0.1),
+              color:
+                  _isHovered ? null : AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
               boxShadow: _isHovered
                   ? [
@@ -491,7 +491,7 @@ class _NotificationNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final notificationService = context.watch<INotificationService>();
-    
+
     return StreamBuilder(
       stream: notificationService.watchNotifications(),
       builder: (context, snapshot) {
