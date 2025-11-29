@@ -59,4 +59,3 @@ class MockActorService implements IActorService {
     _actorsSubject.close();
   }
 }
-

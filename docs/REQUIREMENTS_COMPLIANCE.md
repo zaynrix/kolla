@@ -284,19 +284,108 @@ Dieses Dokument beschreibt, wie das Kolla-Projekt die Anforderungen aus dem Proj
 #### 1.1 Benachrichtigungssystem aktivieren
 **Zeitaufwand**: ~4-6 Stunden
 
+**Aktueller Status**: ⚠️ Interface vorhanden, aber nicht aktiv genutzt
+- ✅ `INotificationService` Interface existiert
+- ✅ `MockNotificationService` Implementierung vorhanden
+- ❌ Nicht in Controllern integriert
+- ❌ Keine UI-Komponenten für Benachrichtigungen
+- ❌ Keine Benachrichtigungen bei WorkStep-Events
+
 **Aufgaben**:
-- [ ] `INotificationService` in `ActorController` integrieren
-- [ ] `INotificationService` in `WorkflowManagerController` integrieren
-- [ ] Benachrichtigungen bei `completeWorkStep()` senden
-- [ ] Benachrichtigungen bei `updateWorkStepStatus()` senden
-- [ ] UI-Komponente für Benachrichtigungen erstellen (Notification Center)
-- [ ] Toast/Snackbar für wichtige Benachrichtigungen
-- [ ] Badge für ungelesene Benachrichtigungen
+
+**Schritt 1: Service-Integration in Controllers** (~1-2 Stunden)
+- [ ] `INotificationService` als Dependency in `ActorController` hinzufügen
+- [ ] `INotificationService` als Dependency in `WorkflowManagerController` hinzufügen
+- [ ] Service über `main.dart` Provider-Setup bereitstellen
+- [ ] Service-Disposal in Controller `dispose()` Methoden implementieren
+
+**Schritt 2: Benachrichtigungen bei WorkStep-Events** (~1-2 Stunden)
+- [ ] In `ActorController.completeWorkStep()`:
+  - Nach erfolgreichem Abschluss: `_notificationService.notifyWorkStepCompleted(workStep, task)`
+  - Benachrichtigung an Workflowmanager senden
+- [ ] In `ActorController.updateWorkStepStatus()`:
+  - Bei Status-Änderung: Benachrichtigung senden
+- [ ] In `WorkflowManagerController.updateWorkStepStatus()`:
+  - Bei manueller Status-Änderung: Benachrichtigung senden
+- [ ] In `WorkflowManagerController.updateWorkStepPriority()`:
+  - Bei Prioritätsänderung: `_notificationService.notifyPriorityChanged(workStep)`
+
+**Schritt 3: Stream-Listener für Benachrichtigungen** (~1 Stunde)
+- [ ] In `WorkflowManagerController`:
+  - `watchWorkStepCompletions()` Stream abonnieren
+  - `watchTaskUpdates()` für alle Tasks abonnieren
+  - Bei Benachrichtigung: State aktualisieren und UI-Notification anzeigen
+- [ ] In `ActorController`:
+  - `watchWorkStepCompletions()` für relevante WorkSteps abonnieren
+  - Benachrichtigungen für neue Zuweisungen empfangen
+
+**Schritt 4: UI-Komponenten für Benachrichtigungen** (~1-2 Stunden)
+- [ ] **Notification Center Widget** (`lib/views/shared/widgets/notification_center.dart`):
+  - Liste aller Benachrichtigungen
+  - Filter nach Typ (WorkStep Completed, Priority Changed, New Assignment)
+  - Mark as Read Funktionalität
+  - Badge für ungelesene Benachrichtigungen
+- [ ] **Notification Badge** (`lib/views/shared/widgets/notification_badge.dart`):
+  - Badge in Sidebar/Header mit Anzahl ungelesener Benachrichtigungen
+  - Klick öffnet Notification Center
+- [ ] **Toast/Snackbar Integration**:
+  - Snackbar bei wichtigen Benachrichtigungen (WorkStep Completed)
+  - Toast für weniger kritische Events (Priority Changed)
+  - Auto-dismiss nach 5 Sekunden
+- [ ] **Notification Model** (`lib/models/notification.dart`):
+  - `id`, `type`, `message`, `timestamp`, `isRead`, `relatedTaskId`, `relatedWorkStepId`
+  - `toJson()`, `fromJson()`, `copyWith()` Methoden
+
+**Schritt 5: Integration in bestehende Views** (~30 Minuten)
+- [ ] Notification Badge in `JiraSidebar` integrieren
+- [ ] Notification Center als Drawer/Modal in `JiraLayout` integrieren
+- [ ] Snackbar in `WorkflowManagerPage` bei WorkStep-Completion
+- [ ] Snackbar in `ActorPage` bei neuen Zuweisungen
+
+**Code-Beispiele**:
+
+```dart
+// ActorController.completeWorkStep() - Erweiterung
+Future<void> completeWorkStep(String workStepId) async {
+  try {
+    await _taskService.completeWorkStep(workStepId);
+    
+    // Benachrichtigung senden
+    final workStep = _workSteps.firstWhere((ws) => ws.id == workStepId);
+    final task = _allTasks.firstWhere((t) => t.id == workStep.taskId);
+    _notificationService.notifyWorkStepCompleted(workStep, task);
+    
+    // Update happens via stream
+  } catch (e) {
+    _error = e.toString();
+    notifyListeners();
+  }
+}
+```
+
+```dart
+// WorkflowManagerController - Stream-Listener
+void _subscribeToNotifications() {
+  _notificationService.watchWorkStepCompletions().listen((workStep) {
+    // Snackbar anzeigen
+    // State aktualisieren
+    notifyListeners();
+  });
+}
+```
 
 **Erwartetes Ergebnis**: 
-- Workflowmanager erhält Benachrichtigung, wenn Actor WorkStep abschließt
-- Actors erhalten Benachrichtigungen bei neuen Zuweisungen
-- Visuelles Feedback für alle Benachrichtigungen
+- ✅ Workflowmanager erhält Benachrichtigung, wenn Actor WorkStep abschließt
+- ✅ Actors erhalten Benachrichtigungen bei neuen Zuweisungen
+- ✅ Visuelles Feedback für alle Benachrichtigungen (Snackbar, Toast, Badge)
+- ✅ Notification Center für Historie aller Benachrichtigungen
+- ✅ Real-time Updates ohne Seiten-Reload
+- ✅ Erfüllt Anforderung: "Usability III - automatische Benachrichtigungen"
+
+**Abhängigkeiten**:
+- `INotificationService` muss in `main.dart` als Provider bereitgestellt werden
+- `MockNotificationService` muss erweitert werden für Notification-Historie
+- UI-Komponenten müssen in `JiraLayout` integriert werden
 
 #### 1.2 RBAC-Validierung implementieren
 **Zeitaufwand**: ~6-8 Stunden
