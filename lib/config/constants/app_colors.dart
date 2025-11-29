@@ -47,13 +47,14 @@ class AppColors {
   static const Color overdue = Color(0xFFFF4757);
   
   // Modern background colors - soft and clean (web optimized)
-  static const Color backgroundLight = Color(0xFFF8F9FA);
+  static const Color backgroundLight = Color(0xFFF4F5F7); // Jira-like background
   static const Color surfaceLight = Color(0xFFFFFFFF);
   static const Color cardBackground = Color(0xFFFFFFFF);
   
   // Web-specific colors
-  static const Color borderLight = Color(0xFFE9ECEF);
-  static const Color hoverBackground = Color(0xFFF1F3F5);
+  static const Color borderLight = Color(0xFFDFE1E6); // Jira-like border
+  static const Color hoverBackground = Color(0xFFEBECF0); // Jira-like hover
+  static const Color selectedBackground = Color(0xFFE3FCEF); // Jira-like selected
   
   // Glassmorphism colors
   static const Color glassBackground = Color(0x40FFFFFF);

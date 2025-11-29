@@ -5,6 +5,7 @@ import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
+import '../shared/layouts/jira_layout.dart';
 import 'widgets/kanban_board.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
@@ -22,88 +23,35 @@ class WorkflowManagerPage extends StatelessWidget {
       ),
       child: Consumer<WorkflowManagerController>(
         builder: (context, controller, _) {
-          return Scaffold(
-            backgroundColor: AppColors.backgroundLight,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-              title: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: AppColors.primaryGradient,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.25),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.dashboard,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        AppStrings.workflowManager,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.3,
-                            ),
-                      ),
-                      Text(
-                        '${controller.filteredTasks.length} tasks',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppColors.textTertiary,
-                            ),
-                      ),
-                    ],
-                  ),
-                ],
+          return JiraLayout(
+            title: AppStrings.workflowManager,
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.hoverBackground,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.view_kanban, size: 22),
+                  onPressed: () {},
+                  tooltip: 'Kanban View',
+                ),
               ),
-              actions: [
-                Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.hoverBackground,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.view_kanban, size: 22),
-                    onPressed: () {},
-                    tooltip: 'Kanban View',
-                  ),
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.hoverBackground,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.hoverBackground,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.refresh, size: 22),
-                    onPressed: controller.refresh,
-                    tooltip: AppStrings.refresh,
-                  ),
+                child: IconButton(
+                  icon: const Icon(Icons.refresh, size: 22),
+                  onPressed: controller.refresh,
+                  tooltip: AppStrings.refresh,
                 ),
-              ],
-            ),
-            body: _buildBody(context, controller),
+              ),
+            ],
+            child: _buildBody(context, controller),
           );
         },
       ),
