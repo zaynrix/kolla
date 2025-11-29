@@ -20,9 +20,9 @@ class JiraSidebar extends StatelessWidget {
   void _showNotificationCenter(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => Dialog(
+      builder: (context) => const Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(16),
+        insetPadding: EdgeInsets.all(16),
         child: NotificationCenter(),
       ),
     );
@@ -334,7 +334,7 @@ class _NavItemState extends State<_NavItem> {
                             padding: const EdgeInsets.only(top: 2),
                             child: Text(
                               widget.badge!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.textTertiary,

@@ -367,7 +367,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                                   size: 18,
                                   color: Colors.white,
                                 )
-                              : Icon(
+                              : const Icon(
                                   Icons.circle_outlined,
                                   size: 16,
                                   color: AppColors.textTertiary,
@@ -437,7 +437,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.access_time_rounded,
                                     size: 12,
                                     color: AppColors.textSecondary,

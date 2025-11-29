@@ -355,7 +355,7 @@ class _ArchitectureSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.architecture_rounded,
                 color: AppColors.primary,
                 size: 24,
@@ -379,25 +379,25 @@ class _ArchitectureSection extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 16),
-          _ArchitectureFeature(
+          const _ArchitectureFeature(
             icon: Icons.tune_rounded,
             title: 'Modifiability',
             description: 'GUI and application logic are independently changeable',
           ),
           const SizedBox(height: 12),
-          _ArchitectureFeature(
+          const _ArchitectureFeature(
             icon: Icons.bug_report_rounded,
             title: 'Testability',
             description: 'Each layer can be tested independently',
           ),
           const SizedBox(height: 12),
-          _ArchitectureFeature(
+          const _ArchitectureFeature(
             icon: Icons.phone_android_rounded,
             title: 'Portability',
             description: 'GUI can be swapped for different platforms without affecting logic',
           ),
           const SizedBox(height: 12),
-          _ArchitectureFeature(
+          const _ArchitectureFeature(
             icon: Icons.security_rounded,
             title: 'Security',
             description: 'Role-based access control with permission management',

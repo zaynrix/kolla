@@ -201,8 +201,8 @@ class _SubtaskCardState extends State<SubtaskCard> {
                                 await context.read<ITaskService>().completeSubTask(widget.subTask.id);
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Row(
+                                    const SnackBar(
+                                      content: Row(
                                         children: [
                                           Icon(Icons.check_circle, color: Colors.white, size: 20),
                                           SizedBox(width: 12),
