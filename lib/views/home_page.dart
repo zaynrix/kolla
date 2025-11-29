@@ -148,6 +148,308 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// Project Summary Section
+class _ProjectSummarySection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: AppColors.backgroundLight,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.borderLight,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section Header
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 28,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: AppColors.primaryGradient,
+                  ),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'About Kolla',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                      color: AppColors.textPrimary,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          
+          // Project Description
+          Text(
+            'Kolla is a collaborative task management system designed to streamline workflows, enable individual work planning with prioritization, and support real-time progress monitoring. The system manages collaboration between different actors through workflows, ensuring efficient task distribution and completion tracking.',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AppColors.textSecondary,
+                  height: 1.7,
+                ),
+          ),
+          const SizedBox(height: 32),
+          
+          // Features Grid
+          _FeaturesGrid(),
+          const SizedBox(height: 32),
+          
+          // Architecture Section
+          _ArchitectureSection(),
+        ],
+      ),
+    );
+  }
+}
+
+// Features Grid
+class _FeaturesGrid extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final features = [
+      {
+        'icon': Icons.workflow_rounded,
+        'title': 'Workflow Management',
+        'description': 'Sequential task workflows with automatic assignment and status tracking',
+      },
+      {
+        'icon': Icons.priority_high_rounded,
+        'title': 'Smart Prioritization',
+        'description': 'Automatic priority calculation based on deadlines and remaining work steps',
+      },
+      {
+        'icon': Icons.update_rounded,
+        'title': 'Real-time Updates',
+        'description': 'Stream-based automatic updates without user interaction',
+      },
+      {
+        'icon': Icons.people_rounded,
+        'title': 'Team Collaboration',
+        'description': 'Role-based access control and individual actor dashboards',
+      },
+      {
+        'icon': Icons.analytics_rounded,
+        'title': 'Analytics & Reports',
+        'description': 'Comprehensive reports with charts and performance metrics',
+      },
+      {
+        'icon': Icons.drag_indicator_rounded,
+        'title': 'Kanban Board',
+        'description': 'Trello-style drag & drop interface for visual task management',
+      },
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 1.4,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+      ),
+      itemCount: features.length,
+      itemBuilder: (context, index) {
+        final feature = features[index];
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppColors.borderLight,
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  feature['icon'] as IconData,
+                  color: AppColors.primary,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                feature['title'] as String,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+              ),
+              const SizedBox(height: 6),
+              Expanded(
+                child: Text(
+                  feature['description'] as String,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                        height: 1.4,
+                      ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// Architecture Section
+class _ArchitectureSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.primary.withValues(alpha: 0.05),
+            AppColors.secondary.withValues(alpha: 0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.architecture_rounded,
+                color: AppColors.primary,
+                size: 24,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Architecture',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Kolla is built using the MVCS (Model-View-Controller-Service) architecture pattern, ensuring strict separation between UI and business logic. This design enables:',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                  height: 1.6,
+                ),
+          ),
+          const SizedBox(height: 16),
+          _ArchitectureFeature(
+            icon: Icons.tune_rounded,
+            title: 'Modifiability',
+            description: 'GUI and application logic are independently changeable',
+          ),
+          const SizedBox(height: 12),
+          _ArchitectureFeature(
+            icon: Icons.bug_report_rounded,
+            title: 'Testability',
+            description: 'Each layer can be tested independently',
+          ),
+          const SizedBox(height: 12),
+          _ArchitectureFeature(
+            icon: Icons.phone_android_rounded,
+            title: 'Portability',
+            description: 'GUI can be swapped for different platforms without affecting logic',
+          ),
+          const SizedBox(height: 12),
+          _ArchitectureFeature(
+            icon: Icons.security_rounded,
+            title: 'Security',
+            description: 'Role-based access control with permission management',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ArchitectureFeature extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const _ArchitectureFeature({
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          size: 20,
+          color: AppColors.primary,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 // Modern Hero Section
 class _HeroSection extends StatelessWidget {
   @override
@@ -237,10 +539,6 @@ class _HeroSection extends StatelessWidget {
                 ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 48),
-          
-          // Project Summary Section
-          _ProjectSummarySection(),
         ],
       ),
     );
