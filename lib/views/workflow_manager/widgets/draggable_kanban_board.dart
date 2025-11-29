@@ -245,8 +245,9 @@ class _WebOptimizedColumn extends StatelessWidget {
                   // Cards - Scrollable with Drag & Drop
                   Flexible(
                     child: DragTarget<WorkStep>(
-                      onAcceptWithDetails: (workStep) {
+                      onAcceptWithDetails: (details) {
                         // Update work step status when dropped
+                        final workStep = details.data;
                         if (workStep.status != status) {
                           final taskService = context.read<ITaskService>();
                           taskService.updateWorkStepStatus(workStep.id, status);

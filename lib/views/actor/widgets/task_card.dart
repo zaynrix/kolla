@@ -40,9 +40,9 @@ class _TaskCardState extends State<TaskCard> {
         cursor: SystemMouseCursors.click,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()
-            ..scaleByDouble(_isHovered ? 1.02 : 1.0),
-          child: JiraTaskCard(
+          child: Transform.scale(
+            scale: _isHovered ? 1.02 : 1.0,
+            child: JiraTaskCard(
             task: widget.task,
             workStep: widget.workStep,
             onTap: () {},
@@ -82,9 +82,9 @@ class _TaskCardState extends State<TaskCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 12),
-        transform: Matrix4.identity()
-          ..scaleByDouble(_isHovered ? 1.01 : 1.0),
-        child: Container(
+        child: Transform.scale(
+          scale: _isHovered ? 1.01 : 1.0,
+          child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
