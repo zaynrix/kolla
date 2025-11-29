@@ -3,15 +3,19 @@ import 'package:provider/provider.dart';
 import '../../controllers/actor_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
+import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
+import '../shared/layouts/jira_layout.dart';
+import 'widgets/task_list_view.dart';
 import 'widgets/create_task_dialog.dart';
 import '../../views/workflow_manager/widgets/draggable_kanban_board.dart';
 import '../../views/workflow_manager/widgets/task_detail/modern_task_detail_dialog.dart';
 import '../../../models/work_step.dart';
+import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
-import '../../utils/extensions.dart';
+import 'widgets/actor_header_section.dart';
+import 'widgets/view_mode_selector.dart';
 
-/// Trello-style Actor Page
 class ActorPage extends StatelessWidget {
   final String actorId;
 
@@ -26,22 +30,26 @@ class ActorPage extends StatelessWidget {
       ),
       child: Consumer<ActorController>(
         builder: (context, controller, _) {
-          return Scaffold(
-            backgroundColor: const Color(0xFF0079BF), // Trello blue
-            body: Column(
-              children: [
-                // Trello-style minimal header
-                _TrelloActorHeader(
-                  controller: controller,
-                  onCreateTask: () => _showCreateTaskDialog(context, controller),
-                ),
-                
-                // Kanban Board
-                Expanded(
-                  child: _buildBody(context, controller),
-                ),
-              ],
-            ),
+          return JiraLayout(
+            title: AppStrings.myTasks,
+            actions: [
+              ViewModeSelector(
+                currentMode: controller.viewMode,
+                onModeChanged: controller.toggleViewMode,
+              ),
+              const SizedBox(width: 12),
+              _ModernActionButton(
+                icon: Icons.refresh_rounded,
+                onPressed: controller.refresh,
+                tooltip: AppStrings.refresh,
+              ),
+              const SizedBox(width: 8),
+              _ModernCreateButton(
+                onPressed: () => _showCreateTaskDialog(context, controller),
+                tooltip: 'Create New Task',
+              ),
+            ],
+            child: _buildBody(context, controller),
           );
         },
       ),
@@ -50,68 +58,37 @@ class ActorPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, ActorController controller) {
     if (controller.isLoading) {
-      return Container(
-        color: const Color(0xFF0079BF),
-        child: const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
-        ),
-      );
+      return const LoadingWidget(showSkeleton: true);
     }
 
     if (controller.error != null) {
-      return Container(
-        color: const Color(0xFF0079BF),
-        child: Center(
-          child: custom.ErrorWidget(
-            error: controller.error!,
-            onRetry: controller.refresh,
-          ),
-        ),
+      return custom.ErrorWidget(
+        error: controller.error!,
+        onRetry: controller.refresh,
       );
     }
 
-    // Get all tasks that have work steps assigned to this actor
-    final actorTasks = controller.allTasks.where((task) {
-      return task.workSteps.any((ws) => ws.assignedToActorId == controller.actorId);
-    }).toList();
-
-    if (actorTasks.isEmpty) {
-      return Container(
-        color: const Color(0xFF0079BF),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.task_alt_rounded,
-                size: 64,
-                color: Colors.white.withValues(alpha: 0.5),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'No tasks assigned to you yet',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.8),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+    return Container(
+      color: AppColors.backgroundLight,
+      child: Column(
+        children: [
+          // Modern Header Section with Stats
+          ActorHeaderSection(controller: controller),
+          
+          // Main Content Area
+          Expanded(
+            child: controller.workSteps.isEmpty
+                ? _ModernEmptyState(
+                    message: AppStrings.noTasks,
+                    icon: Icons.task_alt_rounded,
+                    onCreateTask: () => _showCreateTaskDialog(context, controller),
+                  )
+                : controller.viewMode == ViewMode.list
+                    ? _ModernListView(controller: controller)
+                    : _ActorKanbanView(controller: controller),
           ),
-        ),
-      );
-    }
-
-    return DraggableKanbanBoard(
-      tasks: actorTasks,
-      onCardTap: (workStep) {
-        _showTaskDetailDialog(context, workStep, controller);
-      },
-      onStatusChange: (workStep, newStatus) {
-        controller.updateWorkStepStatus(workStep.id, newStatus);
-      },
+        ],
+      ),
     );
   }
   
@@ -143,7 +120,7 @@ class ActorPage extends StatelessWidget {
                 backgroundColor: AppColors.success,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 margin: const EdgeInsets.all(16),
                 duration: const Duration(seconds: 3),
@@ -154,22 +131,66 @@ class ActorPage extends StatelessWidget {
       );
     });
   }
+}
+
+// Modern List View with better spacing
+class _ModernListView extends StatelessWidget {
+  final ActorController controller;
+
+  const _ModernListView({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+      child: TaskListView(controller: controller),
+    );
+  }
+}
+
+// Actor-specific Kanban view
+class _ActorKanbanView extends StatelessWidget {
+  final ActorController controller;
+
+  const _ActorKanbanView({
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Get all tasks that have work steps assigned to this actor
+    final actorTasks = controller.allTasks.where((task) {
+      return task.workSteps.any((ws) => ws.assignedToActorId == controller.actorId);
+    }).toList();
+
+    if (actorTasks.isEmpty) {
+      return _ModernEmptyState(
+        message: 'No tasks assigned to you yet',
+        icon: Icons.assignment_outlined,
+        onCreateTask: null,
+      );
+    }
+
+    return Container(
+      color: AppColors.backgroundLight,
+      child: DraggableKanbanBoard(
+        tasks: actorTasks,
+        onCardTap: (workStep) {
+          _showTaskDetailDialog(context, workStep, controller);
+        },
+        onStatusChange: (workStep, newStatus) {
+          controller.updateWorkStepStatus(workStep.id, newStatus);
+        },
+      ),
+    );
+  }
 
   void _showTaskDetailDialog(
     BuildContext context,
     WorkStep workStep,
     ActorController controller,
   ) {
-    final task = controller.allTasks.firstWhereOrNull((t) => t.id == workStep.taskId);
-    if (task == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error: Task not found.'),
-          backgroundColor: AppColors.error,
-        ),
-      );
-      return;
-    }
+    final task = controller.getTaskForWorkStep(workStep);
     showDialog(
       context: context,
       builder: (context) => ModernTaskDetailDialog(
@@ -180,97 +201,223 @@ class ActorPage extends StatelessWidget {
   }
 }
 
-/// Trello-style actor header
-class _TrelloActorHeader extends StatelessWidget {
-  final ActorController controller;
-  final VoidCallback onCreateTask;
+// Modern Action Button
+class _ModernActionButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final String tooltip;
 
-  const _TrelloActorHeader({
-    required this.controller,
-    required this.onCreateTask,
+  const _ModernActionButton({
+    required this.icon,
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_ModernActionButton> createState() => _ModernActionButtonState();
+}
+
+class _ModernActionButtonState extends State<_ModernActionButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(12),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: _isHovered
+                    ? AppColors.primary.withValues(alpha: 0.1)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                widget.icon,
+                size: 22,
+                color: widget.onPressed != null
+                    ? AppColors.primary
+                    : AppColors.textTertiary,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Modern Create Button
+class _ModernCreateButton extends StatefulWidget {
+  final VoidCallback? onPressed;
+  final String tooltip;
+
+  const _ModernCreateButton({
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_ModernCreateButton> createState() => _ModernCreateButtonState();
+}
+
+class _ModernCreateButtonState extends State<_ModernCreateButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(12),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: AppColors.primaryGradient,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: _isHovered
+                    ? [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.4),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
+                        ),
+                      ]
+                    : [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.add_rounded,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'New Task',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Modern Empty State
+class _ModernEmptyState extends StatelessWidget {
+  final String message;
+  final IconData icon;
+  final VoidCallback? onCreateTask;
+
+  const _ModernEmptyState({
+    required this.message,
+    required this.icon,
+    this.onCreateTask,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFF026AA7), // Darker Trello blue
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          // Logo/Title
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(4),
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        padding: const EdgeInsets.all(48),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.1),
+                    AppColors.secondary.withValues(alpha: 0.05),
+                  ],
                 ),
-                child: const Icon(
-                  Icons.person_rounded,
-                  color: Colors.white,
-                  size: 20,
-                ),
+                shape: BoxShape.circle,
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'My Tasks',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
+              child: Icon(
+                icon,
+                size: 64,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              onCreateTask != null
+                  ? 'Get started by creating your first task'
+                  : 'Tasks will appear here once assigned',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            if (onCreateTask != null) ...[
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: onCreateTask,
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('Create Task'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ],
-          ),
-          
-          const Spacer(),
-          
-          // Task count
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              '${controller.workSteps.length} tasks',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          
-          const SizedBox(width: 16),
-          
-          // Create Button
-          ElevatedButton.icon(
-            onPressed: onCreateTask,
-            icon: const Icon(Icons.add_rounded, size: 18),
-            label: const Text('Create'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: const Color(0xFF172B4D),
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-          ),
-          
-          const SizedBox(width: 16),
-          
-          // Refresh Button
-          IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: Colors.white, size: 20),
-            onPressed: controller.refresh,
-            tooltip: 'Refresh',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

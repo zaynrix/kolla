@@ -113,7 +113,7 @@ class JiraSidebar extends StatelessWidget {
                   label: 'Reports',
                   route: '/reports',
                   currentRoute: currentRoute,
-                  onTap: () => context.go('/'),
+                  onTap: () => context.go('/reports'),
                 ),
                 const SizedBox(height: 24),
                 const Divider(height: 1),

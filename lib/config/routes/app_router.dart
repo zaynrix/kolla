@@ -3,6 +3,7 @@ import '../../views/home_page.dart';
 import '../../views/actor/actor_page.dart';
 import '../../views/workflow_manager/workflow_manager_page.dart';
 import '../../views/all_boards/all_boards_page.dart';
+import '../../views/reports/reports_page.dart';
 import 'page_transitions.dart';
 
 final appRouter = GoRouter(
@@ -38,6 +39,14 @@ final appRouter = GoRouter(
       path: '/all-boards',
       pageBuilder: (context, state) => PageTransitions.slide(
         child: const AllBoardsPage(),
+        state: state,
+        direction: 'left',
+      ),
+    ),
+    GoRoute(
+      path: '/reports',
+      pageBuilder: (context, state) => PageTransitions.slide(
+        child: const ReportsPage(),
         state: state,
         direction: 'left',
       ),
