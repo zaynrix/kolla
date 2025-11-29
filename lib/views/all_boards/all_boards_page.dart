@@ -8,6 +8,7 @@ import '../../config/constants/app_colors.dart';
 import '../shared/layouts/jira_layout.dart';
 import '../workflow_manager/widgets/draggable_kanban_board.dart';
 import '../workflow_manager/widgets/task_detail_dialog.dart';
+import '../../models/work_step.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 

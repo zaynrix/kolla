@@ -4,11 +4,8 @@ import '../../../models/task.dart';
 import '../../../models/work_step.dart';
 import '../../../models/subtask.dart';
 import '../../../models/enums.dart';
-import '../../../models/actor.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_task_service.dart';
-import '../../../services/interfaces/i_actor_service.dart';
-import '../../shared/widgets/priority_badge.dart';
 
 class TaskDetailDialog extends StatelessWidget {
   final Task task;

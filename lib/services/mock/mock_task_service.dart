@@ -670,6 +670,21 @@ class MockTaskService implements ITaskService {
   }
 
   @override
+  Future<Task> updateTask(Task updatedTask) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    
+    for (var i = 0; i < _tasks.length; i++) {
+      if (_tasks[i].id == updatedTask.id) {
+        _tasks[i] = updatedTask;
+        break;
+      }
+    }
+    
+    _tasksSubject.add(_tasks);
+    return updatedTask;
+  }
+
+  @override
   void dispose() {
     _autoCompleteTimer?.cancel();
     _tasksSubject.close();
