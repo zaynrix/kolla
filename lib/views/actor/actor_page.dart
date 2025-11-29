@@ -3,14 +3,11 @@ import 'package:provider/provider.dart';
 import '../../controllers/actor_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
-import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
-import '../shared/layouts/jira_layout.dart';
 import 'widgets/create_task_dialog.dart';
 import '../../views/workflow_manager/widgets/draggable_kanban_board.dart';
 import '../../views/workflow_manager/widgets/task_detail/modern_task_detail_dialog.dart';
 import '../../../models/work_step.dart';
-import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import '../../utils/extensions.dart';
 
