@@ -480,3 +480,49 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
     );
   }
 }
+
+/// Notification navigation item with badge
+class _NotificationNavItem extends StatelessWidget {
+  final String currentRoute;
+  final VoidCallback onTap;
+
+  const _NotificationNavItem({
+    required this.currentRoute,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isActive = currentRoute == '/notifications';
+    final notificationService = context.watch<INotificationService>();
+    
+    return StreamBuilder(
+      stream: notificationService.watchNotifications(),
+      builder: (context, snapshot) {
+        final unreadCount = snapshot.hasData
+            ? snapshot.data!.where((n) => !n.isRead).length
+            : 0;
+
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            _NavItem(
+              icon: Icons.notifications_outlined,
+              activeIcon: Icons.notifications,
+              label: 'Notifications',
+              route: '/notifications',
+              currentRoute: currentRoute,
+              onTap: onTap,
+            ),
+            if (unreadCount > 0)
+              Positioned(
+                right: 8,
+                top: 8,
+                child: NotificationBadge(count: unreadCount, size: 18),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
