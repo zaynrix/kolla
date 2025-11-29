@@ -386,6 +386,9 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
       final firstActor = actors.first;
       if (!context.mounted) return;
       
+      final navigator = Navigator.of(context);
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      
       showDialog(
         context: context,
         builder: (dialogContext) => CreateTaskDialog(
@@ -400,18 +403,18 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
               assignedToActorId: task.assignedToActorId,
             );
             if (dialogContext.mounted) {
-              Navigator.of(dialogContext).pop();
-              ScaffoldMessenger.of(dialogContext).showSnackBar(
-                  SnackBar(
-                    content: Text('Task "${task.name}" created successfully'),
-                    backgroundColor: AppColors.success,
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-            },
-          ),
-        );
+              navigator.pop();
+              scaffoldMessenger.showSnackBar(
+                SnackBar(
+                  content: Text('Task "${task.name}" created successfully'),
+                  backgroundColor: AppColors.success,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }
+          },
+        ),
+      );
     });
   }
 
