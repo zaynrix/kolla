@@ -238,7 +238,6 @@ class _NavItem extends StatefulWidget {
   final VoidCallback onTap;
   final bool isCompact;
   final String? badge;
-  final int? notificationCount;
 
   const _NavItem({
     required this.icon,
@@ -249,7 +248,6 @@ class _NavItem extends StatefulWidget {
     required this.onTap,
     this.isCompact = false,
     this.badge,
-    this.notificationCount,
   });
 
   @override
@@ -339,23 +337,7 @@ class _NavItemState extends State<_NavItem> {
                       ],
                     ),
                   ),
-                  if (widget.notificationCount != null && widget.notificationCount! > 0)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        widget.notificationCount! > 99 ? '99+' : widget.notificationCount.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    )
-                  else if (isActive)
+                  if (isActive)
                     Container(
                       width: 6,
                       height: 6,
