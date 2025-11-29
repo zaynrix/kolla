@@ -49,6 +49,13 @@ class HomePage extends StatelessWidget {
                     ),
                     SizedBox(height: screenWidth > 800 ? 64 : 48),
 
+                    // Project Summary Section
+                    AppAnimations.fadeIn(
+                      duration: const Duration(milliseconds: 800),
+                      child: _ProjectSummarySection(),
+                    ),
+                    SizedBox(height: screenWidth > 800 ? 64 : 48),
+
                     // Quick Access Section
                     FutureBuilder(
                       future: actorService.getAllActors(),
@@ -219,7 +226,7 @@ class _FeaturesGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final features = [
       {
-        'icon': Icons.workflow_rounded,
+        'icon': Icons.account_tree_rounded,
         'title': 'Workflow Management',
         'description': 'Sequential task workflows with automatic assignment and status tracking',
       },
