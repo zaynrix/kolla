@@ -13,6 +13,8 @@ import '../../views/workflow_manager/widgets/task_detail/modern_task_detail_dial
 import '../../../models/work_step.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
+import 'widgets/actor_header_section.dart';
+import 'widgets/view_mode_selector.dart';
 
 class ActorPage extends StatelessWidget {
   final String actorId;
@@ -31,24 +33,11 @@ class ActorPage extends StatelessWidget {
           return JiraLayout(
             title: AppStrings.myTasks,
             actions: [
-              _ModernViewModeButton(
-                icon: Icons.view_list_rounded,
-                isActive: controller.viewMode == ViewMode.list,
-                onPressed: controller.viewMode == ViewMode.list
-                    ? null
-                    : controller.toggleViewMode,
-                tooltip: 'List View',
+              ViewModeSelector(
+                currentMode: controller.viewMode,
+                onModeChanged: controller.toggleViewMode,
               ),
-              const SizedBox(width: 8),
-              _ModernViewModeButton(
-                icon: Icons.bar_chart_rounded,
-                isActive: controller.viewMode == ViewMode.chart,
-                onPressed: controller.viewMode == ViewMode.chart
-                    ? null
-                    : controller.toggleViewMode,
-                tooltip: 'Kanban View',
-              ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               _ModernActionButton(
                 icon: Icons.refresh_rounded,
                 onPressed: controller.refresh,
@@ -60,14 +49,14 @@ class ActorPage extends StatelessWidget {
                 tooltip: 'Create New Task',
               ),
             ],
-            child: _buildBody(controller),
+            child: _buildBody(context, controller),
           );
         },
       ),
     );
   }
 
-  Widget _buildBody(ActorController controller) {
+  Widget _buildBody(BuildContext context, ActorController controller) {
     if (controller.isLoading) {
       return const LoadingWidget(showSkeleton: true);
     }
@@ -79,25 +68,28 @@ class ActorPage extends StatelessWidget {
       );
     }
 
-    if (controller.workSteps.isEmpty) {
-      return Center(
-        child: _ModernEmptyState(
-          message: AppStrings.noTasks,
-          icon: Icons.task_alt_rounded,
-        ),
-      );
-    }
-
-    if (controller.viewMode == ViewMode.list) {
-      return Container(
-        color: AppColors.backgroundLight,
-        padding: const EdgeInsets.all(24),
-        child: TaskListView(controller: controller),
-      );
-    } else {
-      // Show Kanban board for actor's tasks
-      return _ActorKanbanView(controller: controller);
-    }
+    return Container(
+      color: AppColors.backgroundLight,
+      child: Column(
+        children: [
+          // Modern Header Section with Stats
+          ActorHeaderSection(controller: controller),
+          
+          // Main Content Area
+          Expanded(
+            child: controller.workSteps.isEmpty
+                ? _ModernEmptyState(
+                    message: AppStrings.noTasks,
+                    icon: Icons.task_alt_rounded,
+                    onCreateTask: () => _showCreateTaskDialog(context, controller),
+                  )
+                : controller.viewMode == ViewMode.list
+                    ? _ModernListView(controller: controller)
+                    : _ActorKanbanView(controller: controller),
+          ),
+        ],
+      ),
+    );
   }
   
   void _showCreateTaskDialog(BuildContext context, ActorController controller) {
@@ -115,10 +107,13 @@ class ActorPage extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    const Icon(Icons.check_circle, color: Colors.white),
+                    const Icon(Icons.check_circle, color: Colors.white, size: 20),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text('Task "${task.name}" created successfully!'),
+                      child: Text(
+                        'Task "${task.name}" created successfully!',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ],
                 ),
@@ -128,12 +123,28 @@ class ActorPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 margin: const EdgeInsets.all(16),
+                duration: const Duration(seconds: 3),
               ),
             );
           },
         ),
       );
     });
+  }
+}
+
+// Modern List View with better spacing
+class _ModernListView extends StatelessWidget {
+  final ActorController controller;
+
+  const _ModernListView({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+      child: TaskListView(controller: controller),
+    );
   }
 }
 
@@ -153,11 +164,10 @@ class _ActorKanbanView extends StatelessWidget {
     }).toList();
 
     if (actorTasks.isEmpty) {
-      return Center(
-        child: _ModernEmptyState(
-          message: 'No tasks assigned to you yet',
-          icon: Icons.assignment_outlined,
-        ),
+      return _ModernEmptyState(
+        message: 'No tasks assigned to you yet',
+        icon: Icons.assignment_outlined,
+        onCreateTask: null,
       );
     }
 
@@ -186,76 +196,6 @@ class _ActorKanbanView extends StatelessWidget {
       builder: (context) => ModernTaskDetailDialog(
         task: task,
         workStep: workStep,
-      ),
-    );
-  }
-}
-
-// Modern View Mode Button
-class _ModernViewModeButton extends StatefulWidget {
-  final IconData icon;
-  final bool isActive;
-  final VoidCallback? onPressed;
-  final String tooltip;
-
-  const _ModernViewModeButton({
-    required this.icon,
-    required this.isActive,
-    this.onPressed,
-    required this.tooltip,
-  });
-
-  @override
-  State<_ModernViewModeButton> createState() => _ModernViewModeButtonState();
-}
-
-class _ModernViewModeButtonState extends State<_ModernViewModeButton> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: widget.onPressed != null
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
-      child: Tooltip(
-        message: widget.tooltip,
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(12),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 44,
-              height: 44,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: widget.isActive
-                    ? AppColors.primary.withValues(alpha: 0.12)
-                    : _isHovered
-                        ? AppColors.hoverBackground
-                        : Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
-                border: widget.isActive
-                    ? Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                        width: 1.5,
-                      )
-                    : null,
-              ),
-              child: Icon(
-                widget.icon,
-                size: 22,
-                color: widget.isActive
-                    ? AppColors.primary
-                    : AppColors.textSecondary,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -355,9 +295,7 @@ class _ModernCreateButtonState extends State<_ModernCreateButton> {
             borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 44,
-              height: 44,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: AppColors.primaryGradient,
@@ -379,10 +317,24 @@ class _ModernCreateButtonState extends State<_ModernCreateButton> {
                         ),
                       ],
               ),
-              child: const Icon(
-                Icons.add_rounded,
-                size: 22,
-                color: Colors.white,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.add_rounded,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'New Task',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -396,46 +348,77 @@ class _ModernCreateButtonState extends State<_ModernCreateButton> {
 class _ModernEmptyState extends StatelessWidget {
   final String message;
   final IconData icon;
+  final VoidCallback? onCreateTask;
 
   const _ModernEmptyState({
     required this.message,
     required this.icon,
+    this.onCreateTask,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(40),
-          decoration: BoxDecoration(
-            color: AppColors.backgroundLight,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            size: 72,
-            color: AppColors.textTertiary.withValues(alpha: 0.3),
-          ),
-        ),
-        const SizedBox(height: 32),
-        Text(
-          message,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.5,
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        padding: const EdgeInsets.all(48),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.1),
+                    AppColors.secondary.withValues(alpha: 0.05),
+                  ],
+                ),
+                shape: BoxShape.circle,
               ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Create your first task to get started',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textSecondary,
+              child: Icon(
+                icon,
+                size: 64,
+                color: AppColors.primary,
               ),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.5,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              onCreateTask != null
+                  ? 'Get started by creating your first task'
+                  : 'Tasks will appear here once assigned',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            if (onCreateTask != null) ...[
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                onPressed: onCreateTask,
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('Create Task'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
-      ],
+      ),
     );
   }
 }
