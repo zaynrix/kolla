@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/workflow_manager_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
+import '../../services/interfaces/i_notification_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../../utils/extensions.dart';
@@ -22,6 +23,7 @@ class AllBoardsPage extends StatelessWidget {
       create: (context) => WorkflowManagerController(
         taskService: context.read<ITaskService>(),
         actorService: context.read<IActorService>(),
+        notificationService: context.read<INotificationService>(),
       ),
       child: Consumer<WorkflowManagerController>(
         builder: (context, controller, _) {
