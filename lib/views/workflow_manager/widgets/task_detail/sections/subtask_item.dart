@@ -41,7 +41,7 @@ class SubtaskItem extends StatelessWidget {
         border: Border.all(
           color: isCompleted
               ? AppColors.borderLight
-              : AppColors.primary.withValues(alpha: 0.2),
+              : AppColors.primary.withOpacity(0.2),
         ),
       ),
       child: Row(

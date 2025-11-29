@@ -182,7 +182,7 @@ class _ModernActionButtonState extends State<_ModernActionButton> {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: _isHovered
-                    ? AppColors.primary.withValues(alpha: 0.1)
+                    ? AppColors.primary.withOpacity(0.1)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -227,8 +227,8 @@ class _ModernEmptyState extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.1),
-                    AppColors.secondary.withValues(alpha: 0.05),
+                    AppColors.primary.withOpacity(0.1),
+                    AppColors.secondary.withOpacity(0.05),
                   ],
                 ),
                 shape: BoxShape.circle,

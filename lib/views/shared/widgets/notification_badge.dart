@@ -31,7 +31,7 @@ class NotificationBadge extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.overdue.withValues(alpha: 0.4),
+            color: AppColors.overdue.withOpacity(0.4),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

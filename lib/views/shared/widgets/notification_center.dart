@@ -43,7 +43,7 @@ class NotificationCenter extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -195,7 +195,7 @@ class _NotificationItem extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
-          color: AppColors.overdue.withValues(alpha: 0.1),
+          color: AppColors.overdue.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Icon(
@@ -205,7 +205,7 @@ class _NotificationItem extends StatelessWidget {
       ),
       child: Material(
         color: isUnread
-            ? AppColors.primary.withValues(alpha: 0.05)
+            ? AppColors.primary.withOpacity(0.05)
             : Colors.transparent,
         child: InkWell(
           onTap: onTap,
@@ -227,7 +227,7 @@ class _NotificationItem extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
+                    color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Icon(
@@ -360,7 +360,7 @@ class _EmptyNotifications extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

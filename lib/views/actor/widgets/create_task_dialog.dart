@@ -140,7 +140,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                               borderRadius: BorderRadius.circular(14),
                             ),
                           ),
-                          initialValue: _selectedAssigneeId,
+                          value: _selectedAssigneeId,
                           items: [
                             const DropdownMenuItem(
                               value: null,

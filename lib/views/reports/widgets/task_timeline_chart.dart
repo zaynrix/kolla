@@ -49,7 +49,7 @@ class TaskTimelineChart extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -172,7 +172,7 @@ class TaskTimelineChart extends StatelessWidget {
                     dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppColors.overdue.withValues(alpha: 0.1),
+                      color: AppColors.overdue.withOpacity(0.1),
                     ),
                   ),
                   LineChartBarData(
@@ -183,7 +183,7 @@ class TaskTimelineChart extends StatelessWidget {
                     dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: AppColors.primary.withOpacity(0.1),
                     ),
                   ),
                 ],
@@ -234,7 +234,7 @@ class TaskTimelineChart extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -246,7 +246,7 @@ class TaskTimelineChart extends StatelessWidget {
             Icon(
               Icons.timeline_outlined,
               size: 64,
-              color: AppColors.textTertiary.withValues(alpha: 0.3),
+              color: AppColors.textTertiary.withOpacity(0.3),
             ),
             const SizedBox(height: 16),
             Text(

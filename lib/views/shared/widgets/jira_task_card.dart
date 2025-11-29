@@ -203,7 +203,7 @@ class JiraTaskCard extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.2),
+                                color: AppColors.primary.withOpacity(0.2),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -261,7 +261,7 @@ class JiraTaskCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: (isOverdue ? AppColors.overdue : AppColors.warning)
-                      .withValues(alpha: 0.1),
+                      .withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -309,23 +309,23 @@ class _WorkStepItemState extends State<_WorkStepItem> {
         margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
           color: isCompleted
-              ? AppColors.success.withValues(alpha: 0.05)
+              ? AppColors.success.withOpacity(0.05)
               : isInProgress
-                  ? AppColors.primary.withValues(alpha: 0.05)
+                  ? AppColors.primary.withOpacity(0.05)
                   : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isCompleted
-                ? AppColors.success.withValues(alpha: 0.3)
+                ? AppColors.success.withOpacity(0.3)
                 : isInProgress
-                    ? AppColors.primary.withValues(alpha: 0.3)
+                    ? AppColors.primary.withOpacity(0.3)
                     : AppColors.borderLight,
             width: _isHovered ? 1.5 : 1,
           ),
           boxShadow: _isHovered
               ? [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -418,7 +418,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(alpha: 0.1),
+                                color: AppColors.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
@@ -442,7 +442,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                               ),
                               decoration: BoxDecoration(
                                 color: AppColors.textSecondary
-                                    .withValues(alpha: 0.1),
+                                    .withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Row(
@@ -560,7 +560,7 @@ class _WebOptimizedCardState extends State<_WebOptimizedCard>
     );
     _borderColorAnimation = ColorTween(
       begin: AppColors.borderLight,
-      end: AppColors.primary.withValues(alpha: 0.4),
+      end: AppColors.primary.withOpacity(0.4),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
   }
 
@@ -703,7 +703,7 @@ class _SubTaskItemState extends State<_SubTaskItem> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.2),
+                              color: AppColors.primary.withOpacity(0.2),
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),

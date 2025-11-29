@@ -292,14 +292,14 @@ class _NavItemState extends State<_NavItem> {
               ),
               decoration: BoxDecoration(
                 color: isActive
-                    ? AppColors.primary.withValues(alpha: 0.12)
+                    ? AppColors.primary.withOpacity(0.12)
                     : _isHovered
                         ? AppColors.hoverBackground
                         : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
                 border: isActive
                     ? Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.3),
+                        color: AppColors.primary.withOpacity(0.3),
                         width: 1.5,
                       )
                     : null,
@@ -440,12 +440,12 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
                     )
                   : null,
               color:
-                  _isHovered ? null : AppColors.primary.withValues(alpha: 0.1),
+                  _isHovered ? null : AppColors.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
               boxShadow: _isHovered
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.3),
+                        color: AppColors.primary.withOpacity(0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),

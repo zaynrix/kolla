@@ -29,7 +29,7 @@ class TaskChartView extends StatelessWidget {
             Icon(
               Icons.pie_chart_outline,
               size: 64,
-              color: AppColors.textTertiary.withValues(alpha: 0.3),
+              color: AppColors.textTertiary.withOpacity(0.3),
             ),
             const SizedBox(height: 24),
             Text(
@@ -58,7 +58,7 @@ class TaskChartView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
+                    color: Colors.black.withOpacity(0.06),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -212,10 +212,10 @@ class TaskChartView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
+        color: color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: color.withValues(alpha: 0.2),
+          color: color.withOpacity(0.2),
           width: 1,
         ),
       ),
@@ -226,7 +226,7 @@ class TaskChartView extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [color, color.withValues(alpha: 0.8)],
+                colors: [color, color.withOpacity(0.8)],
               ),
               shape: BoxShape.circle,
             ),

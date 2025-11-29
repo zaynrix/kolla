@@ -126,8 +126,8 @@ class _WebOptimizedColumnState extends State<_WebOptimizedColumn> {
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: _isHovered
-                ? widget.color.withValues(alpha: 0.3)
-                : widget.color.withValues(alpha: 0.2),
+                ? widget.color.withOpacity(0.3)
+                : widget.color.withOpacity(0.2),
             width: _isHovered ? 2 : 1.5,
           ),
           boxShadow: [
@@ -152,8 +152,8 @@ class _WebOptimizedColumnState extends State<_WebOptimizedColumn> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    widget.color.withValues(alpha: 0.15),
-                    widget.color.withValues(alpha: 0.08),
+                    widget.color.withOpacity(0.15),
+                    widget.color.withOpacity(0.08),
                   ],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -190,7 +190,7 @@ class _WebOptimizedColumnState extends State<_WebOptimizedColumn> {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: widget.color.withValues(alpha: 0.3),
+                          color: widget.color.withOpacity(0.3),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -221,7 +221,7 @@ class _WebOptimizedColumnState extends State<_WebOptimizedColumn> {
                             Icon(
                               Icons.inbox_outlined,
                               size: 56,
-                              color: AppColors.textTertiary.withValues(alpha: 0.4),
+                              color: AppColors.textTertiary.withOpacity(0.4),
                             ),
                             const SizedBox(height: 16),
                             Text(

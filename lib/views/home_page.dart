@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withValues(alpha: 0.06),
+              AppColors.primary.withOpacity(0.06),
               AppColors.backgroundLight,
             ],
             stops: const [0.0, 0.4],
@@ -280,7 +280,7 @@ class _FeaturesGrid extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
+                color: Colors.black.withOpacity(0.03),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -292,7 +292,7 @@ class _FeaturesGrid extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -340,13 +340,13 @@ class _ArchitectureSection extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withValues(alpha: 0.05),
-            AppColors.secondary.withValues(alpha: 0.05),
+            AppColors.primary.withOpacity(0.05),
+            AppColors.secondary.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.2),
+          color: AppColors.primary.withOpacity(0.2),
           width: 1,
         ),
       ),
@@ -472,13 +472,13 @@ class _HeroSection extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.06),
+            color: AppColors.primary.withOpacity(0.06),
             blurRadius: 40,
             offset: const Offset(0, 16),
             spreadRadius: 0,
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
+            color: Colors.black.withOpacity(0.02),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -498,7 +498,7 @@ class _HeroSection extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: AppColors.primary.withOpacity(0.3),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
@@ -588,7 +588,7 @@ class _ModernActorCardState extends State<_ModernActorCard> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: _isHovered
-                    ? AppColors.primary.withValues(alpha: 0.3)
+                    ? AppColors.primary.withOpacity(0.3)
                     : AppColors.borderLight,
                 width: _isHovered ? 1.5 : 1,
               ),
@@ -618,7 +618,7 @@ class _ModernActorCardState extends State<_ModernActorCard> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.25),
+                        color: AppColors.primary.withOpacity(0.25),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -742,7 +742,7 @@ class _ModernDashboardCardState extends State<_ModernDashboardCard> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
@@ -770,7 +770,7 @@ class _ModernDashboardCardState extends State<_ModernDashboardCard> {
                       Text(
                         'Monitor all tasks and team progress in real-time',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.95),
+                              color: Colors.white.withOpacity(0.95),
                               fontWeight: FontWeight.w400,
                             ),
                       ),

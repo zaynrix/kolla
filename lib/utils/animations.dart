@@ -185,9 +185,9 @@ class _ModernCardState extends State<ModernCard>
                       BorderRadius.circular(16),
                   border: Border.all(
                     color: _isHovered
-                        ? theme.colorScheme.primary.withValues(alpha: 0.4)
+                        ? theme.colorScheme.primary.withOpacity(0.4)
                         : (isDark
-                            ? Colors.white.withValues(alpha: 0.1)
+                            ? Colors.white.withOpacity(0.1)
                             : AppColors.borderLight),
                     width: _isHovered ? 1.5 : 1,
                   ),
@@ -195,8 +195,8 @@ class _ModernCardState extends State<ModernCard>
                       [
                         BoxShadow(
                           color: _isHovered
-                              ? theme.colorScheme.primary.withValues(alpha: 0.15)
-                              : Colors.black.withValues(alpha: 0.03),
+                              ? theme.colorScheme.primary.withOpacity(0.15)
+                              : Colors.black.withOpacity(0.03),
                           blurRadius: _isHovered ? 24 : 12,
                           offset: Offset(0, _isHovered ? 8 : 4),
                           spreadRadius: _isHovered ? 0 : 0,

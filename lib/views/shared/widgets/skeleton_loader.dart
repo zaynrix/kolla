@@ -40,10 +40,10 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseColor = isDark
-        ? Colors.white.withValues(alpha: 0.05)
+        ? Colors.white.withOpacity(0.05)
         : Colors.grey.shade200;
     final highlightColor = isDark
-        ? Colors.white.withValues(alpha: 0.1)
+        ? Colors.white.withOpacity(0.1)
         : Colors.grey.shade300;
 
     return AnimatedBuilder(
@@ -85,7 +85,7 @@ class CardSkeleton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withValues(alpha: 0.1)
+              ? Colors.white.withOpacity(0.1)
               : Colors.grey.shade200,
         ),
       ),

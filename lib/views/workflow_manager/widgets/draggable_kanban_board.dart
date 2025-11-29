@@ -160,8 +160,8 @@ class _WebOptimizedColumn extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
                   color: columnController.isHovered
-                      ? color.withValues(alpha: 0.3)
-                      : color.withValues(alpha: 0.2),
+                      ? color.withOpacity(0.3)
+                      : color.withOpacity(0.2),
                   width: columnController.isHovered ? 2 : 1.5,
                 ),
                 boxShadow: [
@@ -186,8 +186,8 @@ class _WebOptimizedColumn extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          color.withValues(alpha: 0.15),
-                          color.withValues(alpha: 0.08),
+                          color.withOpacity(0.15),
+                          color.withOpacity(0.08),
                         ],
                       ),
                       borderRadius: const BorderRadius.only(
@@ -224,7 +224,7 @@ class _WebOptimizedColumn extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: color.withValues(alpha: 0.3),
+                                color: color.withOpacity(0.3),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -261,7 +261,7 @@ class _WebOptimizedColumn extends StatelessWidget {
                           constraints: const BoxConstraints(minHeight: 200),
                           decoration: isTargeted
                               ? BoxDecoration(
-                                  color: color.withValues(alpha: 0.05),
+                                  color: color.withOpacity(0.05),
                                   borderRadius: BorderRadius.circular(18),
                                 )
                               : null,
@@ -273,7 +273,7 @@ class _WebOptimizedColumn extends StatelessWidget {
                                       Icon(
                                         Icons.inbox_outlined,
                                         size: 56,
-                                        color: AppColors.textTertiary.withValues(alpha: 0.4),
+                                        color: AppColors.textTertiary.withOpacity(0.4),
                                       ),
                                       const SizedBox(height: 16),
                                       Text(
@@ -338,7 +338,7 @@ class _DraggableCard extends StatelessWidget {
       feedback: Material(
         elevation: 12,
         borderRadius: BorderRadius.circular(16),
-        shadowColor: AppColors.primary.withValues(alpha: 0.3),
+        shadowColor: AppColors.primary.withOpacity(0.3),
         child: Container(
           width: 300,
           padding: const EdgeInsets.all(20),
@@ -351,7 +351,7 @@ class _DraggableCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.25),
+                color: Colors.black.withOpacity(0.25),
                 blurRadius: 30,
                 offset: const Offset(0, 15),
               ),

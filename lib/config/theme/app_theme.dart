@@ -22,8 +22,8 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.backgroundLight,
-      splashColor: AppColors.primary.withValues(alpha: 0.1),
-      highlightColor: AppColors.primary.withValues(alpha: 0.05),
+      splashColor: AppColors.primary.withOpacity(0.1),
+      highlightColor: AppColors.primary.withOpacity(0.05),
       textTheme: GoogleFonts.interTextTheme(
         ThemeData.light().textTheme,
       ).apply(
@@ -158,7 +158,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: AppColors.primary.withValues(alpha: 0.06),
+            color: AppColors.primary.withOpacity(0.06),
             width: 1,
           ),
         ),
@@ -203,13 +203,13 @@ class AppTheme {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.borderRadius),
           borderSide: BorderSide(
-            color: AppColors.primary.withValues(alpha: 0.2),
+            color: AppColors.primary.withOpacity(0.2),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.borderRadius),
           borderSide: BorderSide(
-            color: AppColors.primary.withValues(alpha: 0.2),
+            color: AppColors.primary.withOpacity(0.2),
           ),
         ),
         focusedBorder: OutlineInputBorder(

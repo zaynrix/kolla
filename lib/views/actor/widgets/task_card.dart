@@ -91,7 +91,7 @@ class _TaskCardState extends State<TaskCard> {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: _isHovered
-                  ? AppColors.primary.withValues(alpha: 0.3)
+                  ? AppColors.primary.withOpacity(0.3)
                   : AppColors.borderLight,
               width: _isHovered ? 1.5 : 1,
             ),
@@ -290,12 +290,12 @@ class _MetaChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: isUrgent
-            ? color.withValues(alpha: 0.15)
-            : color.withValues(alpha: 0.08),
+            ? color.withOpacity(0.15)
+            : color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(10),
         border: isUrgent
             ? Border.all(
-                color: color.withValues(alpha: 0.3),
+                color: color.withOpacity(0.3),
                 width: 1,
               )
             : null,

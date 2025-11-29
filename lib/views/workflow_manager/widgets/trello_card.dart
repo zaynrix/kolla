@@ -65,7 +65,7 @@ class TrelloCard extends StatelessWidget {
                   ? AppColors.overdue
                   : isUrgent
                       ? AppColors.warning
-                      : AppColors.primary.withValues(alpha: 0.1),
+                      : AppColors.primary.withOpacity(0.1),
               width: isOverdue || isUrgent ? 2.5 : 1,
             ),
             boxShadow: [
@@ -75,7 +75,7 @@ class TrelloCard extends StatelessWidget {
                         : isUrgent
                             ? AppColors.warning
                             : AppColors.primary)
-                    .withValues(alpha: 0.1),
+                    .withOpacity(0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
@@ -93,7 +93,7 @@ class TrelloCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: AppColors.overdue.withValues(alpha: 0.1),
+                        color: AppColors.overdue.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
@@ -167,7 +167,7 @@ class TrelloCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: AppColors.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(

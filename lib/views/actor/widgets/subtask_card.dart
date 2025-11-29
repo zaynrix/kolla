@@ -47,7 +47,7 @@ class _SubtaskCardState extends State<SubtaskCard> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: _isHovered
-                    ? AppColors.primary.withValues(alpha: 0.3)
+                    ? AppColors.primary.withOpacity(0.3)
                     : AppColors.borderLight,
                 width: _isHovered ? 1.5 : 1,
               ),
@@ -83,7 +83,7 @@ class _SubtaskCardState extends State<SubtaskCard> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.1),
+                              color: AppColors.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Icon(
@@ -137,7 +137,7 @@ class _SubtaskCardState extends State<SubtaskCard> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: AppColors.overdue.withValues(alpha: 0.2),
+                                color: AppColors.overdue.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(color: AppColors.overdue, width: 1),
                               ),
@@ -154,7 +154,7 @@ class _SubtaskCardState extends State<SubtaskCard> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: AppColors.warning.withValues(alpha: 0.2),
+                                color: AppColors.warning.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(color: AppColors.warning, width: 1),
                               ),
@@ -302,10 +302,10 @@ class _MetaChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: color.withValues(alpha: 0.3),
+          color: color.withOpacity(0.3),
           width: 1,
         ),
       ),

@@ -32,7 +32,7 @@ class ReportStatCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -51,13 +51,13 @@ class ReportStatCard extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       color,
-                      color.withValues(alpha: 0.8),
+                      color.withOpacity(0.8),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: color.withValues(alpha: 0.3),
+                      color: color.withOpacity(0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
