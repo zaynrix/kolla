@@ -171,6 +171,84 @@ class WorkflowManagerPage extends StatelessWidget {
   }
 }
 
+// Web-optimized search field
+class _WebSearchField extends StatefulWidget {
+  final String hintText;
+  final ValueChanged<String>? onChanged;
+
+  const _WebSearchField({
+    required this.hintText,
+    this.onChanged,
+  });
+
+  @override
+  State<_WebSearchField> createState() => _WebSearchFieldState();
+}
+
+class _WebSearchFieldState extends State<_WebSearchField> {
+  bool _isFocused = false;
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      onFocusChange: (hasFocus) {
+        setState(() => _isFocused = hasFocus);
+      },
+      child: TextField(
+        controller: _controller,
+        onChanged: widget.onChanged,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: AppColors.textTertiary),
+          prefixIcon: Icon(
+            Icons.search,
+            color: _isFocused
+                ? AppColors.primary
+                : AppColors.textTertiary,
+            size: 22,
+          ),
+          filled: true,
+          fillColor: _isFocused
+              ? Colors.white
+              : AppColors.backgroundLight,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: _isFocused
+                  ? AppColors.primary.withValues(alpha: 0.3)
+                  : AppColors.borderLight,
+              width: _isFocused ? 1.5 : 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.primary,
+              width: 2,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 18,
+          ),
+        ),
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+    );
+  }
+}
+
 // Web-optimized action button
 class _WebActionButton extends StatefulWidget {
   final IconData icon;
