@@ -88,8 +88,22 @@ class TaskDetailController extends ChangeNotifier {
 
   Future<void> completeSubTask(String subTaskId) async {
     try {
+      // Update local state immediately for UI responsiveness
+      final subTaskIndex = _task.subTasks.indexWhere((st) => st.id == subTaskId);
+      if (subTaskIndex != -1) {
+        final currentSubTask = _task.subTasks[subTaskIndex];
+        final newStatus = currentSubTask.status == WorkStepStatus.completed
+            ? WorkStepStatus.pending
+            : WorkStepStatus.completed;
+        final updatedSubTask = currentSubTask.copyWith(status: newStatus);
+        final updatedSubTasks = List<SubTask>.from(_task.subTasks);
+        updatedSubTasks[subTaskIndex] = updatedSubTask;
+        _task = _task.copyWith(subTasks: updatedSubTasks);
+        notifyListeners(); // Update UI immediately
+      }
+      
+      // Then persist to service
       await _taskService.completeSubTask(subTaskId);
-      // Update will come via stream
     } catch (e) {
       _error = e.toString();
       notifyListeners();
