@@ -12,7 +12,7 @@ abstract class ITaskService {
   Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status);
   Future<void> updateWorkStepPriority(String workStepId, Priority priority);
   Future<Task> getTask(String taskId);
-  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps, {List<SubTask>? subTasks, String? assignedToActorId});
+  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps, {List<SubTask>? subTasks, String? assignedToActorId, String? description});
   Future<Task> updateTask(Task task);
   Future<void> addSubTask(String taskId, SubTask subTask);
   Future<void> completeSubTask(String subTaskId);
