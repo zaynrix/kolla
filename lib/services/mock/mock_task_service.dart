@@ -938,7 +938,11 @@ class MockTaskService implements ITaskService {
       final subTaskIndex = task.subTasks.indexWhere((st) => st.id == subTaskId);
       if (subTaskIndex != -1) {
         final subTask = task.subTasks[subTaskIndex];
-        final updatedSubTask = subTask.copyWith(status: WorkStepStatus.completed);
+        // Toggle status: completed <-> pending
+        final newStatus = subTask.status == WorkStepStatus.completed
+            ? WorkStepStatus.pending
+            : WorkStepStatus.completed;
+        final updatedSubTask = subTask.copyWith(status: newStatus);
         final updatedSubTasks = List<SubTask>.from(task.subTasks);
         updatedSubTasks[subTaskIndex] = updatedSubTask;
         _tasks[i] = task.copyWith(subTasks: updatedSubTasks);
