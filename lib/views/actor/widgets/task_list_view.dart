@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../controllers/actor_controller.dart';
 import '../../../config/constants/app_strings.dart';
 import '../../../config/constants/app_colors.dart';
+import '../../../utils/animations.dart';
 import 'task_card.dart';
 import 'actor_stats_card.dart';
 
@@ -23,8 +24,10 @@ class TaskListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Stats card
-          ActorStatsCard(controller: controller),
+          // Stats card with animation
+          AppAnimations.fadeIn(
+            child: ActorStatsCard(controller: controller),
+          ),
           
           // Priority sections
           if (immediate.isNotEmpty) ...[
@@ -35,14 +38,22 @@ class TaskListView extends StatelessWidget {
               immediate.length,
             ),
             const SizedBox(height: 12),
-            ...immediate.map((ws) => Padding(
+            ...immediate.asMap().entries.map((entry) {
+              final index = entry.key;
+              final ws = entry.value;
+              return AppAnimations.slideInFromBottom(
+                offset: 30.0,
+                duration: Duration(milliseconds: 300 + (index * 50)),
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TaskCard(
                     workStep: ws,
                     task: controller.getTaskForWorkStep(ws),
                     onComplete: () => controller.completeWorkStep(ws.id),
                   ),
-                )),
+                ),
+              );
+            }),
             const SizedBox(height: 24),
           ],
           if (medium.isNotEmpty) ...[

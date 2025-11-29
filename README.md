@@ -1,22 +1,41 @@
 # Kolla
 
-A collaborative task management system built with Flutter Web, featuring MVCS architecture, Provider state management, and go_router for navigation.
+Ein kollaboratives Aufgabenmanagementsystem entwickelt im Rahmen des Projekts "Software-Architekturen und Qualitätssicherung" an der TH Brandenburg.
+
+Kolla steuert die Zusammenarbeit von verschiedenen Akteuren per Workflow, ermöglicht eine individuelle Arbeitsplanung mit Priorisierung und unterstützt eine immer aktuelle Fortschrittsüberwachung.
 
 ## Features
 
-- 🎯 **Task Management**: Create, track, and manage tasks with work steps
-- 👥 **Actor Views**: Individual dashboards for team members
-- 📊 **Workflow Manager**: Kanban board view similar to Trello/Jira
-- 🔄 **Real-time Updates**: Stream-based real-time task updates
-- 📈 **Priority System**: Automatic priority calculation based on deadlines
-- 🎨 **Modern UI**: Beautiful, responsive design with Material 3
+- 🎯 **Aufgabenmanagement**: Erstellen, verfolgen und verwalten von Aufgaben mit Arbeitsschritten
+- 👥 **Akteur-Ansichten**: Individuelle Dashboards für Teammitglieder
+- 📊 **Workflow-Manager**: Kanban-Board-Ansicht mit Deadline-Tracking
+- 🔄 **Echtzeit-Updates**: Stream-basierte automatische Aktualisierungen ohne Benutzerinteraktion
+- 📈 **Prioritätssystem**: Automatische Priorisierung basierend auf Deadlines
+  - **Sofort**: ≤ 8 Stunden bis zum Deadline
+  - **Mittelfristig**: > 8 und ≤ 32 Stunden
+  - **Langfristig**: > 32 Stunden
+- 🎨 **Moderne UI**: Responsives Design mit Material 3
+- 🔐 **Rollenbasierte Zugriffskontrolle**: Arbeitsschritte sind an Rollen gebunden
+- 📱 **Mehrere Ansichten**: List, Chart und Kanban-Ansichten für verschiedene Bedürfnisse
 
-## Architecture
+## Architektur
 
-- **MVCS Pattern**: Model-View-Controller-Service separation
-- **Provider**: State management
-- **go_router**: Declarative routing
-- **Mock Services**: Ready for API integration
+Das Projekt implementiert eine **MVCS (Model-View-Controller-Service)** Architektur, die folgende Qualitätsanforderungen erfüllt:
+
+- **Modifiability**: GUI und Anwendungslogik sind strikt getrennt und unabhängig änderbar
+- **Testability**: Jede Schicht kann isoliert getestet werden
+- **Usability**: Mehrere Darstellungsformen und automatische Updates
+- **Security**: Rollenbasierte Zugriffskontrolle
+- **Portability**: GUI kann für verschiedene Plattformen ausgetauscht werden
+
+### Architektur-Komponenten
+
+- **Model**: Reine Datenklassen ohne Business-Logik
+- **View**: UI-Komponenten (austauschbar)
+- **Controller**: State Management mit Provider
+- **Service**: Datenzugriff und Business-Logik (abstrahiert durch Interfaces)
+
+Siehe [ARCHITECTURE.md](docs/ARCHITECTURE.md) für detaillierte Architektur-Dokumentation.
 
 ## Tech Stack
 
@@ -51,6 +70,32 @@ lib/
 └── utils/           # Utility functions
 ```
 
-## License
+## Qualitätsanforderungen
 
-This project is a prototype for demonstrating frontend architecture.
+Das Projekt erfüllt die folgenden Qualitätsanforderungen:
+
+- ✅ **Modifiability**: GUI-Integration in max. 2h, Änderungen in max. 1h
+- ✅ **Testability**: Unit-Tests entwickelbar in max. 2h
+- ✅ **Usability**: Mindestens 2 Darstellungen, automatische Updates
+- ✅ **Security**: Zugriff innerhalb von 0,5 Sekunden
+- ✅ **Portability**: Portierung auf neue Plattform in max. 4h
+
+## Tests
+
+```bash
+flutter test
+```
+
+Unit-Tests für Models und Services sind implementiert.
+
+## Dokumentation
+
+- [Architektur-Dokumentation](docs/ARCHITECTURE.md)
+- [Deployment Guide](DEPLOYMENT.md)
+
+## Projekt-Kontext
+
+Dieses Projekt wurde im Rahmen des Moduls "Software-Architekturen und Qualitätssicherung" an der TH Brandenburg entwickelt.
+
+**Wintersemester 2025/2026**  
+**Prof. Dr. Gabriele Schmidt**

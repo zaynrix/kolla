@@ -2,24 +2,36 @@ import 'package:go_router/go_router.dart';
 import '../../views/home_page.dart';
 import '../../views/actor/actor_page.dart';
 import '../../views/workflow_manager/workflow_manager_page.dart';
+import 'page_transitions.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomePage(),
+      pageBuilder: (context, state) => PageTransitions.fade(
+        child: const HomePage(),
+        state: state,
+      ),
     ),
     GoRoute(
       path: '/actor/:actorId',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final actorId = state.pathParameters['actorId']!;
-        return ActorPage(actorId: actorId);
+        return PageTransitions.slide(
+          child: ActorPage(actorId: actorId),
+          state: state,
+          direction: 'right',
+        );
       },
     ),
     GoRoute(
       path: '/workflow-manager',
-      builder: (context, state) => const WorkflowManagerPage(),
+      pageBuilder: (context, state) => PageTransitions.slide(
+        child: const WorkflowManagerPage(),
+        state: state,
+        direction: 'left',
+      ),
     ),
   ],
 );

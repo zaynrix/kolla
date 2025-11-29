@@ -4,6 +4,7 @@ import '../../../models/task.dart';
 import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../config/constants/app_strings.dart';
+import '../../../utils/animations.dart';
 import '../../shared/widgets/priority_badge.dart';
 
 class TaskCard extends StatelessWidget {
@@ -32,39 +33,13 @@ class TaskCard extends StatelessWidget {
     final isUrgent = hoursUntilDeadline < 24 && hoursUntilDeadline >= 0;
     final isOverdue = hoursUntilDeadline < 0;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isOverdue
-              ? AppColors.overdue
-              : isUrgent
-                  ? AppColors.warning
-                  : Colors.grey.shade200,
-          width: isOverdue || isUrgent ? 2 : 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: isOverdue
-                ? AppColors.overdue.withValues(alpha: 0.1)
-                : isUrgent
-                    ? AppColors.warning.withValues(alpha: 0.1)
-                    : Colors.black.withValues(alpha: 0.05),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
+    return ModernCard(
+      onTap: () {},
+      margin: EdgeInsets.zero,
+      padding: const EdgeInsets.all(20),
+      backgroundColor: null, // Use theme default
+      borderRadius: BorderRadius.circular(16),
+      child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -207,9 +182,6 @@ class TaskCard extends StatelessWidget {
                 ],
               ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }

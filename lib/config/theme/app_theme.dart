@@ -102,21 +102,71 @@ class AppTheme {
   }
 
   static ThemeData get darkTheme {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      brightness: Brightness.dark,
+      primary: AppColors.primary,
+      secondary: AppColors.secondary,
+      error: AppColors.error,
+      surface: const Color(0xFF1E1E1E),
+    );
+
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.dark,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: const Color(0xFF121212),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
+        displayLarge: GoogleFonts.inter(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        titleLarge: GoogleFonts.inter(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+        titleMedium: GoogleFonts.inter(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+        bodyLarge: GoogleFonts.inter(
+          fontSize: 16,
+          color: Colors.white.withValues(alpha: 0.9),
+        ),
+        bodyMedium: GoogleFonts.inter(
+          fontSize: 14,
+          color: Colors.white.withValues(alpha: 0.7),
+        ),
+        bodySmall: GoogleFonts.inter(
+          fontSize: 12,
+          color: Colors.white.withValues(alpha: 0.5),
+        ),
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        centerTitle: false,
+        backgroundColor: const Color(0xFF1E1E1E),
+        foregroundColor: Colors.white,
+        titleTextStyle: GoogleFonts.inter(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
       cardTheme: CardThemeData(
-        elevation: 2,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1),
         ),
+        color: const Color(0xFF1E1E1E),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          elevation: 0,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.paddingLarge,
             vertical: AppSizes.paddingMedium,
@@ -124,11 +174,24 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.borderRadius),
           ),
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF1E1E1E),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         contentPadding: const EdgeInsets.all(AppSizes.paddingMedium),
       ),

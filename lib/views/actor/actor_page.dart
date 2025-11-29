@@ -116,7 +116,7 @@ class ActorPage extends StatelessWidget {
 
   Widget _buildBody(ActorController controller) {
     if (controller.isLoading) {
-      return const LoadingWidget();
+      return const LoadingWidget(showSkeleton: true);
     }
 
     if (controller.error != null) {

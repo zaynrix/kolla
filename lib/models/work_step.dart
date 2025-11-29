@@ -23,16 +23,31 @@ class WorkStep {
     required this.sequenceOrder,
   });
 
-  // Calculate automatic priority
+  /// Calculate automatic priority based on requirements:
+  /// - Immediate (sofort): ≤ 8 hours until deadline
+  /// - Medium (mittelfristig): > 8 and ≤ 32 hours
+  /// - LongTerm (langfristig): > 32 hours
+  /// 
+  /// According to requirements: "Die Dringlichkeit ergibt sich aus dem 
+  /// Fertigstellungstermin der Gesamtaufgabe und der Dauer der noch zu 
+  /// bearbeitenden Arbeitsschritte."
+  /// 
+  /// The priority is based on hours until deadline (not after subtracting work time).
   Priority calculateAutoPriority(DateTime taskDeadline, int remainingStepsAfter) {
     final now = DateTime.now();
-    final totalRemainingHours = durationHours + (remainingStepsAfter * 8);
     final hoursUntilDeadline = taskDeadline.difference(now).inHours;
-    final remainingTime = hoursUntilDeadline - totalRemainingHours;
 
-    if (remainingTime <= 8) return Priority.immediate;
-    if (remainingTime <= 32) return Priority.medium;
-    return Priority.longTerm;
+    // Priority classification according to requirements:
+    // - Sofort: ≤ 8 Stunden bis zum Fertigstellungstermin
+    // - Mittelfristig: > 8 und ≤ 32 Stunden
+    // - Langfristig: > 32 Stunden
+    if (hoursUntilDeadline <= 8) {
+      return Priority.immediate; // Sofort: ≤ 8 Stunden
+    } else if (hoursUntilDeadline <= 32) {
+      return Priority.medium; // Mittelfristig: > 8 und ≤ 32 Stunden
+    } else {
+      return Priority.longTerm; // Langfristig: > 32 Stunden
+    }
   }
 
   // Get effective priority (manual override or auto)

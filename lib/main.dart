@@ -7,6 +7,7 @@ import 'services/interfaces/i_actor_service.dart';
 import 'services/mock/mock_task_service.dart';
 import 'services/mock/mock_actor_service.dart';
 
+//..
 void main() {
   runApp(const KollaApp());
 }
@@ -32,9 +33,16 @@ class KollaApp extends StatelessWidget {
         title: 'Kolla - Task Management',
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.system, // Auto dark mode
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
+        // Modern page transitions
+        builder: (context, child) {
+          return AnimatedTheme(
+            data: Theme.of(context),
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
       ),
     );
   }

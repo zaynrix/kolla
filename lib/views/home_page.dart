@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../services/interfaces/i_actor_service.dart';
 import '../config/constants/app_strings.dart';
 import '../config/constants/app_colors.dart';
+import '../utils/animations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,53 +35,60 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Hero section
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [AppColors.primary, AppColors.secondary],
+                    // Hero section with animation
+                    AppAnimations.fadeIn(
+                      duration: const Duration(milliseconds: 500),
+                      child: AppAnimations.scale(
+                        begin: 0.9,
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.1),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
                               ),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.task_alt,
-                              size: 64,
-                              color: Colors.white,
-                            ),
+                            ],
                           ),
-                          const SizedBox(height: 24),
-                          Text(
-                            AppStrings.welcomeMessage,
-                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  color: AppColors.textPrimary,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [AppColors.primary, AppColors.secondary],
+                                  ),
+                                  shape: BoxShape.circle,
                                 ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            AppStrings.subtitle,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: AppColors.textSecondary,
+                                child: const Icon(
+                                  Icons.task_alt,
+                                  size: 64,
+                                  color: Colors.white,
                                 ),
-                            textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                AppStrings.welcomeMessage,
+                                style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                      color: AppColors.textPrimary,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                AppStrings.subtitle,
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 48),
@@ -105,16 +113,28 @@ class HomePage extends StatelessWidget {
                                   ),
                             ),
                             const SizedBox(height: 20),
-                            ...actors.take(3).map((actor) => Padding(
+                            ...actors.take(3).toList().asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final actor = entry.value;
+                              return AppAnimations.slideInFromBottom(
+                                offset: 30.0,
+                                duration: Duration(milliseconds: 400 + (index * 100)),
+                                child: Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: _ActorCard(
                                     actor: actor,
                                     onTap: () => context.go('/actor/${actor.id}'),
                                   ),
-                                )),
+                                ),
+                              );
+                            }),
                             const SizedBox(height: 24),
-                            _DashboardCard(
-                              onTap: () => context.go('/workflow-manager'),
+                            AppAnimations.slideInFromBottom(
+                              offset: 30.0,
+                              duration: const Duration(milliseconds: 600),
+                              child: _DashboardCard(
+                                onTap: () => context.go('/workflow-manager'),
+                              ),
                             ),
                           ],
                         );
