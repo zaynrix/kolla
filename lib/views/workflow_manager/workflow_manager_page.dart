@@ -79,38 +79,9 @@ class WorkflowManagerPage extends StatelessWidget {
               Expanded(
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 500),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: AppStrings.search,
-                      hintStyle: TextStyle(color: AppColors.textTertiary),
-                      prefixIcon: Icon(Icons.search, color: AppColors.textTertiary),
-                      filled: true,
-                      fillColor: AppColors.backgroundLight,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide.none,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(
-                          color: AppColors.borderLight,
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(
-                          color: AppColors.primary,
-                          width: 2,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
-                      ),
-                    ),
+                  child: _WebSearchField(
+                    hintText: AppStrings.search,
                     onChanged: controller.setSearchQuery,
-                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ),

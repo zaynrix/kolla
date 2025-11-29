@@ -42,12 +42,12 @@ class KanbanBoard extends StatelessWidget {
 
     return Container(
       color: AppColors.backgroundLight,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: _KanbanColumn(
+            child: _WebOptimizedColumn(
               title: 'To Do',
               count: pendingSteps.length,
               color: AppColors.textSecondary,
@@ -57,9 +57,9 @@ class KanbanBoard extends StatelessWidget {
               onStatusChange: onStatusChange,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 20),
           Expanded(
-            child: _KanbanColumn(
+            child: _WebOptimizedColumn(
               title: 'In Progress',
               count: inProgressSteps.length,
               color: AppColors.mediumPriority,
@@ -69,9 +69,9 @@ class KanbanBoard extends StatelessWidget {
               onStatusChange: onStatusChange,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 20),
           Expanded(
-            child: _KanbanColumn(
+            child: _WebOptimizedColumn(
               title: 'Done',
               count: completedSteps.length,
               color: AppColors.success,
@@ -87,7 +87,8 @@ class KanbanBoard extends StatelessWidget {
   }
 }
 
-class _KanbanColumn extends StatelessWidget {
+// Web-optimized column with hover effects
+class _WebOptimizedColumn extends StatefulWidget {
   final String title;
   final int count;
   final Color color;
@@ -96,7 +97,7 @@ class _KanbanColumn extends StatelessWidget {
   final Function(WorkStep)? onCardTap;
   final Function(WorkStep, WorkStepStatus)? onStatusChange;
 
-  const _KanbanColumn({
+  const _WebOptimizedColumn({
     required this.title,
     required this.count,
     required this.color,
@@ -107,124 +108,149 @@ class _KanbanColumn extends StatelessWidget {
   });
 
   @override
+  State<_WebOptimizedColumn> createState() => _WebOptimizedColumnState();
+}
+
+class _WebOptimizedColumnState extends State<_WebOptimizedColumn> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withValues(alpha: 0.2),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceLight,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: _isHovered
+                ? widget.color.withValues(alpha: 0.3)
+                : widget.color.withValues(alpha: 0.2),
+            width: _isHovered ? 2 : 1.5,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header - Jira/Trello style
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  color.withValues(alpha: 0.15),
-                  color.withValues(alpha: 0.08),
+          boxShadow: [
+            BoxShadow(
+              color: widget.color.withValues(
+                alpha: _isHovered ? 0.08 : 0.05,
+              ),
+              blurRadius: _isHovered ? 16 : 10,
+              offset: Offset(0, _isHovered ? 6 : 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header - Jira/Trello style
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    widget.color.withValues(alpha: 0.15),
+                    widget.color.withValues(alpha: 0.08),
+                  ],
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(18),
+                  topRight: Radius.circular(18),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 4,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: widget.color,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      widget.title.toUpperCase(),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: widget.color,
+                            letterSpacing: 0.8,
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: widget.color,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: widget.color.withValues(alpha: 0.3),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      widget.count.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
+            ),
+            // Cards - Scrollable
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                constraints: const BoxConstraints(minHeight: 200),
+                child: widget.workSteps.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.inbox_outlined,
+                              size: 56,
+                              color: AppColors.textTertiary.withValues(alpha: 0.4),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No items',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AppColors.textTertiary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.workSteps.length,
+                        itemBuilder: (context, index) {
+                          final workStep = widget.workSteps[index];
+                          final task = widget.tasks.firstWhere((t) => t.id == workStep.taskId);
+                          return TrelloCard(
+                            workStep: workStep,
+                            task: task,
+                            onTap: () => widget.onCardTap?.call(workStep),
+                          );
+                        },
+                      ),
               ),
             ),
-            child: Row(
-              children: [
-                Container(
-                  width: 4,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    title.toUpperCase(),
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: color,
-                          letterSpacing: 0.5,
-                        ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    count.toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Cards - Scrollable
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              constraints: const BoxConstraints(minHeight: 200),
-              child: workSteps.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.inbox_outlined,
-                            size: 48,
-                            color: AppColors.textTertiary.withValues(alpha: 0.5),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'No items',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.textTertiary,
-                                ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: workSteps.length,
-                      itemBuilder: (context, index) {
-                        final workStep = workSteps[index];
-                        final task = tasks.firstWhere((t) => t.id == workStep.taskId);
-                        return TrelloCard(
-                          workStep: workStep,
-                          task: task,
-                          onTap: () => onCardTap?.call(workStep),
-                        );
-                      },
-                    ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
