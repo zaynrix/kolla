@@ -263,11 +263,82 @@ class JiraTaskCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.5,
                   ),
+                  ),
                 ),
-              ),
             ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Work Step Item for display in JiraTaskCard
+class _WorkStepItem extends StatelessWidget {
+  final WorkStep workStep;
+
+  const _WorkStepItem({
+    required this.workStep,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isCompleted = workStep.status == WorkStepStatus.completed;
+    
+    return Container(
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      decoration: BoxDecoration(
+        color: isCompleted ? Colors.white : AppColors.backgroundLight,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isCompleted
+              ? AppColors.success.withValues(alpha: 0.3)
+              : AppColors.borderLight,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
+            size: 16,
+            color: isCompleted
+                ? AppColors.success
+                : AppColors.textTertiary,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              workStep.name,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    decoration: isCompleted ? TextDecoration.lineThrough : null,
+                    color: isCompleted
+                        ? AppColors.textTertiary
+                        : AppColors.textSecondary,
+                    fontWeight: isCompleted ? FontWeight.w400 : FontWeight.w500,
+                  ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (!isCompleted)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                '${workStep.durationHours}h',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.primary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ),
+        ],
       ),
     );
   }
