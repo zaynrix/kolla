@@ -7,7 +7,6 @@ import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../../models/work_step.dart';
 import '../shared/layouts/jira_layout.dart';
-import 'widgets/kanban_board.dart';
 import 'widgets/draggable_kanban_board.dart';
 import 'widgets/task_detail_dialog.dart';
 import '../shared/widgets/loading_widget.dart';
