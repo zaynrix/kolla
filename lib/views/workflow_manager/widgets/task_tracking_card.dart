@@ -44,7 +44,7 @@ class TaskTrackingCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.2),
+                    color: statusColor.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: statusColor, width: 1),
                   ),
@@ -108,7 +108,7 @@ class TaskTrackingCard extends StatelessWidget {
                         label: Text(ws.name),
                         avatar: CircleAvatar(
                           backgroundColor: _getPriorityColor(ws, task)
-                              .withOpacity(0.2),
+                              .withValues(alpha: 0.2),
                           child: Icon(
                             Icons.work,
                             size: 16,

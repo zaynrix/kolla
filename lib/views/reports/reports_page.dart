@@ -33,7 +33,7 @@ class ReportsPage extends StatelessWidget {
               _ModernActionButton(
                 icon: Icons.download_rounded,
                 onPressed: () {
-                  // TODO: Export reports
+                  // Export functionality will be implemented in Phase 2
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Row(
