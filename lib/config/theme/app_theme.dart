@@ -101,11 +101,12 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           padding: const EdgeInsets.symmetric(
-            horizontal: 28,
-            vertical: 16,
+            horizontal: 32,
+            vertical: 18, // Web-optimized: min 44px height
           ),
+          minimumSize: const Size(88, 44), // Web accessibility standard
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(12),
           ),
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
@@ -113,6 +114,16 @@ class AppTheme {
             fontSize: 15,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.2,
+          ),
+        ).copyWith(
+          // Web hover effects
+          overlayColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.hovered)) {
+                return AppColors.primaryDark;
+              }
+              return null;
+            },
           ),
         ),
       ),

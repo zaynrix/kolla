@@ -30,82 +30,33 @@ class ActorPage extends StatelessWidget {
           return JiraLayout(
             title: AppStrings.myTasks,
             actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: controller.viewMode == ViewMode.list
-                      ? AppColors.primary.withValues(alpha: 0.12)
-                      : AppColors.hoverBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.view_list,
-                    size: 22,
-                    color: controller.viewMode == ViewMode.list
-                        ? AppColors.primary
-                        : AppColors.textSecondary,
-                  ),
-                  onPressed: controller.viewMode == ViewMode.list
-                      ? null
-                      : controller.toggleViewMode,
-                  tooltip: 'List View',
-                ),
+              _WebViewModeButton(
+                icon: Icons.view_list,
+                isActive: controller.viewMode == ViewMode.list,
+                onPressed: controller.viewMode == ViewMode.list
+                    ? null
+                    : controller.toggleViewMode,
+                tooltip: 'List View',
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: controller.viewMode == ViewMode.chart
-                      ? AppColors.primary.withValues(alpha: 0.12)
-                      : AppColors.hoverBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.bar_chart,
-                    size: 22,
-                    color: controller.viewMode == ViewMode.chart
-                        ? AppColors.primary
-                        : AppColors.textSecondary,
-                  ),
-                  onPressed: controller.viewMode == ViewMode.chart
-                      ? null
-                      : controller.toggleViewMode,
-                  tooltip: 'Chart View',
-                ),
+              const SizedBox(width: 8),
+              _WebViewModeButton(
+                icon: Icons.bar_chart,
+                isActive: controller.viewMode == ViewMode.chart,
+                onPressed: controller.viewMode == ViewMode.chart
+                    ? null
+                    : controller.toggleViewMode,
+                tooltip: 'Chart View',
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.hoverBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.refresh, size: 22),
-                  onPressed: controller.refresh,
-                  tooltip: AppStrings.refresh,
-                ),
+              const SizedBox(width: 8),
+              _WebActionButton(
+                icon: Icons.refresh,
+                onPressed: controller.refresh,
+                tooltip: AppStrings.refresh,
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: AppColors.primaryGradient,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.add, size: 22, color: Colors.white),
-                  onPressed: () => _showCreateTaskDialog(context, controller),
-                  tooltip: 'Create New Task',
-                ),
+              const SizedBox(width: 8),
+              _WebCreateButton(
+                onPressed: () => _showCreateTaskDialog(context, controller),
+                tooltip: 'Create New Task',
               ),
             ],
             child: _buildBody(controller),
@@ -160,6 +111,207 @@ class ActorPage extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+// Web-optimized view mode button
+class _WebViewModeButton extends StatefulWidget {
+  final IconData icon;
+  final bool isActive;
+  final VoidCallback? onPressed;
+  final String tooltip;
+
+  const _WebViewModeButton({
+    required this.icon,
+    required this.isActive,
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_WebViewModeButton> createState() => _WebViewModeButtonState();
+}
+
+class _WebViewModeButtonState extends State<_WebViewModeButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: widget.isActive
+                    ? AppColors.primary.withValues(alpha: 0.12)
+                    : _isHovered
+                        ? AppColors.hoverBackground
+                        : Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
+                border: widget.isActive
+                    ? Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        width: 1.5,
+                      )
+                    : null,
+              ),
+              child: Icon(
+                widget.icon,
+                size: 22,
+                color: widget.isActive
+                    ? AppColors.primary
+                    : AppColors.textSecondary,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Web-optimized action button
+class _WebActionButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final String tooltip;
+
+  const _WebActionButton({
+    required this.icon,
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_WebActionButton> createState() => _WebActionButtonState();
+}
+
+class _WebActionButtonState extends State<_WebActionButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: _isHovered
+                    ? AppColors.primary.withValues(alpha: 0.1)
+                    : AppColors.hoverBackground,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                widget.icon,
+                size: 22,
+                color: widget.onPressed != null
+                    ? AppColors.primary
+                    : AppColors.textTertiary,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Web-optimized create button
+class _WebCreateButton extends StatefulWidget {
+  final VoidCallback? onPressed;
+  final String tooltip;
+
+  const _WebCreateButton({
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_WebCreateButton> createState() => _WebCreateButtonState();
+}
+
+class _WebCreateButtonState extends State<_WebCreateButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: AppColors.primaryGradient,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: _isHovered
+                    ? [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
+                    : [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+              ),
+              child: const Icon(
+                Icons.add,
+                size: 22,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

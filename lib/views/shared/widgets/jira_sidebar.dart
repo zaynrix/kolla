@@ -200,7 +200,7 @@ class JiraSidebar extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
+class _NavItem extends StatefulWidget {
   final IconData icon;
   final IconData activeIcon;
   final String label;
@@ -220,68 +220,84 @@ class _NavItem extends StatelessWidget {
   });
 
   @override
+  State<_NavItem> createState() => _NavItemState();
+}
+
+class _NavItemState extends State<_NavItem> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    final isActive = currentRoute == route || 
-                     (route.startsWith('/actor/') && currentRoute.startsWith('/actor/'));
+    final isActive = widget.currentRoute == widget.route || 
+                     (widget.route.startsWith('/actor/') && widget.currentRoute.startsWith('/actor/'));
     
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: isCompact ? 2 : 0),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: isCompact ? 8 : 12,
-            ),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? AppColors.primary.withValues(alpha: 0.1)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(8),
-              border: isActive
-                  ? Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.2),
-                      width: 1,
-                    )
-                  : null,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  isActive ? activeIcon : icon,
-                  size: isCompact ? 18 : 22,
-                  color: isActive
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: isCompact ? 13 : 15,
-                      fontWeight: isActive
-                          ? FontWeight.w600
-                          : FontWeight.w500,
-                      color: isActive
-                          ? AppColors.primary
-                          : AppColors.textPrimary,
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.isCompact ? 2 : 0),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        cursor: SystemMouseCursors.click,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              padding: EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: widget.isCompact ? 10 : 14, // Web-optimized: min 44px height
+              ),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? AppColors.primary.withValues(alpha: 0.12)
+                    : _isHovered
+                        ? AppColors.hoverBackground
+                        : Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
+                border: isActive
+                    ? Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        width: 1.5,
+                      )
+                    : null,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    isActive ? widget.activeIcon : widget.icon,
+                    size: widget.isCompact ? 20 : 24,
+                    color: isActive
+                        ? AppColors.primary
+                        : AppColors.textSecondary,
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      widget.label,
+                      style: TextStyle(
+                        fontSize: widget.isCompact ? 14 : 15,
+                        fontWeight: isActive
+                            ? FontWeight.w600
+                            : FontWeight.w500,
+                        color: isActive
+                            ? AppColors.primary
+                            : AppColors.textPrimary,
+                        letterSpacing: -0.1,
+                      ),
                     ),
                   ),
-                ),
-                if (isActive)
-                  Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
+                  if (isActive)
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

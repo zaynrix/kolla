@@ -26,29 +26,16 @@ class WorkflowManagerPage extends StatelessWidget {
           return JiraLayout(
             title: AppStrings.workflowManager,
             actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.hoverBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.view_kanban, size: 22),
-                  onPressed: () {},
-                  tooltip: 'Kanban View',
-                ),
+              _WebActionButton(
+                icon: Icons.view_kanban,
+                onPressed: () {},
+                tooltip: 'Kanban View',
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.hoverBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.refresh, size: 22),
-                  onPressed: controller.refresh,
-                  tooltip: AppStrings.refresh,
-                ),
+              const SizedBox(width: 8),
+              _WebActionButton(
+                icon: Icons.refresh,
+                onPressed: controller.refresh,
+                tooltip: AppStrings.refresh,
               ),
             ],
             child: _buildBody(context, controller),
@@ -209,6 +196,72 @@ class WorkflowManagerPage extends StatelessWidget {
           controller.setFilter(filter);
         }
       },
+    );
+  }
+}
+
+// Web-optimized action button
+class _WebActionButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final String tooltip;
+
+  const _WebActionButton({
+    required this.icon,
+    this.onPressed,
+    required this.tooltip,
+  });
+
+  @override
+  State<_WebActionButton> createState() => _WebActionButtonState();
+}
+
+class _WebActionButtonState extends State<_WebActionButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: widget.onPressed != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onPressed,
+            borderRadius: BorderRadius.circular(10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: _isHovered
+                    ? AppColors.primary.withValues(alpha: 0.1)
+                    : AppColors.hoverBackground,
+                borderRadius: BorderRadius.circular(10),
+                border: _isHovered
+                    ? Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.2),
+                        width: 1,
+                      )
+                    : null,
+              ),
+              child: Icon(
+                widget.icon,
+                size: 22,
+                color: widget.onPressed != null
+                    ? AppColors.primary
+                    : AppColors.textTertiary,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
