@@ -83,6 +83,54 @@ class JiraTaskCard extends StatelessWidget {
               ],
             ),
             
+            // Work Steps Section (if task has work steps)
+            if (task.workSteps.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundLight,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.borderLight),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.assignment_rounded,
+                          size: 16,
+                          color: AppColors.textSecondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Work Steps (${task.completedStepsCount}/${task.workSteps.length})',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: AppColors.textSecondary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ...task.workSteps.take(3).map((ws) => _WorkStepItem(workStep: ws)),
+                    if (task.workSteps.length > 3)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          '+ ${task.workSteps.length - 3} more work steps',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: AppColors.textTertiary,
+                                fontStyle: FontStyle.italic,
+                              ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+            
             // Subtasks Section
             if (task.subTasks.isNotEmpty) ...[
               const SizedBox(height: 16),
