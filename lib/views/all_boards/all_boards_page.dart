@@ -6,7 +6,7 @@ import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../shared/layouts/jira_layout.dart';
 import '../workflow_manager/widgets/draggable_kanban_board.dart';
-import '../workflow_manager/widgets/task_detail_dialog.dart';
+import '../workflow_manager/widgets/modern_task_detail_dialog.dart';
 import '../../models/work_step.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
@@ -73,12 +73,9 @@ class AllBoardsPage extends StatelessWidget {
     final task = controller.allTasks.firstWhere((t) => t.id == workStep.taskId);
     showDialog(
       context: context,
-      builder: (context) => TaskDetailDialog(
+      builder: (context) => ModernTaskDetailDialog(
         task: task,
         workStep: workStep,
-        onUpdate: (updatedTask) {
-          controller.updateTask(updatedTask);
-        },
       ),
     );
   }

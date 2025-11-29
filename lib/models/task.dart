@@ -5,6 +5,7 @@ import 'subtask.dart';
 class Task {
   final String id;
   final String name;
+  final String? description; // Task description like Trello
   final DateTime deadline;
   final List<WorkStep> workSteps;
   final List<SubTask> subTasks;
@@ -13,6 +14,7 @@ class Task {
   const Task({
     required this.id,
     required this.name,
+    this.description,
     required this.deadline,
     required this.workSteps,
     this.subTasks = const [],
@@ -55,6 +57,7 @@ class Task {
     return {
       'id': id,
       'name': name,
+      'description': description,
       'deadline': deadline.toIso8601String(),
       'workSteps': workSteps.map((ws) => ws.toJson()).toList(),
       'subTasks': subTasks.map((st) => st.toJson()).toList(),
@@ -66,6 +69,7 @@ class Task {
     return Task(
       id: json['id'] as String,
       name: json['name'] as String,
+      description: json['description'] as String?,
       deadline: DateTime.parse(json['deadline'] as String),
       workSteps: (json['workSteps'] as List)
           .map((ws) => WorkStep.fromJson(ws as Map<String, dynamic>))
@@ -83,6 +87,7 @@ class Task {
   Task copyWith({
     String? id,
     String? name,
+    String? description,
     DateTime? deadline,
     List<WorkStep>? workSteps,
     List<SubTask>? subTasks,
@@ -91,6 +96,7 @@ class Task {
     return Task(
       id: id ?? this.id,
       name: name ?? this.name,
+      description: description ?? this.description,
       deadline: deadline ?? this.deadline,
       workSteps: workSteps ?? this.workSteps,
       subTasks: subTasks ?? this.subTasks,

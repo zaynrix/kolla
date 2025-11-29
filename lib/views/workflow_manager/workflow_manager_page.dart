@@ -9,6 +9,7 @@ import '../../models/work_step.dart';
 import '../shared/layouts/jira_layout.dart';
 import 'widgets/draggable_kanban_board.dart';
 import 'widgets/task_detail_dialog.dart';
+import 'widgets/modern_task_detail_dialog.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import '../shared/widgets/empty_state_widget.dart';
@@ -183,12 +184,9 @@ class WorkflowManagerPage extends StatelessWidget {
     final task = controller.allTasks.firstWhere((t) => t.id == workStep.taskId);
     showDialog(
       context: context,
-      builder: (context) => TaskDetailDialog(
+      builder: (context) => ModernTaskDetailDialog(
         task: task,
         workStep: workStep,
-        onUpdate: (updatedTask) {
-          controller.updateTask(updatedTask);
-        },
       ),
     );
   }
