@@ -83,10 +83,19 @@ class JiraSidebar extends StatelessWidget {
                 _NavItem(
                   icon: Icons.work_outline,
                   activeIcon: Icons.work,
-                  label: 'My Tasks',
+                  label: 'My Board',
                   route: '/actor/actor-1',
                   currentRoute: currentRoute,
                   onTap: () => context.go('/actor/actor-1'),
+                ),
+                const SizedBox(height: 4),
+                _NavItem(
+                  icon: Icons.dashboard_outlined,
+                  activeIcon: Icons.dashboard,
+                  label: 'All Boards',
+                  route: '/all-boards',
+                  currentRoute: currentRoute,
+                  onTap: () => context.go('/all-boards'),
                 ),
                 const SizedBox(height: 4),
                 _NavItem(

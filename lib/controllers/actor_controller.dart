@@ -115,6 +115,16 @@ class ActorController extends ChangeNotifier {
     }
   }
 
+  Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
+    try {
+      await _taskService.updateWorkStepStatus(workStepId, status);
+      // Update happens via stream
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
+  }
+
   void toggleViewMode() {
     _viewMode = _viewMode == ViewMode.list ? ViewMode.chart : ViewMode.list;
     notifyListeners();

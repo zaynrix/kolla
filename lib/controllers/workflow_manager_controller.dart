@@ -127,6 +127,26 @@ class WorkflowManagerController extends ChangeNotifier {
     }
   }
 
+  Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
+    try {
+      await _taskService.updateWorkStepStatus(workStepId, status);
+      // Update happens via stream
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateTask(Task task) async {
+    try {
+      await _taskService.updateTask(task);
+      // Update happens via stream
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
+  }
+
   int getActorWorkloadCount(String actorId) {
     int count = 0;
     for (var task in _allTasks) {

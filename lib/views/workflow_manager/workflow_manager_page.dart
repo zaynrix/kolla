@@ -7,6 +7,7 @@ import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../shared/layouts/jira_layout.dart';
 import 'widgets/kanban_board.dart';
+import 'widgets/draggable_kanban_board.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import '../shared/widgets/empty_state_widget.dart';
@@ -116,10 +117,13 @@ class WorkflowManagerPage extends StatelessWidget {
                   message: 'No tasks found',
                   icon: Icons.task_alt,
                 )
-              : KanbanBoard(
+              : DraggableKanbanBoard(
                   tasks: controller.filteredTasks,
                   onCardTap: (workStep) {
-                    // Show task details or edit
+                    _showTaskDetailDialog(context, workStep, controller);
+                  },
+                  onStatusChange: (workStep, newStatus) {
+                    controller.updateWorkStepStatus(workStep.id, newStatus);
                   },
                 ),
         ),
@@ -167,6 +171,24 @@ class WorkflowManagerPage extends StatelessWidget {
           controller.setFilter(filter);
         }
       },
+    );
+  }
+
+  void _showTaskDetailDialog(
+    BuildContext context,
+    WorkStep workStep,
+    WorkflowManagerController controller,
+  ) {
+    final task = controller.allTasks.firstWhere((t) => t.id == workStep.taskId);
+    showDialog(
+      context: context,
+      builder: (context) => TaskDetailDialog(
+        task: task,
+        workStep: workStep,
+        onUpdate: (updatedTask) {
+          controller.updateTask(updatedTask);
+        },
+      ),
     );
   }
 }

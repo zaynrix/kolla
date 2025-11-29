@@ -532,7 +532,12 @@ class MockTaskService implements ITaskService {
 
   @override
   Future<void> completeWorkStep(String workStepId) async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    await updateWorkStepStatus(workStepId, WorkStepStatus.completed);
+  }
+
+  @override
+  Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
+    await Future.delayed(const Duration(milliseconds: 200));
 
     // Find task and work step
     for (var i = 0; i < _tasks.length; i++) {
@@ -542,8 +547,8 @@ class MockTaskService implements ITaskService {
       if (stepIndex != -1) {
         final step = task.workSteps[stepIndex];
 
-        // Update status to completed
-        final updatedStep = step.copyWith(status: WorkStepStatus.completed);
+        // Update status
+        final updatedStep = step.copyWith(status: status);
 
         // Create new work steps list
         final updatedSteps = List<WorkStep>.from(task.workSteps);

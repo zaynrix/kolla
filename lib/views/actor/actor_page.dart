@@ -9,6 +9,8 @@ import '../shared/layouts/jira_layout.dart';
 import 'widgets/task_list_view.dart';
 import 'widgets/task_chart_view.dart';
 import 'widgets/create_task_dialog.dart';
+import '../../views/workflow_manager/widgets/draggable_kanban_board.dart';
+import '../../views/workflow_manager/widgets/task_detail_dialog.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import '../shared/widgets/empty_state_widget.dart';
@@ -85,9 +87,12 @@ class ActorPage extends StatelessWidget {
       );
     }
 
-    return controller.viewMode == ViewMode.list
-        ? TaskListView(controller: controller)
-        : TaskChartView(controller: controller);
+    if (controller.viewMode == ViewMode.list) {
+      return TaskListView(controller: controller);
+    } else {
+      // Show Kanban board for actor's tasks
+      return _ActorKanbanView(controller: controller);
+    }
   }
   
   void _showCreateTaskDialog(BuildContext context, ActorController controller) {
@@ -111,6 +116,57 @@ class ActorPage extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+// Actor-specific Kanban view
+class _ActorKanbanView extends StatelessWidget {
+  final ActorController controller;
+
+  const _ActorKanbanView({
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Get all tasks that have work steps assigned to this actor
+    final actorTasks = controller.allTasks.where((task) {
+      return task.workSteps.any((ws) => ws.assignedToActorId == controller.actorId);
+    }).toList();
+
+    if (actorTasks.isEmpty) {
+      return const Center(
+        child: Text('No tasks assigned'),
+      );
+    }
+
+    return DraggableKanbanBoard(
+      tasks: actorTasks,
+      onCardTap: (workStep) {
+        _showTaskDetailDialog(context, workStep, controller);
+      },
+      onStatusChange: (workStep, newStatus) {
+        controller.updateWorkStepStatus(workStep.id, newStatus);
+      },
+    );
+  }
+
+  void _showTaskDetailDialog(
+    BuildContext context,
+    WorkStep workStep,
+    ActorController controller,
+  ) {
+    final task = controller.getTaskForWorkStep(workStep);
+    showDialog(
+      context: context,
+      builder: (context) => TaskDetailDialog(
+        task: task,
+        workStep: workStep,
+        onUpdate: (updatedTask) {
+          // Handle task update if needed
+        },
+      ),
+    );
   }
 }
 
