@@ -381,24 +381,27 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
     // Get first actor as default (can be improved later)
     actorService.getAllActors().then((actors) {
       if (!context.mounted) return;
-      if (actors.isNotEmpty) {
-        if (!context.mounted) return;
-        showDialog(
-          context: context,
-          builder: (context) => CreateTaskDialog(
-            actorId: actors.first.id,
-            actorRole: actors.first.role,
-            onCreateTask: (task) async {
-              await taskService.createTask(
-                task.name,
-                task.deadline,
-                task.workSteps,
-                subTasks: task.subTasks,
-                assignedToActorId: task.assignedToActorId,
-              );
-              if (context.mounted) {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
+      if (actors.isEmpty) return;
+      
+      final firstActor = actors.first;
+      if (!context.mounted) return;
+      
+      showDialog(
+        context: context,
+        builder: (dialogContext) => CreateTaskDialog(
+          actorId: firstActor.id,
+          actorRole: firstActor.role,
+          onCreateTask: (task) async {
+            await taskService.createTask(
+              task.name,
+              task.deadline,
+              task.workSteps,
+              subTasks: task.subTasks,
+              assignedToActorId: task.assignedToActorId,
+            );
+            if (dialogContext.mounted) {
+              Navigator.of(dialogContext).pop();
+              ScaffoldMessenger.of(dialogContext).showSnackBar(
                   SnackBar(
                     content: Text('Task "${task.name}" created successfully'),
                     backgroundColor: AppColors.success,
@@ -409,7 +412,6 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
             },
           ),
         );
-      }
     });
   }
 
