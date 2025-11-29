@@ -4,11 +4,14 @@ import '../models/work_step.dart';
 import '../models/task.dart';
 import '../models/enums.dart';
 import '../services/interfaces/i_task_service.dart';
+import '../services/interfaces/i_notification_service.dart';
+import '../utils/extensions.dart';
 
 enum ViewMode { list, chart }
 
 class ActorController extends ChangeNotifier {
   final ITaskService _taskService;
+  final INotificationService _notificationService;
   final String actorId;
 
   List<WorkStep> _workSteps = [];
@@ -18,11 +21,14 @@ class ActorController extends ChangeNotifier {
   ViewMode _viewMode = ViewMode.list;
 
   StreamSubscription? _workStepsSubscription;
+  StreamSubscription? _notificationSubscription;
 
   ActorController({
     required ITaskService taskService,
+    required INotificationService notificationService,
     required this.actorId,
-  }) : _taskService = taskService {
+  }) : _taskService = taskService,
+       _notificationService = notificationService {
     _init();
   }
 
@@ -108,6 +114,16 @@ class ActorController extends ChangeNotifier {
   Future<void> completeWorkStep(String workStepId) async {
     try {
       await _taskService.completeWorkStep(workStepId);
+      
+      // Send notification about work step completion
+      final workStep = _workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
+      if (workStep != null) {
+        final task = _allTasks.firstWhereOrNull((t) => t.id == workStep.taskId);
+        if (task != null) {
+          _notificationService.notifyWorkStepCompleted(workStep, task);
+        }
+      }
+      
       // Update happens via stream
     } catch (e) {
       _error = e.toString();
@@ -118,6 +134,16 @@ class ActorController extends ChangeNotifier {
   Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
     try {
       await _taskService.updateWorkStepStatus(workStepId, status);
+      
+      // Send notification about status change
+      final workStep = _workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
+      if (workStep != null) {
+        final task = _allTasks.firstWhereOrNull((t) => t.id == workStep.taskId);
+        if (task != null) {
+          _notificationService.notifyWorkStepCompleted(workStep, task);
+        }
+      }
+      
       // Update happens via stream
     } catch (e) {
       _error = e.toString();

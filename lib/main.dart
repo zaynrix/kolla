@@ -4,8 +4,10 @@ import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'services/interfaces/i_task_service.dart';
 import 'services/interfaces/i_actor_service.dart';
+import 'services/interfaces/i_notification_service.dart';
 import 'services/mock/mock_task_service.dart';
 import 'services/mock/mock_actor_service.dart';
+import 'services/mock/mock_notification_service.dart';
 
 //..
 void main() {
@@ -26,6 +28,10 @@ class KollaApp extends StatelessWidget {
         ),
         Provider<IActorService>(
           create: (_) => MockActorService(),
+          dispose: (_, service) => service.dispose(),
+        ),
+        Provider<INotificationService>(
+          create: (_) => MockNotificationService(),
           dispose: (_, service) => service.dispose(),
         ),
       ],
