@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/actor_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
+import '../../services/interfaces/i_notification_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../shared/layouts/jira_layout.dart';
@@ -26,6 +27,7 @@ class ActorPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ActorController(
         taskService: context.read<ITaskService>(),
+        notificationService: context.read<INotificationService>(),
         actorId: actorId,
       ),
       child: Consumer<ActorController>(
