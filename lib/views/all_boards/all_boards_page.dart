@@ -4,7 +4,6 @@ import '../../controllers/workflow_manager_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
-import '../../config/constants/app_colors.dart';
 import '../shared/layouts/jira_layout.dart';
 import '../workflow_manager/widgets/draggable_kanban_board.dart';
 import '../workflow_manager/widgets/task_detail_dialog.dart';
