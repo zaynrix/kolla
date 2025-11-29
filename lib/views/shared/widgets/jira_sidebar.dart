@@ -16,6 +16,17 @@ class JiraSidebar extends StatelessWidget {
     required this.currentRoute,
   });
 
+  void _showNotificationCenter(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: NotificationCenter(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
