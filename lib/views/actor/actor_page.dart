@@ -13,7 +13,6 @@ import '../../views/workflow_manager/widgets/modern_task_detail_dialog.dart';
 import '../../../models/work_step.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
-import '../shared/widgets/empty_state_widget.dart';
 
 class ActorPage extends StatelessWidget {
   final String actorId;
