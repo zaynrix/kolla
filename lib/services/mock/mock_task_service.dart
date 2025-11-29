@@ -20,16 +20,22 @@ class MockTaskService implements ITaskService {
     final now = DateTime.now();
 
     _tasks = [
-      // Task 1: Urgent - Website Redesign
+      // ============================================
+      // TASK 1: URGENT - Website Redesign Project
+      // ============================================
       Task(
         id: 'task-1',
-        name: 'Website Redesign',
+        name: 'Website Redesign Project',
+        description: 'Complete redesign of the company website with modern UI/UX. '
+            'This includes new branding, responsive design, and improved user experience. '
+            'The new design should align with our brand guidelines and be mobile-first.',
         deadline: now.add(const Duration(hours: 16)),
+        assignedToActorId: 'actor-1',
         workSteps: [
           WorkStep(
             id: 'ws-1',
             taskId: 'task-1',
-            name: 'Create design mockup',
+            name: 'Create design mockups and wireframes',
             durationHours: 4,
             role: 'Designer',
             status: WorkStepStatus.completed,
@@ -39,17 +45,17 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-2',
             taskId: 'task-1',
-            name: 'Frontend implementation',
+            name: 'Implement frontend components',
             durationHours: 8,
             role: 'Developer',
-            status: WorkStepStatus.pending,
+            status: WorkStepStatus.inProgress,
             assignedToActorId: 'actor-1',
             sequenceOrder: 2,
           ),
           WorkStep(
             id: 'ws-3',
             taskId: 'task-1',
-            name: 'QA Testing',
+            name: 'Perform QA testing and bug fixes',
             durationHours: 4,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -57,18 +63,58 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-1-1',
+            taskId: 'task-1',
+            name: 'Review brand guidelines',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-2',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-1-2',
+            taskId: 'task-1',
+            name: 'Create color palette',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-2',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-1-3',
+            taskId: 'task-1',
+            name: 'Design homepage layout',
+            status: WorkStepStatus.inProgress,
+            assignedToActorId: 'actor-2',
+            sequenceOrder: 3,
+          ),
+          SubTask(
+            id: 'st-1-4',
+            taskId: 'task-1',
+            name: 'Implement responsive navigation',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 4,
+          ),
+        ],
       ),
 
-      // Task 2: Medium - Database Migration
+      // ============================================
+      // TASK 2: MEDIUM PRIORITY - Database Migration
+      // ============================================
       Task(
         id: 'task-2',
-        name: 'Database Migration',
+        name: 'Database Migration to PostgreSQL',
+        description: 'Migrate the existing MySQL database to PostgreSQL for better performance '
+            'and scalability. This is a critical infrastructure change that requires careful '
+            'planning and testing to avoid data loss.',
         deadline: now.add(const Duration(days: 3)),
+        assignedToActorId: 'actor-4',
         workSteps: [
           WorkStep(
             id: 'ws-4',
             taskId: 'task-2',
-            name: 'Backup current database',
+            name: 'Create full database backup',
             durationHours: 2,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -78,7 +124,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-5',
             taskId: 'task-2',
-            name: 'Schema migration script',
+            name: 'Write and test migration scripts',
             durationHours: 6,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -88,7 +134,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-6',
             taskId: 'task-2',
-            name: 'Data validation',
+            name: 'Validate migrated data integrity',
             durationHours: 4,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -96,18 +142,42 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-2-1',
+            taskId: 'task-2',
+            name: 'Set up PostgreSQL server',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-2-2',
+            taskId: 'task-2',
+            name: 'Map MySQL schema to PostgreSQL',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 2,
+          ),
+        ],
       ),
 
-      // Task 3: Long-term - Mobile App Development
+      // ============================================
+      // TASK 3: LONG-TERM - Mobile App Development
+      // ============================================
       Task(
         id: 'task-3',
-        name: 'Mobile App Development',
+        name: 'Mobile App Development - iOS & Android',
+        description: 'Develop a cross-platform mobile application for both iOS and Android. '
+            'The app should provide core functionality of our web platform with native performance. '
+            'Focus on user experience and offline capabilities.',
         deadline: now.add(const Duration(days: 15)),
+        assignedToActorId: 'actor-5',
         workSteps: [
           WorkStep(
             id: 'ws-7',
             taskId: 'task-3',
-            name: 'UI/UX Design',
+            name: 'Design mobile UI/UX mockups',
             durationHours: 8,
             role: 'Designer',
             status: WorkStepStatus.pending,
@@ -117,7 +187,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-8',
             taskId: 'task-3',
-            name: 'Backend API',
+            name: 'Develop backend API endpoints',
             durationHours: 16,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -127,7 +197,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-9',
             taskId: 'task-3',
-            name: 'Frontend Development',
+            name: 'Build mobile app frontend',
             durationHours: 20,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -137,7 +207,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-10',
             taskId: 'task-3',
-            name: 'Testing & QA',
+            name: 'Comprehensive testing on both platforms',
             durationHours: 8,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -145,18 +215,48 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 4,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-3-1',
+            taskId: 'task-3',
+            name: 'Research Flutter vs React Native',
+            status: WorkStepStatus.completed,
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-3-2',
+            taskId: 'task-3',
+            name: 'Set up development environment',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-5',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-3-3',
+            taskId: 'task-3',
+            name: 'Create app icon and splash screen',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-2',
+            sequenceOrder: 3,
+          ),
+        ],
       ),
 
-      // Task 4: Urgent - API Documentation
+      // ============================================
+      // TASK 4: URGENT - API Documentation
+      // ============================================
       Task(
         id: 'task-4',
-        name: 'API Documentation',
+        name: 'Complete API Documentation',
+        description: 'Document all REST API endpoints with clear examples, request/response formats, '
+            'and error codes. This documentation is needed for the frontend team and external partners.',
         deadline: now.add(const Duration(hours: 6)),
+        assignedToActorId: 'actor-1',
         workSteps: [
           WorkStep(
             id: 'ws-11',
             taskId: 'task-4',
-            name: 'Write API specs',
+            name: 'Write API specification document',
             durationHours: 4,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -166,7 +266,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-12',
             taskId: 'task-4',
-            name: 'Review documentation',
+            name: 'Review and approve documentation',
             durationHours: 2,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -174,18 +274,42 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 2,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-4-1',
+            taskId: 'task-4',
+            name: 'List all API endpoints',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-4-2',
+            taskId: 'task-4',
+            name: 'Add request/response examples',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 2,
+          ),
+        ],
       ),
 
-      // Task 5: Medium - Security Audit
+      // ============================================
+      // TASK 5: MEDIUM - Security Audit
+      // ============================================
       Task(
         id: 'task-5',
-        name: 'Security Audit',
+        name: 'Security Audit and Vulnerability Assessment',
+        description: 'Conduct a comprehensive security audit of the entire system. '
+            'Identify vulnerabilities, perform penetration testing, and fix critical security issues. '
+            'This is required for compliance and customer trust.',
         deadline: now.add(const Duration(days: 7)),
+        assignedToActorId: 'actor-4',
         workSteps: [
           WorkStep(
             id: 'ws-13',
             taskId: 'task-5',
-            name: 'Code review',
+            name: 'Perform code security review',
             durationHours: 6,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -195,7 +319,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-14',
             taskId: 'task-5',
-            name: 'Penetration testing',
+            name: 'Execute penetration testing',
             durationHours: 8,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -205,7 +329,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-15',
             taskId: 'task-5',
-            name: 'Fix vulnerabilities',
+            name: 'Fix identified vulnerabilities',
             durationHours: 10,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -213,18 +337,50 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-5-1',
+            taskId: 'task-5',
+            name: 'Set up security scanning tools',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-5-2',
+            taskId: 'task-5',
+            name: 'Review authentication mechanisms',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-5-3',
+            taskId: 'task-5',
+            name: 'Check for SQL injection vulnerabilities',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 3,
+          ),
+        ],
       ),
 
-      // Task 6: Long-term - Performance Optimization
+      // ============================================
+      // TASK 6: LONG-TERM - Performance Optimization
+      // ============================================
       Task(
         id: 'task-6',
-        name: 'Performance Optimization',
+        name: 'Application Performance Optimization',
+        description: 'Optimize application performance to improve load times and user experience. '
+            'Focus on database queries, frontend rendering, and API response times. '
+            'Target: 50% improvement in page load times.',
         deadline: now.add(const Duration(days: 20)),
+        assignedToActorId: 'actor-1',
         workSteps: [
           WorkStep(
             id: 'ws-16',
             taskId: 'task-6',
-            name: 'Performance analysis',
+            name: 'Analyze current performance bottlenecks',
             durationHours: 8,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -234,7 +390,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-17',
             taskId: 'task-6',
-            name: 'Optimize database queries',
+            name: 'Optimize slow database queries',
             durationHours: 12,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -244,7 +400,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-18',
             taskId: 'task-6',
-            name: 'Frontend optimization',
+            name: 'Implement frontend caching and lazy loading',
             durationHours: 6,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -252,18 +408,42 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-6-1',
+            taskId: 'task-6',
+            name: 'Set up performance monitoring',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-6-2',
+            taskId: 'task-6',
+            name: 'Identify top 10 slowest queries',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-5',
+            sequenceOrder: 2,
+          ),
+        ],
       ),
 
-      // Task 7: Medium - User Authentication System
+      // ============================================
+      // TASK 7: MEDIUM - User Authentication System
+      // ============================================
       Task(
         id: 'task-7',
-        name: 'User Authentication System',
+        name: 'Implement OAuth2 Authentication System',
+        description: 'Replace the current basic authentication with OAuth2. '
+            'Support multiple providers (Google, GitHub, Microsoft) and implement '
+            'secure token management with refresh tokens.',
         deadline: now.add(const Duration(days: 5)),
+        assignedToActorId: 'actor-1',
         workSteps: [
           WorkStep(
             id: 'ws-19',
             taskId: 'task-7',
-            name: 'Design auth flow',
+            name: 'Design authentication flow and user experience',
             durationHours: 4,
             role: 'Designer',
             status: WorkStepStatus.completed,
@@ -273,17 +453,17 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-20',
             taskId: 'task-7',
-            name: 'Implement OAuth',
+            name: 'Implement OAuth2 integration',
             durationHours: 10,
             role: 'Developer',
-            status: WorkStepStatus.pending,
+            status: WorkStepStatus.inProgress,
             assignedToActorId: 'actor-1',
             sequenceOrder: 2,
           ),
           WorkStep(
             id: 'ws-21',
             taskId: 'task-7',
-            name: 'Security testing',
+            name: 'Security testing and validation',
             durationHours: 6,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -291,18 +471,58 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-7-1',
+            taskId: 'task-7',
+            name: 'Register OAuth apps with providers',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-7-2',
+            taskId: 'task-7',
+            name: 'Implement Google OAuth',
+            status: WorkStepStatus.inProgress,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-7-3',
+            taskId: 'task-7',
+            name: 'Implement GitHub OAuth',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 3,
+          ),
+          SubTask(
+            id: 'st-7-4',
+            taskId: 'task-7',
+            name: 'Add refresh token mechanism',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 4,
+          ),
+        ],
       ),
 
-      // Task 8: Urgent - Bug Fixes
+      // ============================================
+      // TASK 8: URGENT - Critical Bug Fixes
+      // ============================================
       Task(
         id: 'task-8',
-        name: 'Critical Bug Fixes',
+        name: 'Fix Critical Production Bugs',
+        description: 'Address critical bugs reported in production that are affecting users. '
+            'Priority: Fix payment processing issue and data export bug. '
+            'These issues need immediate attention to prevent revenue loss.',
         deadline: now.add(const Duration(hours: 12)),
+        assignedToActorId: 'actor-1',
         workSteps: [
           WorkStep(
             id: 'ws-22',
             taskId: 'task-8',
-            name: 'Identify bugs',
+            name: 'Identify and reproduce reported bugs',
             durationHours: 2,
             role: 'QA Engineer',
             status: WorkStepStatus.completed,
@@ -312,17 +532,17 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-23',
             taskId: 'task-8',
-            name: 'Fix critical issues',
+            name: 'Fix critical payment processing bug',
             durationHours: 6,
             role: 'Developer',
-            status: WorkStepStatus.pending,
+            status: WorkStepStatus.inProgress,
             assignedToActorId: 'actor-1',
             sequenceOrder: 2,
           ),
           WorkStep(
             id: 'ws-24',
             taskId: 'task-8',
-            name: 'Verify fixes',
+            name: 'Verify fixes and deploy hotfix',
             durationHours: 2,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -330,18 +550,50 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-8-1',
+            taskId: 'task-8',
+            name: 'Fix payment gateway integration',
+            status: WorkStepStatus.inProgress,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-8-2',
+            taskId: 'task-8',
+            name: 'Fix data export CSV bug',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-1',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-8-3',
+            taskId: 'task-8',
+            name: 'Test payment flow end-to-end',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-3',
+            sequenceOrder: 3,
+          ),
+        ],
       ),
 
-      // Task 9: Long-term - CI/CD Pipeline
+      // ============================================
+      // TASK 9: LONG-TERM - CI/CD Pipeline Setup
+      // ============================================
       Task(
         id: 'task-9',
-        name: 'CI/CD Pipeline Setup',
+        name: 'Set Up CI/CD Pipeline',
+        description: 'Implement a complete CI/CD pipeline for automated testing, building, '
+            'and deployment. This will improve development workflow and reduce deployment errors. '
+            'Use GitHub Actions or Jenkins for automation.',
         deadline: now.add(const Duration(days: 10)),
+        assignedToActorId: 'actor-4',
         workSteps: [
           WorkStep(
             id: 'ws-25',
             taskId: 'task-9',
-            name: 'Configure build pipeline',
+            name: 'Configure automated build pipeline',
             durationHours: 8,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -351,7 +603,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-26',
             taskId: 'task-9',
-            name: 'Setup deployment automation',
+            name: 'Set up automated deployment to staging',
             durationHours: 10,
             role: 'DevOps',
             status: WorkStepStatus.pending,
@@ -361,7 +613,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-27',
             taskId: 'task-9',
-            name: 'Test pipeline',
+            name: 'Test and validate pipeline',
             durationHours: 4,
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
@@ -369,18 +621,50 @@ class MockTaskService implements ITaskService {
             sequenceOrder: 3,
           ),
         ],
+        subTasks: [
+          SubTask(
+            id: 'st-9-1',
+            taskId: 'task-9',
+            name: 'Choose CI/CD platform',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-9-2',
+            taskId: 'task-9',
+            name: 'Write deployment scripts',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-4',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-9-3',
+            taskId: 'task-9',
+            name: 'Set up automated testing in pipeline',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-3',
+            sequenceOrder: 3,
+          ),
+        ],
       ),
 
-      // Task 10: Medium - Feature Enhancement
+      // ============================================
+      // TASK 10: MEDIUM - Dashboard Feature Enhancement
+      // ============================================
       Task(
         id: 'task-10',
-        name: 'Dashboard Feature Enhancement',
+        name: 'Enhance User Dashboard with Analytics',
+        description: 'Add new analytics features to the user dashboard including charts, '
+            'reports, and data visualization. Users should be able to track their activity, '
+            'view statistics, and export reports.',
         deadline: now.add(const Duration(days: 4)),
+        assignedToActorId: 'actor-5',
         workSteps: [
           WorkStep(
             id: 'ws-28',
             taskId: 'task-10',
-            name: 'Design new features',
+            name: 'Design new dashboard features and layouts',
             durationHours: 6,
             role: 'Designer',
             status: WorkStepStatus.pending,
@@ -390,7 +674,7 @@ class MockTaskService implements ITaskService {
           WorkStep(
             id: 'ws-29',
             taskId: 'task-10',
-            name: 'Implement features',
+            name: 'Implement analytics components and charts',
             durationHours: 12,
             role: 'Developer',
             status: WorkStepStatus.pending,
@@ -405,6 +689,32 @@ class MockTaskService implements ITaskService {
             role: 'QA Engineer',
             status: WorkStepStatus.pending,
             assignedToActorId: 'actor-3',
+            sequenceOrder: 3,
+          ),
+        ],
+        subTasks: [
+          SubTask(
+            id: 'st-10-1',
+            taskId: 'task-10',
+            name: 'Research charting libraries',
+            status: WorkStepStatus.completed,
+            assignedToActorId: 'actor-5',
+            sequenceOrder: 1,
+          ),
+          SubTask(
+            id: 'st-10-2',
+            taskId: 'task-10',
+            name: 'Create activity timeline component',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-5',
+            sequenceOrder: 2,
+          ),
+          SubTask(
+            id: 'st-10-3',
+            taskId: 'task-10',
+            name: 'Add export to PDF functionality',
+            status: WorkStepStatus.pending,
+            assignedToActorId: 'actor-5',
             sequenceOrder: 3,
           ),
         ],
@@ -430,7 +740,6 @@ class MockTaskService implements ITaskService {
         task.workSteps.where((ws) => ws.status == WorkStepStatus.pending),
       );
     }
-
     if (allPendingSteps.isEmpty) return;
 
     // Pick random one
@@ -439,7 +748,6 @@ class MockTaskService implements ITaskService {
 
     // Complete it
     completeWorkStep(stepToComplete.id);
-
     print('Auto-completed: ${stepToComplete.name} from task ${stepToComplete.taskId}');
   }
 
@@ -497,8 +805,6 @@ class MockTaskService implements ITaskService {
     return _tasksSubject.stream.map((tasks) {
       final workSteps = <WorkStep>[];
       for (var task in tasks) {
-        // Include ALL work steps assigned to actor (including completed ones)
-        // Like Jira/Trello - completed items stay visible
         final actorSteps = task.workSteps.where((ws) =>
             ws.assignedToActorId == actorId);
         workSteps.addAll(actorSteps);
@@ -602,43 +908,31 @@ class MockTaskService implements ITaskService {
       id: newTaskId,
       name: name,
       deadline: deadline,
-      workSteps: workSteps.map((ws) => ws.copyWith(
-        id: 'ws-${DateTime.now().millisecondsSinceEpoch}-${ws.sequenceOrder}',
-        taskId: newTaskId,
-      )).toList(),
-      subTasks: subTasks?.map((st) => st.copyWith(
-        id: 'st-${DateTime.now().millisecondsSinceEpoch}-${st.sequenceOrder}',
-        taskId: newTaskId,
-      )).toList() ?? [],
+      workSteps: workSteps.map((ws) => ws.copyWith(taskId: newTaskId)).toList(),
+      subTasks: subTasks?.map((st) => st.copyWith(taskId: newTaskId)).toList() ?? [],
       assignedToActorId: assignedToActorId,
     );
-    
+
     _tasks.add(newTask);
     _tasksSubject.add(_tasks);
-    
     return newTask;
   }
 
   @override
   Future<void> addSubTask(String taskId, SubTask subTask) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    
-    for (var i = 0; i < _tasks.length; i++) {
-      if (_tasks[i].id == taskId) {
-        final task = _tasks[i];
-        final updatedSubTasks = List<SubTask>.from(task.subTasks)..add(subTask);
-        _tasks[i] = task.copyWith(subTasks: updatedSubTasks);
-        break;
-      }
+    final taskIndex = _tasks.indexWhere((t) => t.id == taskId);
+    if (taskIndex != -1) {
+      final task = _tasks[taskIndex];
+      final updatedSubTasks = List<SubTask>.from(task.subTasks)..add(subTask);
+      _tasks[taskIndex] = task.copyWith(subTasks: updatedSubTasks);
+      _tasksSubject.add(_tasks);
     }
-    
-    _tasksSubject.add(_tasks);
   }
 
   @override
   Future<void> completeSubTask(String subTaskId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    
+    await Future.delayed(const Duration(milliseconds: 300));
     for (var i = 0; i < _tasks.length; i++) {
       final task = _tasks[i];
       final subTaskIndex = task.subTasks.indexWhere((st) => st.id == subTaskId);
@@ -651,7 +945,6 @@ class MockTaskService implements ITaskService {
         break;
       }
     }
-    
     _tasksSubject.add(_tasks);
   }
 
@@ -690,4 +983,3 @@ class MockTaskService implements ITaskService {
     _tasksSubject.close();
   }
 }
-
