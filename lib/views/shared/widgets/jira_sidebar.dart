@@ -380,7 +380,9 @@ class _CreateTaskButtonState extends State<_CreateTaskButton> {
     
     // Get first actor as default (can be improved later)
     actorService.getAllActors().then((actors) {
-      if (actors.isNotEmpty && context.mounted) {
+      if (!context.mounted) return;
+      if (actors.isNotEmpty) {
+        if (!context.mounted) return;
         showDialog(
           context: context,
           builder: (context) => CreateTaskDialog(

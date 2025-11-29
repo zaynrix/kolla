@@ -47,10 +47,11 @@ class JiraTaskCard extends StatelessWidget {
                       // Task Name
                       Text(
                         task.name,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.2,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: -0.2,
+                                ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -59,9 +60,10 @@ class JiraTaskCard extends StatelessWidget {
                       if (workStep != null)
                         Text(
                           workStep!.name,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AppColors.textSecondary,
+                                  ),
                         ),
                     ],
                   ),
@@ -82,7 +84,7 @@ class JiraTaskCard extends StatelessWidget {
                 ],
               ],
             ),
-            
+
             // Work Steps Section (if task has work steps)
             if (task.workSteps.isNotEmpty) ...[
               const SizedBox(height: 16),
@@ -106,31 +108,35 @@ class JiraTaskCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           'Work Steps (${task.completedStepsCount}/${task.workSteps.length})',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.textSecondary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.textSecondary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    ...task.workSteps.take(3).map((ws) => _WorkStepItem(workStep: ws)),
+                    ...task.workSteps
+                        .take(3)
+                        .map((ws) => _WorkStepItem(workStep: ws)),
                     if (task.workSteps.length > 3)
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           '+ ${task.workSteps.length - 3} more work steps',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.textTertiary,
-                                fontStyle: FontStyle.italic,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.textTertiary,
+                                    fontStyle: FontStyle.italic,
+                                  ),
                         ),
                       ),
                   ],
                 ),
               ),
             ],
-            
+
             // Subtasks Section
             if (task.subTasks.isNotEmpty) ...[
               const SizedBox(height: 16),
@@ -154,10 +160,11 @@ class JiraTaskCard extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           'Subtasks (${task.completedSubTasksCount}/${task.subTasks.length})',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.textSecondary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.textSecondary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                         ),
                       ],
                     ),
@@ -170,16 +177,18 @@ class JiraTaskCard extends StatelessWidget {
                 ),
               ),
             ],
-            
+
             const SizedBox(height: 16),
-            
+
             // Footer Row
             Row(
               children: [
                 // Assignee Avatar
                 if (task.assignedToActorId != null)
                   FutureBuilder<Actor>(
-                    future: context.read<IActorService>().getActor(task.assignedToActorId!),
+                    future: context
+                        .read<IActorService>()
+                        .getActor(task.assignedToActorId!),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final actor = snapshot.data!;
@@ -215,7 +224,7 @@ class JiraTaskCard extends StatelessWidget {
                       return const SizedBox();
                     },
                   ),
-                
+
                 // Progress Bar
                 Expanded(
                   child: ClipRRect(
@@ -244,7 +253,7 @@ class JiraTaskCard extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             // Status Badge
             if (isOverdue || isUrgent) ...[
               const SizedBox(height: 12),
@@ -263,8 +272,8 @@ class JiraTaskCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.5,
                   ),
-                  ),
                 ),
+              ),
             ],
           ],
         ),
@@ -292,7 +301,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
   Widget build(BuildContext context) {
     final isCompleted = widget.workStep.status == WorkStepStatus.completed;
     final isInProgress = widget.workStep.status == WorkStepStatus.inProgress;
-    
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -375,7 +384,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  
+
                   // Work Step Content
                   Expanded(
                     child: Column(
@@ -383,18 +392,19 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                       children: [
                         Text(
                           widget.workStep.name,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                decoration: isCompleted
-                                    ? TextDecoration.lineThrough
-                                    : null,
-                                color: isCompleted
-                                    ? AppColors.textTertiary
-                                    : AppColors.textPrimary,
-                                fontWeight: isCompleted
-                                    ? FontWeight.w400
-                                    : FontWeight.w600,
-                                letterSpacing: -0.2,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    decoration: isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                                    color: isCompleted
+                                        ? AppColors.textTertiary
+                                        : AppColors.textPrimary,
+                                    fontWeight: isCompleted
+                                        ? FontWeight.w400
+                                        : FontWeight.w600,
+                                    letterSpacing: -0.2,
+                                  ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -431,7 +441,8 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.textSecondary.withValues(alpha: 0.1),
+                                color: AppColors.textSecondary
+                                    .withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Row(
@@ -462,7 +473,7 @@ class _WorkStepItemState extends State<_WorkStepItem> {
                       ],
                     ),
                   ),
-                  
+
                   // Status Badge
                   if (isInProgress)
                     Container(
@@ -570,7 +581,9 @@ class _WebOptimizedCardState extends State<_WebOptimizedCard>
         setState(() => _isHovered = false);
         _controller.reverse();
       },
-      cursor: widget.onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: widget.onTap != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedBuilder(
@@ -630,7 +643,8 @@ class _SubTaskItemState extends State<_SubTaskItem> {
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        cursor: isCompleted ? SystemMouseCursors.basic : SystemMouseCursors.click,
+        cursor:
+            isCompleted ? SystemMouseCursors.basic : SystemMouseCursors.click,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
@@ -647,7 +661,8 @@ class _SubTaskItemState extends State<_SubTaskItem> {
                 height: 44,
                 child: Checkbox(
                   value: isCompleted,
-                  onChanged: isCompleted ? null : (_) => widget.onComplete?.call(),
+                  onChanged:
+                      isCompleted ? null : (_) => widget.onComplete?.call(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
                   ),
@@ -661,7 +676,9 @@ class _SubTaskItemState extends State<_SubTaskItem> {
                   widget.subTask.name,
                   style: TextStyle(
                     decoration: isCompleted ? TextDecoration.lineThrough : null,
-                    color: isCompleted ? AppColors.textTertiary : AppColors.textPrimary,
+                    color: isCompleted
+                        ? AppColors.textTertiary
+                        : AppColors.textPrimary,
                     fontSize: 14,
                     fontWeight: isCompleted ? FontWeight.w400 : FontWeight.w500,
                   ),
@@ -669,7 +686,9 @@ class _SubTaskItemState extends State<_SubTaskItem> {
               ),
               if (widget.subTask.assignedToActorId != null)
                 FutureBuilder<Actor>(
-                  future: context.read<IActorService>().getActor(widget.subTask.assignedToActorId!),
+                  future: context
+                      .read<IActorService>()
+                      .getActor(widget.subTask.assignedToActorId!),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final actor = snapshot.data!;

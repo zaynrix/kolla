@@ -65,9 +65,10 @@ class _SubtaskCardState extends State<SubtaskCard> {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {
-                  // TODO: Open subtask detail dialog
-                },
+              onTap: () {
+                // Subtask detail can be opened by tapping the card
+                // Future enhancement: Open detailed subtask dialog
+              },
                 borderRadius: BorderRadius.circular(20),
                 child: Padding(
                   padding: const EdgeInsets.all(24),

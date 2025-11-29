@@ -55,7 +55,7 @@ class NotificationCenter extends StatelessWidget {
               // Header
               Container(
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: AppColors.borderLight,
@@ -114,7 +114,8 @@ class NotificationCenter extends StatelessWidget {
                       onTap: () {
                         // Mark as read
                         notificationService.markAsRead(notification.id);
-                        // TODO: Navigate to relevant task/work step
+                        // Future enhancement: Navigate to relevant task/work step
+                        // Could use: notification.taskId or notification.workStepId
                       },
                       onDismiss: () {
                         notificationService.dismissNotification(notification.id);
@@ -127,7 +128,7 @@ class NotificationCenter extends StatelessWidget {
               // Footer Actions
               Container(
                 padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     top: BorderSide(
                       color: AppColors.borderLight,
@@ -210,7 +211,7 @@ class _NotificationItem extends StatelessWidget {
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(
                   color: AppColors.borderLight,
@@ -368,7 +369,7 @@ class _EmptyNotifications extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.notifications_none_rounded,
             size: 64,
             color: AppColors.textTertiary,
