@@ -98,6 +98,7 @@ class _TrelloColumn extends StatelessWidget {
   final List<Task> tasks;
   final List<WorkStep> workSteps;
   final Function(WorkStep)? onCardTap;
+  final Function(WorkStep, WorkStepStatus)? onStatusChange;
 
   const _TrelloColumn({
     required this.title,
@@ -106,6 +107,7 @@ class _TrelloColumn extends StatelessWidget {
     required this.tasks,
     required this.workSteps,
     this.onCardTap,
+    this.onStatusChange,
   });
 
   @override
@@ -116,8 +118,8 @@ class _TrelloColumn extends StatelessWidget {
         builder: (context, columnController, _) {
           return DragTarget<WorkStep>(
             onAccept: (draggedWorkStep) {
-              if (onStatusChange != null && draggedWorkStep.status != status) {
-                onStatusChange!(draggedWorkStep, status);
+              if (widget.onStatusChange != null && draggedWorkStep.status != widget.status) {
+                widget.onStatusChange!(draggedWorkStep, widget.status);
               }
             },
             builder: (context, candidateData, rejectedData) {
@@ -146,7 +148,7 @@ class _TrelloColumn extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              title,
+                              widget.title,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -165,7 +167,7 @@ class _TrelloColumn extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
-                                count.toString(),
+                                widget.count.toString(),
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -183,8 +185,8 @@ class _TrelloColumn extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Column(
                             children: [
-                              ...workSteps.map((workStep) {
-                                final task = tasks.firstWhereOrNull(
+                              ...widget.workSteps.map((workStep) {
+                                final task = widget.tasks.firstWhereOrNull(
                                   (t) => t.id == workStep.taskId,
                                 );
                                 
@@ -197,9 +199,9 @@ class _TrelloColumn extends StatelessWidget {
                                   child: _DraggableCard(
                                     workStep: workStep,
                                     task: task,
-                                    currentStatus: status,
-                                    onTap: onCardTap != null
-                                        ? () => onCardTap!(workStep)
+                                    currentStatus: widget.status,
+                                    onTap: widget.onCardTap != null
+                                        ? () => widget.onCardTap!(workStep)
                                         : null,
                                   ),
                                 );

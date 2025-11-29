@@ -3,14 +3,12 @@ import 'package:provider/provider.dart';
 import '../../controllers/workflow_manager_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
-import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../../models/work_step.dart';
+import '../../models/enums.dart';
 import '../../utils/extensions.dart';
-import '../shared/layouts/jira_layout.dart';
 import 'widgets/draggable_kanban_board.dart';
 import 'widgets/task_detail/modern_task_detail_dialog.dart';
-import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import 'widgets/trello_search_bar.dart';
 
