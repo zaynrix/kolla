@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../controllers/workflow_manager_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
