@@ -29,13 +29,13 @@ class WorkflowManagerPage extends StatelessWidget {
             title: AppStrings.workflowManager,
             actions: [
               _WebActionButton(
-                icon: Icons.view_kanban,
+                icon: Icons.view_kanban_rounded,
                 onPressed: () {},
                 tooltip: 'Kanban View',
               ),
               const SizedBox(width: 8),
               _WebActionButton(
-                icon: Icons.refresh,
+                icon: Icons.refresh_rounded,
                 onPressed: controller.refresh,
                 tooltip: AppStrings.refresh,
               ),
@@ -64,9 +64,9 @@ class WorkflowManagerPage extends StatelessWidget {
 
     return Column(
       children: [
-        // Top bar with search and filters - Web optimized
+        // Modern Top Bar with Search and Filters
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border(
@@ -75,103 +75,77 @@ class WorkflowManagerPage extends StatelessWidget {
                 width: 1,
               ),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Row(
             children: [
+              // Search Field
               Expanded(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: _WebSearchField(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: _ModernSearchField(
                     hintText: AppStrings.search,
                     onChanged: controller.setSearchQuery,
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
-              _buildFilterChip(
-                context,
-                controller,
-                TaskFilter.all,
-                AppStrings.allTasks,
-              ),
-              const SizedBox(width: 12),
-              _buildFilterChip(
-                context,
-                controller,
-                TaskFilter.atRisk,
-                AppStrings.atRiskTasks,
-              ),
-              const SizedBox(width: 12),
-              _buildFilterChip(
-                context,
-                controller,
-                TaskFilter.overdue,
-                AppStrings.overdueTasks,
+              const SizedBox(width: 24),
+              
+              // Filter Chips
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  _ModernFilterChip(
+                    label: AppStrings.allTasks,
+                    isSelected: controller.filter == TaskFilter.all,
+                    onSelected: () => controller.setFilter(TaskFilter.all),
+                  ),
+                  _ModernFilterChip(
+                    label: AppStrings.atRiskTasks,
+                    isSelected: controller.filter == TaskFilter.atRisk,
+                    onSelected: () => controller.setFilter(TaskFilter.atRisk),
+                  ),
+                  _ModernFilterChip(
+                    label: AppStrings.overdueTasks,
+                    isSelected: controller.filter == TaskFilter.overdue,
+                    onSelected: () => controller.setFilter(TaskFilter.overdue),
+                  ),
+                ],
               ),
             ],
           ),
         ),
-        // Kanban board
+        
+        // Kanban Board
         Expanded(
           child: controller.filteredTasks.isEmpty
-              ? const EmptyStateWidget(
-                  message: 'No tasks found',
-                  icon: Icons.task_alt,
+              ? Center(
+                  child: _EmptyState(
+                    message: 'No tasks found',
+                    icon: Icons.task_alt_rounded,
+                  ),
                 )
-              : DraggableKanbanBoard(
-                  tasks: controller.filteredTasks,
-                  onCardTap: (workStep) {
-                    _showTaskDetailDialog(context, workStep, controller);
-                  },
-                  onStatusChange: (workStep, newStatus) {
-                    controller.updateWorkStepStatus(workStep.id, newStatus);
-                  },
+              : Container(
+                  color: AppColors.backgroundLight,
+                  child: DraggableKanbanBoard(
+                    tasks: controller.filteredTasks,
+                    onCardTap: (workStep) {
+                      _showTaskDetailDialog(context, workStep, controller);
+                    },
+                    onStatusChange: (workStep, newStatus) {
+                      controller.updateWorkStepStatus(workStep.id, newStatus);
+                    },
+                  ),
                 ),
         ),
       ],
-    );
-  }
-
-  Widget _buildFilterChip(
-    BuildContext context,
-    WorkflowManagerController controller,
-    TaskFilter filter,
-    String label,
-  ) {
-    final isSelected = controller.filter == filter;
-    return FilterChip(
-      label: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          ),
-        ),
-      ),
-      selected: isSelected,
-      selectedColor: AppColors.primary.withValues(alpha: 0.12),
-      checkmarkColor: AppColors.primary,
-      backgroundColor: AppColors.hoverBackground,
-      labelStyle: TextStyle(
-        color: isSelected ? AppColors.primary : AppColors.textSecondary,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(
-          color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.3)
-              : Colors.transparent,
-          width: 1.5,
-        ),
-      ),
-      onSelected: (selected) {
-        if (selected) {
-          controller.setFilter(filter);
-        }
-      },
     );
   }
 
@@ -191,21 +165,21 @@ class WorkflowManagerPage extends StatelessWidget {
   }
 }
 
-// Web-optimized search field
-class _WebSearchField extends StatefulWidget {
+// Modern Search Field
+class _ModernSearchField extends StatefulWidget {
   final String hintText;
   final ValueChanged<String>? onChanged;
 
-  const _WebSearchField({
+  const _ModernSearchField({
     required this.hintText,
     this.onChanged,
   });
 
   @override
-  State<_WebSearchField> createState() => _WebSearchFieldState();
+  State<_ModernSearchField> createState() => _ModernSearchFieldState();
 }
 
-class _WebSearchFieldState extends State<_WebSearchField> {
+class _ModernSearchFieldState extends State<_ModernSearchField> {
   bool _isFocused = false;
   final _controller = TextEditingController();
 
@@ -221,50 +195,197 @@ class _WebSearchFieldState extends State<_WebSearchField> {
       onFocusChange: (hasFocus) {
         setState(() => _isFocused = hasFocus);
       },
-      child: TextField(
-        controller: _controller,
-        onChanged: widget.onChanged,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: AppColors.textTertiary),
-          prefixIcon: Icon(
-            Icons.search,
+      child: Container(
+        decoration: BoxDecoration(
+          color: _isFocused ? Colors.white : AppColors.backgroundLight,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
             color: _isFocused
                 ? AppColors.primary
-                : AppColors.textTertiary,
-            size: 22,
+                : AppColors.borderLight,
+            width: _isFocused ? 2 : 1,
           ),
-          filled: true,
-          fillColor: _isFocused
-              ? Colors.white
-              : AppColors.backgroundLight,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(
+          boxShadow: _isFocused
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
+        ),
+        child: TextField(
+          controller: _controller,
+          onChanged: widget.onChanged,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            hintStyle: TextStyle(
+              color: AppColors.textTertiary,
+              fontSize: 15,
+            ),
+            prefixIcon: Icon(
+              Icons.search_rounded,
               color: _isFocused
-                  ? AppColors.primary.withValues(alpha: 0.3)
+                  ? AppColors.primary
+                  : AppColors.textTertiary,
+              size: 22,
+            ),
+            suffixIcon: _controller.text.isNotEmpty
+                ? IconButton(
+                    icon: Icon(
+                      Icons.clear_rounded,
+                      size: 20,
+                      color: AppColors.textTertiary,
+                    ),
+                    onPressed: () {
+                      _controller.clear();
+                      widget.onChanged?.call('');
+                    },
+                  )
+                : null,
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 18,
+            ),
+          ),
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 15,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
+// Modern Filter Chip
+class _ModernFilterChip extends StatefulWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onSelected;
+
+  const _ModernFilterChip({
+    required this.label,
+    required this.isSelected,
+    required this.onSelected,
+  });
+
+  @override
+  State<_ModernFilterChip> createState() => _ModernFilterChipState();
+}
+
+class _ModernFilterChipState extends State<_ModernFilterChip> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onSelected,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? AppColors.primary
+                : _isHovered
+                    ? AppColors.hoverBackground
+                    : Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: widget.isSelected
+                  ? AppColors.primary
                   : AppColors.borderLight,
-              width: _isFocused ? 1.5 : 1,
+              width: widget.isSelected ? 0 : 1,
             ),
+            boxShadow: widget.isSelected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: BorderSide(
-              color: AppColors.primary,
-              width: 2,
-            ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 18,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.isSelected)
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 18,
+                  color: Colors.white,
+                ),
+              if (widget.isSelected) const SizedBox(width: 8),
+              Text(
+                widget.label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: widget.isSelected
+                      ? FontWeight.w600
+                      : FontWeight.w500,
+                  color: widget.isSelected
+                      ? Colors.white
+                      : AppColors.textSecondary,
+                  letterSpacing: -0.1,
+                ),
+              ),
+            ],
           ),
         ),
-        style: Theme.of(context).textTheme.bodyLarge,
       ),
+    );
+  }
+}
+
+// Modern Empty State
+class _EmptyState extends StatelessWidget {
+  final String message;
+  final IconData icon;
+
+  const _EmptyState({
+    required this.message,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(32),
+          decoration: BoxDecoration(
+            color: AppColors.backgroundLight,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            size: 64,
+            color: AppColors.textTertiary.withValues(alpha: 0.4),
+          ),
+        ),
+        const SizedBox(height: 24),
+        Text(
+          message,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.textSecondary,
+                fontWeight: FontWeight.w600,
+              ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Try adjusting your filters or create a new task',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppColors.textTertiary,
+              ),
+        ),
+      ],
     );
   }
 }
@@ -302,17 +423,17 @@ class _WebActionButtonState extends State<_WebActionButton> {
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 200),
               width: 44,
               height: 44,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: _isHovered
                     ? AppColors.primary.withValues(alpha: 0.1)
-                    : AppColors.hoverBackground,
-                borderRadius: BorderRadius.circular(10),
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
                 border: _isHovered
                     ? Border.all(
                         color: AppColors.primary.withValues(alpha: 0.2),
@@ -334,4 +455,3 @@ class _WebActionButtonState extends State<_WebActionButton> {
     );
   }
 }
-

@@ -29,9 +29,9 @@ class JiraLayout extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                // Top App Bar - Web optimized
+                // Modern Top App Bar
                 Container(
-                  height: 64,
+                  height: 72,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border(
@@ -42,8 +42,8 @@ class JiraLayout extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.02),
-                        blurRadius: 4,
+                        color: Colors.black.withValues(alpha: 0.03),
+                        blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -52,24 +52,40 @@ class JiraLayout extends StatelessWidget {
                     children: [
                       if (!showSidebar)
                         _WebIconButton(
-                          icon: Icons.menu,
+                          icon: Icons.menu_rounded,
                           onPressed: () {},
                           tooltip: 'Menu',
                         ),
                       if (title != null) ...[
-                        const SizedBox(width: 24),
-                        Text(
-                          title!,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: -0.3,
+                        const SizedBox(width: 32),
+                        Row(
+                          children: [
+                            Container(
+                              width: 4,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: AppColors.primaryGradient,
+                                ),
+                                borderRadius: BorderRadius.circular(2),
                               ),
+                            ),
+                            const SizedBox(width: 16),
+                            Text(
+                              title!,
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: -0.6,
+                                    color: AppColors.textPrimary,
+                                  ),
+                            ),
+                          ],
                         ),
                       ],
                       const Spacer(),
                       if (actions != null)
                         Padding(
-                          padding: const EdgeInsets.only(right: 16),
+                          padding: const EdgeInsets.only(right: 24),
                           child: Row(
                             children: actions!,
                           ),

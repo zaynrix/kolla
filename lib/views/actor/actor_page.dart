@@ -32,8 +32,8 @@ class ActorPage extends StatelessWidget {
           return JiraLayout(
             title: AppStrings.myTasks,
             actions: [
-              _WebViewModeButton(
-                icon: Icons.view_list,
+              _ModernViewModeButton(
+                icon: Icons.view_list_rounded,
                 isActive: controller.viewMode == ViewMode.list,
                 onPressed: controller.viewMode == ViewMode.list
                     ? null
@@ -41,22 +41,22 @@ class ActorPage extends StatelessWidget {
                 tooltip: 'List View',
               ),
               const SizedBox(width: 8),
-              _WebViewModeButton(
-                icon: Icons.bar_chart,
+              _ModernViewModeButton(
+                icon: Icons.bar_chart_rounded,
                 isActive: controller.viewMode == ViewMode.chart,
                 onPressed: controller.viewMode == ViewMode.chart
                     ? null
                     : controller.toggleViewMode,
-                tooltip: 'Chart View',
+                tooltip: 'Kanban View',
               ),
               const SizedBox(width: 8),
-              _WebActionButton(
-                icon: Icons.refresh,
+              _ModernActionButton(
+                icon: Icons.refresh_rounded,
                 onPressed: controller.refresh,
                 tooltip: AppStrings.refresh,
               ),
               const SizedBox(width: 8),
-              _WebCreateButton(
+              _ModernCreateButton(
                 onPressed: () => _showCreateTaskDialog(context, controller),
                 tooltip: 'Create New Task',
               ),
@@ -81,14 +81,20 @@ class ActorPage extends StatelessWidget {
     }
 
     if (controller.workSteps.isEmpty) {
-      return const EmptyStateWidget(
-        message: AppStrings.noTasks,
-        icon: Icons.task_alt,
+      return Center(
+        child: _ModernEmptyState(
+          message: AppStrings.noTasks,
+          icon: Icons.task_alt_rounded,
+        ),
       );
     }
 
     if (controller.viewMode == ViewMode.list) {
-      return TaskListView(controller: controller);
+      return Container(
+        color: AppColors.backgroundLight,
+        padding: const EdgeInsets.all(24),
+        child: TaskListView(controller: controller),
+      );
     } else {
       // Show Kanban board for actor's tasks
       return _ActorKanbanView(controller: controller);
@@ -108,8 +114,21 @@ class ActorPage extends StatelessWidget {
             controller.createTask(task);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Task "${task.name}" created successfully!'),
+                content: Row(
+                  children: [
+                    const Icon(Icons.check_circle, color: Colors.white),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text('Task "${task.name}" created successfully!'),
+                    ),
+                  ],
+                ),
                 backgroundColor: AppColors.success,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                margin: const EdgeInsets.all(16),
               ),
             );
           },
@@ -135,19 +154,25 @@ class _ActorKanbanView extends StatelessWidget {
     }).toList();
 
     if (actorTasks.isEmpty) {
-      return const Center(
-        child: Text('No tasks assigned'),
+      return Center(
+        child: _ModernEmptyState(
+          message: 'No tasks assigned to you yet',
+          icon: Icons.assignment_outlined,
+        ),
       );
     }
 
-    return DraggableKanbanBoard(
-      tasks: actorTasks,
-      onCardTap: (workStep) {
-        _showTaskDetailDialog(context, workStep, controller);
-      },
-      onStatusChange: (workStep, newStatus) {
-        controller.updateWorkStepStatus(workStep.id, newStatus);
-      },
+    return Container(
+      color: AppColors.backgroundLight,
+      child: DraggableKanbanBoard(
+        tasks: actorTasks,
+        onCardTap: (workStep) {
+          _showTaskDetailDialog(context, workStep, controller);
+        },
+        onStatusChange: (workStep, newStatus) {
+          controller.updateWorkStepStatus(workStep.id, newStatus);
+        },
+      ),
     );
   }
 
@@ -167,14 +192,14 @@ class _ActorKanbanView extends StatelessWidget {
   }
 }
 
-// Web-optimized view mode button
-class _WebViewModeButton extends StatefulWidget {
+// Modern View Mode Button
+class _ModernViewModeButton extends StatefulWidget {
   final IconData icon;
   final bool isActive;
   final VoidCallback? onPressed;
   final String tooltip;
 
-  const _WebViewModeButton({
+  const _ModernViewModeButton({
     required this.icon,
     required this.isActive,
     this.onPressed,
@@ -182,10 +207,10 @@ class _WebViewModeButton extends StatefulWidget {
   });
 
   @override
-  State<_WebViewModeButton> createState() => _WebViewModeButtonState();
+  State<_ModernViewModeButton> createState() => _ModernViewModeButtonState();
 }
 
-class _WebViewModeButtonState extends State<_WebViewModeButton> {
+class _ModernViewModeButtonState extends State<_ModernViewModeButton> {
   bool _isHovered = false;
 
   @override
@@ -202,9 +227,9 @@ class _WebViewModeButtonState extends State<_WebViewModeButton> {
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 200),
               width: 44,
               height: 44,
               padding: const EdgeInsets.all(10),
@@ -214,7 +239,7 @@ class _WebViewModeButtonState extends State<_WebViewModeButton> {
                     : _isHovered
                         ? AppColors.hoverBackground
                         : Colors.transparent,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
                 border: widget.isActive
                     ? Border.all(
                         color: AppColors.primary.withValues(alpha: 0.3),
@@ -237,23 +262,23 @@ class _WebViewModeButtonState extends State<_WebViewModeButton> {
   }
 }
 
-// Web-optimized action button
-class _WebActionButton extends StatefulWidget {
+// Modern Action Button
+class _ModernActionButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback? onPressed;
   final String tooltip;
 
-  const _WebActionButton({
+  const _ModernActionButton({
     required this.icon,
     this.onPressed,
     required this.tooltip,
   });
 
   @override
-  State<_WebActionButton> createState() => _WebActionButtonState();
+  State<_ModernActionButton> createState() => _ModernActionButtonState();
 }
 
-class _WebActionButtonState extends State<_WebActionButton> {
+class _ModernActionButtonState extends State<_ModernActionButton> {
   bool _isHovered = false;
 
   @override
@@ -270,17 +295,17 @@ class _WebActionButtonState extends State<_WebActionButton> {
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 200),
               width: 44,
               height: 44,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: _isHovered
                     ? AppColors.primary.withValues(alpha: 0.1)
-                    : AppColors.hoverBackground,
-                borderRadius: BorderRadius.circular(10),
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 widget.icon,
@@ -297,21 +322,21 @@ class _WebActionButtonState extends State<_WebActionButton> {
   }
 }
 
-// Web-optimized create button
-class _WebCreateButton extends StatefulWidget {
+// Modern Create Button
+class _ModernCreateButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final String tooltip;
 
-  const _WebCreateButton({
+  const _ModernCreateButton({
     this.onPressed,
     required this.tooltip,
   });
 
   @override
-  State<_WebCreateButton> createState() => _WebCreateButtonState();
+  State<_ModernCreateButton> createState() => _ModernCreateButtonState();
 }
 
-class _WebCreateButtonState extends State<_WebCreateButton> {
+class _ModernCreateButtonState extends State<_ModernCreateButton> {
   bool _isHovered = false;
 
   @override
@@ -328,9 +353,9 @@ class _WebCreateButtonState extends State<_WebCreateButton> {
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 200),
               width: 44,
               height: 44,
               padding: const EdgeInsets.all(10),
@@ -338,25 +363,25 @@ class _WebCreateButtonState extends State<_WebCreateButton> {
                 gradient: LinearGradient(
                   colors: AppColors.primaryGradient,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: _isHovered
                     ? [
                         BoxShadow(
                           color: AppColors.primary.withValues(alpha: 0.4),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
                         ),
                       ]
                     : [
                         BoxShadow(
                           color: AppColors.primary.withValues(alpha: 0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
                         ),
                       ],
               ),
               child: const Icon(
-                Icons.add,
+                Icons.add_rounded,
                 size: 22,
                 color: Colors.white,
               ),
@@ -368,3 +393,50 @@ class _WebCreateButtonState extends State<_WebCreateButton> {
   }
 }
 
+// Modern Empty State
+class _ModernEmptyState extends StatelessWidget {
+  final String message;
+  final IconData icon;
+
+  const _ModernEmptyState({
+    required this.message,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: AppColors.backgroundLight,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            size: 72,
+            color: AppColors.textTertiary.withValues(alpha: 0.3),
+          ),
+        ),
+        const SizedBox(height: 32),
+        Text(
+          message,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.5,
+              ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Create your first task to get started',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+        ),
+      ],
+    );
+  }
+}
