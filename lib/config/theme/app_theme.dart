@@ -153,7 +153,8 @@ class AppTheme {
         ),
         toolbarHeight: 72,
       ),
-      cardTheme: CardThemeData(
+      // CardTheme configuration - using copyWith for compatibility
+      cardTheme: ThemeData.light().cardTheme.copyWith(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -237,7 +238,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      dialogTheme: DialogThemeData(
+      // DialogTheme configuration - using copyWith for compatibility
+      dialogTheme: ThemeData.light().dialogTheme.copyWith(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
