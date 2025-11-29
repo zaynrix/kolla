@@ -34,26 +34,31 @@ class TrelloCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         child: Container(
-          margin: const EdgeInsets.only(bottom: 8),
-          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isOverdue
                   ? AppColors.overdue
                   : isUrgent
                       ? AppColors.warning
-                      : Colors.grey.shade200,
-              width: isOverdue || isUrgent ? 2 : 1,
+                      : AppColors.primary.withValues(alpha: 0.1),
+              width: isOverdue || isUrgent ? 2.5 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
+                color: (isOverdue
+                        ? AppColors.overdue
+                        : isUrgent
+                            ? AppColors.warning
+                            : AppColors.primary)
+                    .withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ],
           ),

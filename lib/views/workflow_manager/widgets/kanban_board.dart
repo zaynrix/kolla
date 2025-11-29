@@ -42,35 +42,44 @@ class KanbanBoard extends StatelessWidget {
 
     return Container(
       color: AppColors.backgroundLight,
+      padding: const EdgeInsets.all(16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _KanbanColumn(
-            title: 'To Do',
-            count: pendingSteps.length,
-            color: AppColors.textSecondary,
-            tasks: tasks,
-            workSteps: pendingSteps,
-            onCardTap: onCardTap,
-            onStatusChange: onStatusChange,
+          Expanded(
+            child: _KanbanColumn(
+              title: 'To Do',
+              count: pendingSteps.length,
+              color: AppColors.textSecondary,
+              tasks: tasks,
+              workSteps: pendingSteps,
+              onCardTap: onCardTap,
+              onStatusChange: onStatusChange,
+            ),
           ),
-          _KanbanColumn(
-            title: 'In Progress',
-            count: inProgressSteps.length,
-            color: AppColors.mediumPriority,
-            tasks: tasks,
-            workSteps: inProgressSteps,
-            onCardTap: onCardTap,
-            onStatusChange: onStatusChange,
+          const SizedBox(width: 16),
+          Expanded(
+            child: _KanbanColumn(
+              title: 'In Progress',
+              count: inProgressSteps.length,
+              color: AppColors.mediumPriority,
+              tasks: tasks,
+              workSteps: inProgressSteps,
+              onCardTap: onCardTap,
+              onStatusChange: onStatusChange,
+            ),
           ),
-          _KanbanColumn(
-            title: 'Done',
-            count: completedSteps.length,
-            color: AppColors.success,
-            tasks: tasks,
-            workSteps: completedSteps,
-            onCardTap: onCardTap,
-            onStatusChange: onStatusChange,
+          const SizedBox(width: 16),
+          Expanded(
+            child: _KanbanColumn(
+              title: 'Done',
+              count: completedSteps.length,
+              color: AppColors.success,
+              tasks: tasks,
+              workSteps: completedSteps,
+              onCardTap: onCardTap,
+              onStatusChange: onStatusChange,
+            ),
           ),
         ],
       ),
@@ -99,92 +108,124 @@ class _KanbanColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(8),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withValues(alpha: 0.2),
+          width: 1.5,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Column header
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade200),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '$count',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Header - Jira/Trello style
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.15),
+                  color.withValues(alpha: 0.08),
                 ],
               ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
             ),
-            // Cards
-            Expanded(
+            child: Row(
+              children: [
+                Container(
+                  width: 4,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title.toUpperCase(),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: color,
+                          letterSpacing: 0.5,
+                        ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    count.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Cards - Scrollable
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              constraints: const BoxConstraints(minHeight: 200),
               child: workSteps.isEmpty
                   ? Center(
-                      child: Text(
-                        'No items',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.grey.shade400,
-                            ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.inbox_outlined,
+                            size: 48,
+                            color: AppColors.textTertiary.withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'No items',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.textTertiary,
+                                ),
+                          ),
+                        ],
                       ),
                     )
                   : ListView.builder(
-                      padding: const EdgeInsets.all(8),
+                      shrinkWrap: true,
                       itemCount: workSteps.length,
                       itemBuilder: (context, index) {
-                        final step = workSteps[index];
-                        final task = tasks.firstWhere((t) => t.id == step.taskId);
+                        final workStep = workSteps[index];
+                        final task = tasks.firstWhere((t) => t.id == workStep.taskId);
                         return TrelloCard(
-                          workStep: step,
+                          workStep: workStep,
                           task: task,
-                          onTap: () => onCardTap?.call(step),
+                          onTap: () => onCardTap?.call(workStep),
                         );
                       },
                     ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-

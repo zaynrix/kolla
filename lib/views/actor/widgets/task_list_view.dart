@@ -16,6 +16,8 @@ class TaskListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Show all work steps (including completed) like Jira/Trello
+    final completed = controller.completedWorkSteps;
     final immediate = controller.immediateWorkSteps;
     final medium = controller.mediumWorkSteps;
     final longTerm = controller.longTermWorkSteps;
@@ -88,6 +90,25 @@ class TaskListView extends StatelessWidget {
                     workStep: ws,
                     task: controller.getTaskForWorkStep(ws),
                     onComplete: () => controller.completeWorkStep(ws.id),
+                  ),
+                )),
+            const SizedBox(height: 24),
+          ],
+          // Show completed work steps (like Jira/Trello)
+          if (completed.isNotEmpty) ...[
+            _buildSectionHeader(
+              context,
+              'Completed',
+              AppColors.success,
+              completed.length,
+            ),
+            const SizedBox(height: 12),
+            ...completed.map((ws) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TaskCard(
+                    workStep: ws,
+                    task: controller.getTaskForWorkStep(ws),
+                    onComplete: null, // No complete button for completed items
                   ),
                 )),
             const SizedBox(height: 24),

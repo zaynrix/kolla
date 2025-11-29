@@ -459,9 +459,10 @@ class MockTaskService implements ITaskService {
 
     final workSteps = <WorkStep>[];
     for (var task in _tasks) {
+      // Include ALL work steps assigned to actor (including completed ones)
+      // Like Jira/Trello - completed items stay visible
       final actorSteps = task.workSteps.where((ws) =>
-          ws.assignedToActorId == actorId &&
-          ws.status == WorkStepStatus.pending);
+          ws.assignedToActorId == actorId);
       workSteps.addAll(actorSteps);
     }
 
@@ -495,9 +496,10 @@ class MockTaskService implements ITaskService {
     return _tasksSubject.stream.map((tasks) {
       final workSteps = <WorkStep>[];
       for (var task in tasks) {
+        // Include ALL work steps assigned to actor (including completed ones)
+        // Like Jira/Trello - completed items stay visible
         final actorSteps = task.workSteps.where((ws) =>
-            ws.assignedToActorId == actorId &&
-            ws.status == WorkStepStatus.pending);
+            ws.assignedToActorId == actorId);
         workSteps.addAll(actorSteps);
       }
 
@@ -583,6 +585,27 @@ class MockTaskService implements ITaskService {
   Future<Task> getTask(String taskId) async {
     await Future.delayed(const Duration(milliseconds: 100));
     return _tasks.firstWhere((t) => t.id == taskId);
+  }
+
+  @override
+  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    
+    final newTaskId = 'task-${_tasks.length + 1}';
+    final newTask = Task(
+      id: newTaskId,
+      name: name,
+      deadline: deadline,
+      workSteps: workSteps.map((ws) => ws.copyWith(
+        id: 'ws-${DateTime.now().millisecondsSinceEpoch}-${ws.sequenceOrder}',
+        taskId: newTaskId,
+      )).toList(),
+    );
+    
+    _tasks.add(newTask);
+    _tasksSubject.add(_tasks);
+    
+    return newTask;
   }
 
   @override

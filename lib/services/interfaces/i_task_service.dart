@@ -10,6 +10,7 @@ abstract class ITaskService {
   Future<void> completeWorkStep(String workStepId);
   Future<void> updateWorkStepPriority(String workStepId, Priority priority);
   Future<Task> getTask(String taskId);
+  Future<Task> createTask(String name, DateTime deadline, List<WorkStep> workSteps);
   void dispose();
 }
 

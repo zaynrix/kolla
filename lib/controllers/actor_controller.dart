@@ -43,6 +43,7 @@ class ActorController extends ChangeNotifier {
 
   List<WorkStep> _getWorkStepsByPriority(Priority priority) {
     return _workSteps.where((ws) {
+      // Include all work steps (completed and pending) like Jira/Trello
       final task = _allTasks.firstWhere((t) => t.id == ws.taskId);
       final remainingSteps = task.workSteps
           .where((tws) =>
@@ -51,6 +52,16 @@ class ActorController extends ChangeNotifier {
           .length;
       return ws.getEffectivePriority(task.deadline, remainingSteps) == priority;
     }).toList();
+  }
+  
+  // Get completed work steps (for display)
+  List<WorkStep> get completedWorkSteps {
+    return _workSteps.where((ws) => ws.status == WorkStepStatus.completed).toList();
+  }
+  
+  // Get pending work steps
+  List<WorkStep> get pendingWorkSteps {
+    return _workSteps.where((ws) => ws.status == WorkStepStatus.pending).toList();
   }
 
   void _init() {
@@ -115,6 +126,20 @@ class ActorController extends ChangeNotifier {
 
   Task getTaskForWorkStep(WorkStep workStep) {
     return _allTasks.firstWhere((t) => t.id == workStep.taskId);
+  }
+  
+  Future<void> createTask(Task task) async {
+    try {
+      await _taskService.createTask(
+        task.name,
+        task.deadline,
+        task.workSteps,
+      );
+      // Update happens via stream
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
   }
 
   @override

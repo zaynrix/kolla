@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/actor_controller.dart';
 import '../../services/interfaces/i_task_service.dart';
+import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import 'widgets/task_list_view.dart';
 import 'widgets/task_chart_view.dart';
+import 'widgets/create_task_dialog.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;
 import '../shared/widgets/empty_state_widget.dart';
@@ -114,6 +116,11 @@ class ActorPage extends StatelessWidget {
                   onPressed: controller.refresh,
                   tooltip: AppStrings.refresh,
                 ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () => _showCreateTaskDialog(context, controller),
+                  tooltip: 'Create New Task',
+                ),
               ],
             ),
             body: _buildBody(controller),
@@ -145,6 +152,29 @@ class ActorPage extends StatelessWidget {
     return controller.viewMode == ViewMode.list
         ? TaskListView(controller: controller)
         : TaskChartView(controller: controller);
+  }
+  
+  void _showCreateTaskDialog(BuildContext context, ActorController controller) {
+    final actorService = context.read<IActorService>();
+    
+    actorService.getActor(controller.actorId).then((actor) {
+      showDialog(
+        context: context,
+        builder: (context) => CreateTaskDialog(
+          actorId: controller.actorId,
+          actorRole: actor.role,
+          onCreateTask: (task) {
+            controller.createTask(task);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Task "${task.name}" created successfully!'),
+                backgroundColor: AppColors.success,
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 }
 

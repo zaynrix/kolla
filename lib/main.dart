@@ -32,8 +32,7 @@ class KollaApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Kolla - Task Management',
         theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system, // Auto dark mode
+        themeMode: ThemeMode.light, // Light theme only
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
         // Modern page transitions
