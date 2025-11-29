@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../controllers/actor_controller.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_actor_service.dart';
-import '../../../models/enums.dart';
-import 'actor_stats_card.dart';
 
 /// Modern header section for actor page
 /// Single Responsibility: Display actor info and quick stats

@@ -6,7 +6,6 @@ import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../config/constants/app_strings.dart';
 import '../../../services/interfaces/i_task_service.dart';
-import '../../../utils/animations.dart';
 import '../../shared/widgets/priority_badge.dart';
 import '../../shared/widgets/jira_task_card.dart';
 
