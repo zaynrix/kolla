@@ -6,12 +6,15 @@ import '../models/work_step.dart';
 import '../models/enums.dart';
 import '../services/interfaces/i_task_service.dart';
 import '../services/interfaces/i_actor_service.dart';
+import '../services/interfaces/i_notification_service.dart';
+import '../utils/extensions.dart';
 
 enum TaskFilter { all, atRisk, overdue }
 
 class WorkflowManagerController extends ChangeNotifier {
   final ITaskService _taskService;
   final IActorService _actorService;
+  final INotificationService _notificationService;
 
   List<Task> _allTasks = [];
   List<Actor> _allActors = [];
@@ -22,12 +25,15 @@ class WorkflowManagerController extends ChangeNotifier {
 
   StreamSubscription? _tasksSubscription;
   StreamSubscription? _actorsSubscription;
+  StreamSubscription? _workStepCompletionsSubscription;
 
   WorkflowManagerController({
     required ITaskService taskService,
     required IActorService actorService,
+    required INotificationService notificationService,
   })  : _taskService = taskService,
-        _actorService = actorService {
+        _actorService = actorService,
+        _notificationService = notificationService {
     _init();
   }
 
@@ -68,6 +74,7 @@ class WorkflowManagerController extends ChangeNotifier {
   void _init() {
     _loadData();
     _subscribeToData();
+    _subscribeToNotifications();
   }
 
   Future<void> _loadData() async {
@@ -120,6 +127,16 @@ class WorkflowManagerController extends ChangeNotifier {
   Future<void> updateWorkStepPriority(String workStepId, Priority priority) async {
     try {
       await _taskService.updateWorkStepPriority(workStepId, priority);
+      
+      // Send notification about priority change
+      for (var task in _allTasks) {
+        final workStep = task.workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
+        if (workStep != null) {
+          _notificationService.notifyPriorityChanged(workStep);
+          break;
+        }
+      }
+      
       // Update happens via stream
     } catch (e) {
       _error = e.toString();
@@ -130,6 +147,16 @@ class WorkflowManagerController extends ChangeNotifier {
   Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
     try {
       await _taskService.updateWorkStepStatus(workStepId, status);
+      
+      // Send notification about status change
+      for (var task in _allTasks) {
+        final workStep = task.workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
+        if (workStep != null) {
+          _notificationService.notifyWorkStepCompleted(workStep, task);
+          break;
+        }
+      }
+      
       // Update happens via stream
     } catch (e) {
       _error = e.toString();
@@ -171,6 +198,19 @@ class WorkflowManagerController extends ChangeNotifier {
     return workSteps;
   }
 
+  void _subscribeToNotifications() {
+    _workStepCompletionsSubscription = _notificationService.watchWorkStepCompletions().listen(
+      (workStep) {
+        // Notification received - UI will be updated via stream
+        // This can be used to show Snackbar or update notification badge
+        notifyListeners();
+      },
+      onError: (error) {
+        // Handle notification stream errors silently
+      },
+    );
+  }
+
   void refresh() {
     _loadData();
   }
@@ -179,6 +219,7 @@ class WorkflowManagerController extends ChangeNotifier {
   void dispose() {
     _tasksSubscription?.cancel();
     _actorsSubscription?.cancel();
+    _workStepCompletionsSubscription?.cancel();
     super.dispose();
   }
 }

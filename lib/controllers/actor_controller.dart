@@ -21,7 +21,6 @@ class ActorController extends ChangeNotifier {
   ViewMode _viewMode = ViewMode.list;
 
   StreamSubscription? _workStepsSubscription;
-  StreamSubscription? _notificationSubscription;
 
   ActorController({
     required ITaskService taskService,
