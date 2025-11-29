@@ -26,8 +26,8 @@ class ActorController extends ChangeNotifier {
     required ITaskService taskService,
     required INotificationService notificationService,
     required this.actorId,
-  }) : _taskService = taskService,
-       _notificationService = notificationService {
+  })  : _taskService = taskService,
+        _notificationService = notificationService {
     _init();
   }
 
@@ -58,15 +58,19 @@ class ActorController extends ChangeNotifier {
       return ws.getEffectivePriority(task.deadline, remainingSteps) == priority;
     }).toList();
   }
-  
+
   // Get completed work steps (for display)
   List<WorkStep> get completedWorkSteps {
-    return _workSteps.where((ws) => ws.status == WorkStepStatus.completed).toList();
+    return _workSteps
+        .where((ws) => ws.status == WorkStepStatus.completed)
+        .toList();
   }
-  
+
   // Get pending work steps
   List<WorkStep> get pendingWorkSteps {
-    return _workSteps.where((ws) => ws.status == WorkStepStatus.pending).toList();
+    return _workSteps
+        .where((ws) => ws.status == WorkStepStatus.pending)
+        .toList();
   }
 
   void _init() {
@@ -113,7 +117,7 @@ class ActorController extends ChangeNotifier {
   Future<void> completeWorkStep(String workStepId) async {
     try {
       await _taskService.completeWorkStep(workStepId);
-      
+
       // Send notification about work step completion
       final workStep = _workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
       if (workStep != null) {
@@ -122,7 +126,7 @@ class ActorController extends ChangeNotifier {
           _notificationService.notifyWorkStepCompleted(workStep, task);
         }
       }
-      
+
       // Update happens via stream
     } catch (e) {
       _error = e.toString();
@@ -130,10 +134,11 @@ class ActorController extends ChangeNotifier {
     }
   }
 
-  Future<void> updateWorkStepStatus(String workStepId, WorkStepStatus status) async {
+  Future<void> updateWorkStepStatus(
+      String workStepId, WorkStepStatus status) async {
     try {
       await _taskService.updateWorkStepStatus(workStepId, status);
-      
+
       // Send notification about status change
       final workStep = _workSteps.firstWhereOrNull((ws) => ws.id == workStepId);
       if (workStep != null) {
@@ -142,7 +147,7 @@ class ActorController extends ChangeNotifier {
           _notificationService.notifyWorkStepCompleted(workStep, task);
         }
       }
-      
+
       // Update happens via stream
     } catch (e) {
       _error = e.toString();
@@ -162,7 +167,7 @@ class ActorController extends ChangeNotifier {
   Task getTaskForWorkStep(WorkStep workStep) {
     return _allTasks.firstWhere((t) => t.id == workStep.taskId);
   }
-  
+
   Future<void> createTask(Task task) async {
     try {
       await _taskService.createTask(
@@ -185,4 +190,3 @@ class ActorController extends ChangeNotifier {
     super.dispose();
   }
 }
-

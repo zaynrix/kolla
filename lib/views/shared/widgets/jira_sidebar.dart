@@ -90,8 +90,8 @@ class JiraSidebar extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 _NavItem(
-                  icon: Icons.dashboard_outlined,
-                  activeIcon: Icons.dashboard,
+                  icon: Icons.view_kanban_outlined,
+                  activeIcon: Icons.view_kanban,
                   label: 'All Boards',
                   route: '/all-boards',
                   currentRoute: currentRoute,
@@ -115,13 +115,31 @@ class JiraSidebar extends StatelessWidget {
                   currentRoute: currentRoute,
                   onTap: () => context.go('/reports'),
                 ),
+                const SizedBox(height: 4),
+                _NavItem(
+                  icon: Icons.notifications_outlined,
+                  activeIcon: Icons.notifications,
+                  label: 'Notifications',
+                  route: '/notifications',
+                  currentRoute: currentRoute,
+                  onTap: () {
+                    // TODO: Open notification center
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Notification Center coming soon'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  notificationCount: 0, // Will be dynamic later
+                ),
                 const SizedBox(height: 24),
                 const Divider(height: 1),
                 const SizedBox(height: 12),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'QUICK ACCESS',
+                    'TEAM MEMBERS',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -134,29 +152,52 @@ class JiraSidebar extends StatelessWidget {
                 _NavItem(
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
-                  label: 'Alice Johnson',
+                  label: 'Yahya Abunada',
                   route: '/actor/actor-1',
                   currentRoute: currentRoute,
                   onTap: () => context.go('/actor/actor-1'),
                   isCompact: true,
+                  badge: 'Front End',
                 ),
                 _NavItem(
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
-                  label: 'Bob Smith',
+                  label: 'Martin Krüger',
                   route: '/actor/actor-2',
                   currentRoute: currentRoute,
                   onTap: () => context.go('/actor/actor-2'),
                   isCompact: true,
+                  badge: 'Backend',
                 ),
                 _NavItem(
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
-                  label: 'Carol Williams',
+                  label: 'Artem Paliesika',
                   route: '/actor/actor-3',
                   currentRoute: currentRoute,
                   onTap: () => context.go('/actor/actor-3'),
                   isCompact: true,
+                  badge: 'Backend',
+                ),
+                _NavItem(
+                  icon: Icons.person_outline,
+                  activeIcon: Icons.person,
+                  label: 'Marvin Tank',
+                  route: '/actor/actor-4',
+                  currentRoute: currentRoute,
+                  onTap: () => context.go('/actor/actor-4'),
+                  isCompact: true,
+                  badge: 'Front End',
+                ),
+                _NavItem(
+                  icon: Icons.person_outline,
+                  activeIcon: Icons.person,
+                  label: 'Albert Zacher',
+                  route: '/actor/actor-5',
+                  currentRoute: currentRoute,
+                  onTap: () => context.go('/actor/actor-5'),
+                  isCompact: true,
+                  badge: 'Backend',
                 ),
               ],
             ),
@@ -217,6 +258,8 @@ class _NavItem extends StatefulWidget {
   final String currentRoute;
   final VoidCallback onTap;
   final bool isCompact;
+  final String? badge;
+  final int? notificationCount;
 
   const _NavItem({
     required this.icon,
@@ -226,6 +269,8 @@ class _NavItem extends StatefulWidget {
     required this.currentRoute,
     required this.onTap,
     this.isCompact = false,
+    this.badge,
+    this.notificationCount,
   });
 
   @override
@@ -282,21 +327,55 @@ class _NavItemState extends State<_NavItem> {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                    child: Text(
-                      widget.label,
-                      style: TextStyle(
-                        fontSize: widget.isCompact ? 14 : 15,
-                        fontWeight: isActive
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        color: isActive
-                            ? AppColors.primary
-                            : AppColors.textPrimary,
-                        letterSpacing: -0.1,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.label,
+                          style: TextStyle(
+                            fontSize: widget.isCompact ? 14 : 15,
+                            fontWeight: isActive
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: isActive
+                                ? AppColors.primary
+                                : AppColors.textPrimary,
+                            letterSpacing: -0.1,
+                          ),
+                        ),
+                        if (widget.badge != null && widget.isCompact)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              widget.badge!,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textTertiary,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  if (isActive)
+                  if (widget.notificationCount != null && widget.notificationCount! > 0)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        widget.notificationCount! > 99 ? '99+' : widget.notificationCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    )
+                  else if (isActive)
                     Container(
                       width: 6,
                       height: 6,
