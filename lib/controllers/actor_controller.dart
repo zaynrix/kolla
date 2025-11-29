@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import '../models/work_step.dart';
 import '../models/task.dart';
+import '../models/subtask.dart';
 import '../models/enums.dart';
 import '../services/interfaces/i_task_service.dart';
 import '../services/interfaces/i_notification_service.dart';
@@ -16,6 +17,7 @@ class ActorController extends ChangeNotifier {
 
   List<WorkStep> _workSteps = [];
   List<Task> _allTasks = [];
+  List<SubTask> _assignedSubTasks = [];
   bool _isLoading = false;
   String? _error;
   ViewMode _viewMode = ViewMode.list;
@@ -34,6 +36,7 @@ class ActorController extends ChangeNotifier {
   // Getters
   List<WorkStep> get workSteps => _workSteps;
   List<Task> get allTasks => _allTasks;
+  List<SubTask> get assignedSubTasks => _assignedSubTasks;
   bool get isLoading => _isLoading;
   String? get error => _error;
   ViewMode get viewMode => _viewMode;
@@ -86,6 +89,10 @@ class ActorController extends ChangeNotifier {
     try {
       _allTasks = await _taskService.getAllTasks();
       _workSteps = await _taskService.getActorWorkSteps(actorId);
+      
+      // Get all subtasks assigned to this actor
+      _assignedSubTasks = _getAssignedSubTasks();
+      
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -93,6 +100,18 @@ class ActorController extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+  
+  List<SubTask> _getAssignedSubTasks() {
+    final subtasks = <SubTask>[];
+    for (var task in _allTasks) {
+      for (var subtask in task.subTasks) {
+        if (subtask.assignedToActorId == actorId) {
+          subtasks.add(subtask);
+        }
+      }
+    }
+    return subtasks;
   }
 
   void _subscribeToWorkSteps() {
@@ -107,9 +126,10 @@ class ActorController extends ChangeNotifier {
       },
     );
 
-    // Also watch all tasks for deadline info
+    // Also watch all tasks for deadline info and subtasks
     _taskService.watchAllTasks().listen((tasks) {
       _allTasks = tasks;
+      _assignedSubTasks = _getAssignedSubTasks();
       notifyListeners();
     });
   }

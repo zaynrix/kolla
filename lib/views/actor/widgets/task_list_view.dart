@@ -4,6 +4,7 @@ import '../../../config/constants/app_strings.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../utils/animations.dart';
 import 'task_card.dart';
+import 'subtask_card.dart';
 import 'priority_section_header.dart';
 
 /// Modern task list view with priority grouping
@@ -23,6 +24,11 @@ class TaskListView extends StatelessWidget {
     final immediate = controller.immediateWorkSteps;
     final medium = controller.mediumWorkSteps;
     final longTerm = controller.longTermWorkSteps;
+    
+    // Get subtasks assigned to this actor
+    final assignedSubTasks = controller.assignedSubTasks;
+    final pendingSubTasks = assignedSubTasks.where((st) => st.status != WorkStepStatus.completed).toList();
+    final completedSubTasks = assignedSubTasks.where((st) => st.status == WorkStepStatus.completed).toList();
 
     return SingleChildScrollView(
       child: Column(
@@ -113,6 +119,56 @@ class TaskListView extends StatelessWidget {
                     onComplete: null, // No complete button for completed items
                   ),
                 )),
+            const SizedBox(height: 32),
+          ],
+
+          // Subtasks Section
+          if (pendingSubTasks.isNotEmpty) ...[
+            PrioritySectionHeader(
+              title: 'My Subtasks',
+              color: AppColors.primary,
+              count: pendingSubTasks.length,
+              icon: Icons.subdirectory_arrow_right_rounded,
+            ),
+            const SizedBox(height: 16),
+            ...pendingSubTasks.map((subTask) {
+              final parentTask = controller.allTasks.firstWhereOrNull(
+                (t) => t.id == subTask.taskId,
+              );
+              if (parentTask == null) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: SubtaskCard(
+                  subTask: subTask,
+                  parentTask: parentTask,
+                ),
+              );
+            }),
+            const SizedBox(height: 32),
+          ],
+
+          // Completed Subtasks Section
+          if (completedSubTasks.isNotEmpty) ...[
+            PrioritySectionHeader(
+              title: 'Completed Subtasks',
+              color: AppColors.success,
+              count: completedSubTasks.length,
+              icon: Icons.check_circle_rounded,
+            ),
+            const SizedBox(height: 16),
+            ...completedSubTasks.map((subTask) {
+              final parentTask = controller.allTasks.firstWhereOrNull(
+                (t) => t.id == subTask.taskId,
+              );
+              if (parentTask == null) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: SubtaskCard(
+                  subTask: subTask,
+                  parentTask: parentTask,
+                ),
+              );
+            }),
             const SizedBox(height: 32),
           ],
         ],
