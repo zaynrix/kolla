@@ -494,7 +494,6 @@ class _NotificationNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isActive = currentRoute == '/notifications';
     final notificationService = context.watch<INotificationService>();
     
     return StreamBuilder(
