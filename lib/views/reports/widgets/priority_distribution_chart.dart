@@ -104,9 +104,6 @@ class PriorityDistributionChart extends StatelessWidget {
                 maxY: total.toDouble() + (total * 0.2),
                 barTouchData: BarTouchData(
                   enabled: true,
-                  touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (group) => AppColors.primary,
-                  ),
                 ),
                 titlesData: FlTitlesData(
                   show: true,
