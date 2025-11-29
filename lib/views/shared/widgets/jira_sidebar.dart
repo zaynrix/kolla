@@ -218,7 +218,7 @@ class JiraSidebar extends StatelessWidget {
                 ),
               ),
             ),
-            child: _CreateTaskButton(),
+            child: const _CreateTaskButton(),
           ),
         ],
       ),
@@ -370,3 +370,110 @@ class _NavItemState extends State<_NavItem> {
   }
 }
 
+// Create Task Button in Sidebar Footer
+class _CreateTaskButton extends StatefulWidget {
+  const _CreateTaskButton();
+
+  @override
+  State<_CreateTaskButton> createState() => _CreateTaskButtonState();
+}
+
+class _CreateTaskButtonState extends State<_CreateTaskButton> {
+  bool _isHovered = false;
+
+  void _showCreateTaskDialog() {
+    final actorService = context.read<IActorService>();
+    final taskService = context.read<ITaskService>();
+    
+    // Get first actor as default (can be improved later)
+    actorService.getAllActors().then((actors) {
+      if (actors.isNotEmpty && context.mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => CreateTaskDialog(
+            actorId: actors.first.id,
+            actorRole: actors.first.role,
+            onCreateTask: (task) async {
+              await taskService.createTask(
+                task.name,
+                task.deadline,
+                task.workSteps,
+                subTasks: task.subTasks,
+                assignedToActorId: task.assignedToActorId,
+              );
+              if (context.mounted) {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Task "${task.name}" created successfully'),
+                    backgroundColor: AppColors.success,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _showCreateTaskDialog,
+          borderRadius: BorderRadius.circular(10),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              gradient: _isHovered
+                  ? const LinearGradient(
+                      colors: AppColors.primaryGradient,
+                    )
+                  : null,
+              color: _isHovered
+                  ? null
+                  : AppColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: _isHovered
+                  ? [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add_circle_outline,
+                  size: 20,
+                  color: _isHovered ? Colors.white : AppColors.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Create Task',
+                  style: TextStyle(
+                    color: _isHovered ? Colors.white : AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
