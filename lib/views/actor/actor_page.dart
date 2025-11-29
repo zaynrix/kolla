@@ -9,7 +9,7 @@ import '../shared/layouts/jira_layout.dart';
 import 'widgets/task_list_view.dart';
 import 'widgets/create_task_dialog.dart';
 import '../../views/workflow_manager/widgets/draggable_kanban_board.dart';
-import '../../views/workflow_manager/widgets/modern_task_detail_dialog.dart';
+import '../../views/workflow_manager/widgets/task_detail/modern_task_detail_dialog.dart';
 import '../../../models/work_step.dart';
 import '../shared/widgets/loading_widget.dart';
 import '../shared/widgets/error_widget.dart' as custom;

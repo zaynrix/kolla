@@ -5,7 +5,11 @@ import '../../models/task.dart';
 import '../../models/work_step.dart';
 import '../../models/subtask.dart';
 import '../../models/enums.dart';
+import 'data/mock_task_data.dart';
 
+/// Mock task service implementation
+/// Single Responsibility: Provide mock task data and operations
+/// Dependency Inversion: Depends on ITaskService interface
 class MockTaskService implements ITaskService {
   final _tasksSubject = BehaviorSubject<List<Task>>.seeded([]);
   List<Task> _tasks = [];
@@ -17,6 +21,14 @@ class MockTaskService implements ITaskService {
   }
 
   void _initializeMockData() {
+    final now = DateTime.now();
+    // Use Factory Pattern for data creation
+    _tasks = MockTaskDataFactory.createMockTasks(now);
+    _tasksSubject.add(_tasks);
+  }
+  
+  // Keep old implementation for reference, but it's now in MockTaskDataFactory
+  void _initializeMockDataOld() {
     final now = DateTime.now();
 
     _tasks = [
@@ -717,13 +729,6 @@ class MockTaskService implements ITaskService {
             assignedToActorId: 'actor-5',
             sequenceOrder: 3,
           ),
-        ],
-      ),
-    ];
-
-    _tasksSubject.add(_tasks);
-  }
-
   void _startAutoCompletion() {
     // Simulate work step completion every 15-20 seconds
     _autoCompleteTimer = Timer.periodic(
