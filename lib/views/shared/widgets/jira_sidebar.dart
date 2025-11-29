@@ -122,22 +122,11 @@ class JiraSidebar extends StatelessWidget {
                   onTap: () => context.go('/reports'),
                 ),
                 const SizedBox(height: 4),
-                _NavItem(
-                  icon: Icons.notifications_outlined,
-                  activeIcon: Icons.notifications,
-                  label: 'Notifications',
-                  route: '/notifications',
+                _NotificationNavItem(
                   currentRoute: currentRoute,
                   onTap: () {
-                    // TODO: Open notification center
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Notification Center coming soon'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                    _showNotificationCenter(context);
                   },
-                  notificationCount: 0, // Will be dynamic later
                 ),
                 const SizedBox(height: 24),
                 const Divider(height: 1),

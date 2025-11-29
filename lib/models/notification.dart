@@ -1,5 +1,3 @@
-import 'work_step.dart';
-import 'task.dart';
 import 'enums.dart';
 
 /// Notification model for real-time updates

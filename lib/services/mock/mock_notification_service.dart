@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/rxdart.dart' hide Notification;
 import '../interfaces/i_notification_service.dart';
 import '../../models/task.dart';
 import '../../models/work_step.dart';
-import '../../models/notification.dart';
+import '../../models/notification.dart' as models;
 import '../../models/enums.dart';
 
 /// Mock notification service implementing real-time updates
@@ -12,9 +12,9 @@ class MockNotificationService implements INotificationService {
   final _taskUpdatesSubject = BehaviorSubject<Task>();
   final _workStepCompletionsSubject = BehaviorSubject<WorkStep>();
   final _priorityChangesSubject = BehaviorSubject<WorkStep>();
-  final _notificationsSubject = BehaviorSubject<List<Notification>>.seeded([]);
+  final _notificationsSubject = BehaviorSubject<List<models.Notification>>.seeded([]);
   
-  final List<Notification> _notifications = [];
+  final List<models.Notification> _notifications = [];
   int _notificationIdCounter = 1;
 
   MockNotificationService() {
@@ -37,7 +37,7 @@ class MockNotificationService implements INotificationService {
   }
 
   @override
-  Stream<List<Notification>> watchNotifications() {
+  Stream<List<models.Notification>> watchNotifications() {
     return _notificationsSubject.stream;
   }
 
@@ -47,7 +47,7 @@ class MockNotificationService implements INotificationService {
     _taskUpdatesSubject.add(task);
     
     // Create notification
-    final notification = Notification(
+    final notification = models.Notification(
       id: 'notif-${_notificationIdCounter++}',
       title: 'Work Step Completed',
       message: '${workStep.name} in task "${task.name}" has been completed',
@@ -68,7 +68,7 @@ class MockNotificationService implements INotificationService {
     // Find task for work step
     // Note: In real implementation, we'd need access to task service
     // For now, create a generic notification
-    final notification = Notification(
+    final notification = models.Notification(
       id: 'notif-${_notificationIdCounter++}',
       title: 'Priority Changed',
       message: 'Priority for "${workStep.name}" has been updated',

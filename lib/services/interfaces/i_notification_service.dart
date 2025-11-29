@@ -1,6 +1,6 @@
 import '../../models/task.dart';
 import '../../models/work_step.dart';
-import '../../models/notification.dart';
+import '../../models/notification.dart' as models;
 
 /// Notification service interface for real-time updates
 /// Implements requirement: Usability III - automatic updates and notifications
@@ -15,7 +15,7 @@ abstract class INotificationService {
   Stream<WorkStep> watchPriorityChanges();
   
   /// Stream of all notifications
-  Stream<List<Notification>> watchNotifications();
+  Stream<List<models.Notification>> watchNotifications();
   
   /// Notify about work step completion
   void notifyWorkStepCompleted(WorkStep workStep, Task task);

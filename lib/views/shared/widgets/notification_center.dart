@@ -4,7 +4,6 @@ import '../../../models/notification.dart' as models;
 import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_notification_service.dart';
-import '../../../utils/extensions.dart';
 
 /// Notification center widget
 /// Single Responsibility: Display and manage notifications
