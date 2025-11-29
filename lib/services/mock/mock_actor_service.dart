@@ -8,28 +8,28 @@ class MockActorService implements IActorService {
   final List<Actor> _actors = [
     const Actor(
       id: 'actor-1',
-      name: 'Alice Johnson',
-      role: 'Developer',
+      name: 'Yahya Abunada',
+      role: 'Front End',
     ),
     const Actor(
       id: 'actor-2',
-      name: 'Bob Smith',
-      role: 'Designer',
+      name: 'Martin Krüger',
+      role: 'Backend',
     ),
     const Actor(
       id: 'actor-3',
-      name: 'Carol Williams',
-      role: 'QA Engineer',
+      name: 'Artem Paliesika',
+      role: 'Backend',
     ),
     const Actor(
       id: 'actor-4',
-      name: 'David Brown',
-      role: 'DevOps',
+      name: 'Marvin Tank',
+      role: 'Front End',
     ),
     const Actor(
       id: 'actor-5',
-      name: 'Eve Davis',
-      role: 'Developer',
+      name: 'Albert Zacher',
+      role: 'Backend',
     ),
   ];
 
