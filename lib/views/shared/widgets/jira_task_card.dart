@@ -600,8 +600,8 @@ class _WebOptimizedCardState extends State<_WebOptimizedCard>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(
-                      alpha: _isHovered ? 0.08 : 0.04,
+                    color: Colors.black.withOpacity(
+                      _isHovered ? 0.08 : 0.04,
                     ),
                     blurRadius: _isHovered ? 20 : 12,
                     offset: Offset(0, _elevationAnimation.value),

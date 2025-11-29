@@ -166,8 +166,8 @@ class _WebOptimizedColumn extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: color.withValues(
-                      alpha: columnController.isHovered ? 0.08 : 0.05,
+                    color: color.withOpacity(
+                      columnController.isHovered ? 0.08 : 0.05,
                     ),
                     blurRadius: columnController.isHovered ? 16 : 10,
                     offset: Offset(0, columnController.isHovered ? 6 : 4),

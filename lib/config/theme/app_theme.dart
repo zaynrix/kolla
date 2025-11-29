@@ -157,12 +157,7 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-            color: AppColors.primary.withOpacity(0.06),
-            width: 1,
-          ),
         ),
-        color: AppColors.cardBackground,
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,

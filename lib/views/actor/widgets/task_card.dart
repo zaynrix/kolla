@@ -97,8 +97,8 @@ class _TaskCardState extends State<TaskCard> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(
-                  alpha: _isHovered ? 0.1 : 0.05,
+                color: Colors.black.withOpacity(
+                  _isHovered ? 0.1 : 0.05,
                 ),
                 blurRadius: _isHovered ? 16 : 8,
                 offset: Offset(0, _isHovered ? 6 : 2),

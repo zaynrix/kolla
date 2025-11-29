@@ -594,8 +594,8 @@ class _ModernActorCardState extends State<_ModernActorCard> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(
-                    alpha: _isHovered ? 0.08 : 0.04,
+                  color: Colors.black.withOpacity(
+                    _isHovered ? 0.08 : 0.04,
                   ),
                   blurRadius: _isHovered ? 24 : 16,
                   offset: Offset(0, _isHovered ? 8 : 4),
@@ -727,8 +727,8 @@ class _ModernDashboardCardState extends State<_ModernDashboardCard> {
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(
-                    alpha: _isHovered ? 0.4 : 0.3,
+                  color: AppColors.primary.withOpacity(
+                    _isHovered ? 0.4 : 0.3,
                   ),
                   blurRadius: _isHovered ? 32 : 24,
                   offset: Offset(0, _isHovered ? 16 : 12),
