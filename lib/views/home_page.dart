@@ -237,6 +237,10 @@ class _HeroSection extends StatelessWidget {
                 ),
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 48),
+          
+          // Project Summary Section
+          _ProjectSummarySection(),
         ],
       ),
     );
