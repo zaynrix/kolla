@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../models/notification.dart';
+import '../../../models/notification.dart' as models;
 import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_notification_service.dart';
@@ -20,7 +20,7 @@ class NotificationCenter extends StatelessWidget {
   Widget build(BuildContext context) {
     final notificationService = context.read<INotificationService>();
 
-    return StreamBuilder<List<Notification>>(
+    return StreamBuilder<List<models.Notification>>(
       stream: notificationService.watchNotifications(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -171,7 +171,7 @@ class NotificationCenter extends StatelessWidget {
 }
 
 class _NotificationItem extends StatelessWidget {
-  final Notification notification;
+  final models.Notification notification;
   final VoidCallback onTap;
   final VoidCallback onDismiss;
 

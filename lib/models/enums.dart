@@ -16,3 +16,12 @@ enum TaskStatus {
   overdue,
 }
 
+enum NotificationType {
+  workStepCompleted,
+  workStepStatusChanged,
+  priorityChanged,
+  taskAssigned,
+  deadlineApproaching,
+  taskOverdue,
+}
+

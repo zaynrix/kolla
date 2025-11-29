@@ -5,6 +5,8 @@ import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_task_service.dart';
 import '../../../services/interfaces/i_actor_service.dart';
 import '../../actor/widgets/create_task_dialog.dart';
+import 'notification_center.dart';
+import 'notification_badge.dart';
 
 class JiraSidebar extends StatelessWidget {
   final String currentRoute;
