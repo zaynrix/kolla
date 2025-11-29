@@ -5,6 +5,7 @@ import '../../../models/work_step.dart';
 import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_task_service.dart';
+import '../../../utils/extensions.dart';
 import '../../../controllers/kanban_column_controller.dart';
 import 'trello_card.dart';
 
