@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../controllers/workflow_manager_controller.dart';
 import '../../../config/constants/app_strings.dart';
 import '../../../config/constants/app_colors.dart';
-import '../../../models/enums.dart';
 
 /// Modern search and filters bar
 /// Single Responsibility: Handle search and filter UI

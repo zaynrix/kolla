@@ -6,7 +6,6 @@ import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
 import '../../models/work_step.dart';
-import '../../models/enums.dart';
 import '../../utils/extensions.dart';
 import '../shared/layouts/jira_layout.dart';
 import 'widgets/draggable_kanban_board.dart';
