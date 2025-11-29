@@ -5,7 +5,6 @@ import '../../../models/task.dart';
 import '../../../models/enums.dart';
 import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_task_service.dart';
-import '../../../utils/extensions.dart';
 
 /// Subtask card for actor page
 /// Single Responsibility: Display a single subtask assigned to the actor

@@ -79,7 +79,7 @@ class ActorPage extends StatelessWidget {
           
           // Main Content Area
           Expanded(
-            child: controller.workSteps.isEmpty
+            child: controller.workSteps.isEmpty && controller.assignedSubTasks.isEmpty
                 ? _ModernEmptyState(
                     message: AppStrings.noTasks,
                     icon: Icons.task_alt_rounded,
