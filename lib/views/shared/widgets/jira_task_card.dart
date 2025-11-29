@@ -273,8 +273,8 @@ class JiraTaskCard extends StatelessWidget {
   }
 }
 
-// Work Step Item for display in JiraTaskCard
-class _WorkStepItem extends StatelessWidget {
+// Work Step Item for display in JiraTaskCard - Modern Design
+class _WorkStepItem extends StatefulWidget {
   final WorkStep workStep;
 
   const _WorkStepItem({
@@ -282,63 +282,235 @@ class _WorkStepItem extends StatelessWidget {
   });
 
   @override
+  State<_WorkStepItem> createState() => _WorkStepItemState();
+}
+
+class _WorkStepItemState extends State<_WorkStepItem> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    final isCompleted = workStep.status == WorkStepStatus.completed;
+    final isCompleted = widget.workStep.status == WorkStepStatus.completed;
+    final isInProgress = widget.workStep.status == WorkStepStatus.inProgress;
     
-    return Container(
-      margin: const EdgeInsets.only(bottom: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      decoration: BoxDecoration(
-        color: isCompleted ? Colors.white : AppColors.backgroundLight,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        decoration: BoxDecoration(
           color: isCompleted
-              ? AppColors.success.withValues(alpha: 0.3)
-              : AppColors.borderLight,
-          width: 1,
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
-            size: 16,
+              ? AppColors.success.withValues(alpha: 0.05)
+              : isInProgress
+                  ? AppColors.primary.withValues(alpha: 0.05)
+                  : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
             color: isCompleted
-                ? AppColors.success
-                : AppColors.textTertiary,
+                ? AppColors.success.withValues(alpha: 0.3)
+                : isInProgress
+                    ? AppColors.primary.withValues(alpha: 0.3)
+                    : AppColors.borderLight,
+            width: _isHovered ? 1.5 : 1,
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              workStep.name,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    decoration: isCompleted ? TextDecoration.lineThrough : null,
-                    color: isCompleted
-                        ? AppColors.textTertiary
-                        : AppColors.textSecondary,
-                    fontWeight: isCompleted ? FontWeight.w400 : FontWeight.w500,
+          boxShadow: _isHovered
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+                ]
+              : null,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () {
+              // Could open work step details in future
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  // Status Icon with modern design
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: isCompleted
+                          ? AppColors.success
+                          : isInProgress
+                              ? AppColors.primary
+                              : AppColors.backgroundLight,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isCompleted
+                            ? AppColors.success
+                            : isInProgress
+                                ? AppColors.primary
+                                : AppColors.borderLight,
+                        width: 2,
+                      ),
+                    ),
+                    child: Center(
+                      child: isCompleted
+                          ? const Icon(
+                              Icons.check_rounded,
+                              size: 18,
+                              color: Colors.white,
+                            )
+                          : isInProgress
+                              ? const Icon(
+                                  Icons.more_horiz_rounded,
+                                  size: 18,
+                                  color: Colors.white,
+                                )
+                              : Icon(
+                                  Icons.circle_outlined,
+                                  size: 16,
+                                  color: AppColors.textTertiary,
+                                ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  
+                  // Work Step Content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.workStep.name,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                decoration: isCompleted
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                                color: isCompleted
+                                    ? AppColors.textTertiary
+                                    : AppColors.textPrimary,
+                                fontWeight: isCompleted
+                                    ? FontWeight.w400
+                                    : FontWeight.w600,
+                                letterSpacing: -0.2,
+                              ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            // Role Badge
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                widget.workStep.role,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AppColors.primary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            // Duration Badge
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.textSecondary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.access_time_rounded,
+                                    size: 12,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${widget.workStep.durationHours}h',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: AppColors.textSecondary,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Status Badge
+                  if (isInProgress)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: AppColors.primaryGradient,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'IN PROGRESS',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    )
+                  else if (isCompleted)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.success,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'DONE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
-          if (!isCompleted)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                '${workStep.durationHours}h',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.primary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
