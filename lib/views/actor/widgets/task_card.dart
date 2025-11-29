@@ -43,16 +43,17 @@ class _TaskCardState extends State<TaskCard> {
           child: Transform.scale(
             scale: _isHovered ? 1.02 : 1.0,
             child: JiraTaskCard(
-            task: widget.task,
-            workStep: widget.workStep,
-            onTap: () {},
-            onSubTaskComplete: (subTask) async {
-              try {
-                await context.read<ITaskService>().completeSubTask(subTask.id);
-              } catch (e) {
-                // Error handling
-              }
-            },
+              task: widget.task,
+              workStep: widget.workStep,
+              onTap: () {},
+              onSubTaskComplete: (subTask) async {
+                try {
+                  await context.read<ITaskService>().completeSubTask(subTask.id);
+                } catch (e) {
+                  // Error handling
+                }
+              },
+            ),
           ),
         ),
       );
@@ -85,7 +86,7 @@ class _TaskCardState extends State<TaskCard> {
         child: Transform.scale(
           scale: _isHovered ? 1.01 : 1.0,
           child: Container(
-          decoration: BoxDecoration(
+            decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
