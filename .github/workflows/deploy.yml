@@ -30,7 +30,7 @@ jobs:
         with:
           flutter-version: '3.24.0'
           channel: 'stable'
-          cache: true
+          cache: true  
 
       - name: Install dependencies
         run: flutter pub get
@@ -39,7 +39,7 @@ jobs:
         run: flutter doctor -v
 
       - name: Build web
-        run: flutter build web --release --base-href "/kolla/" --web-renderer canvaskit
+        run: flutter build web --release --base-href "/kolla/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
