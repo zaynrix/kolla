@@ -258,8 +258,9 @@ class _NavItemState extends State<_NavItem> {
 
   @override
   Widget build(BuildContext context) {
-    final isActive = widget.currentRoute == widget.route || 
-                     (widget.route.startsWith('/actor/') && widget.currentRoute.startsWith('/actor/'));
+    // Only mark as active if the exact route matches
+    // For actor routes, check exact match to avoid highlighting all actors
+    final isActive = widget.currentRoute == widget.route;
     
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.isCompact ? 2 : 0),
