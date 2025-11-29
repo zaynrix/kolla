@@ -5,6 +5,7 @@ import '../../services/interfaces/i_task_service.dart';
 import '../../services/interfaces/i_actor_service.dart';
 import '../../config/constants/app_strings.dart';
 import '../../config/constants/app_colors.dart';
+import '../../utils/extensions.dart';
 import '../shared/layouts/jira_layout.dart';
 import '../workflow_manager/widgets/draggable_kanban_board.dart';
 import '../workflow_manager/widgets/modern_task_detail_dialog.dart';
@@ -74,7 +75,22 @@ class AllBoardsPage extends StatelessWidget {
     WorkStep workStep,
     WorkflowManagerController controller,
   ) {
-    final task = controller.allTasks.firstWhere((t) => t.id == workStep.taskId);
+    final task = controller.allTasks.firstWhereOrNull((t) => t.id == workStep.taskId);
+    
+    if (task == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Task not found'),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+      return;
+    }
+    
     showDialog(
       context: context,
       builder: (context) => ModernTaskDetailDialog(

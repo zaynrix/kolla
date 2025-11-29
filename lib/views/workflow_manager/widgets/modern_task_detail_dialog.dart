@@ -9,6 +9,7 @@ import '../../../config/constants/app_colors.dart';
 import '../../../services/interfaces/i_task_service.dart';
 import '../../../services/interfaces/i_actor_service.dart';
 import '../../../controllers/task_detail_controller.dart';
+import '../../../utils/extensions.dart';
 
 class ModernTaskDetailDialog extends StatelessWidget {
   final Task task;
@@ -275,10 +276,9 @@ class _AssigneeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assignedActor = availableActors.firstWhere(
-      (a) => a.id == assignedToActorId,
-      orElse: () => availableActors.first,
-    );
+    final assignedActor = assignedToActorId != null && availableActors.isNotEmpty
+        ? availableActors.firstWhereOrNull((a) => a.id == assignedToActorId)
+        : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,46 +348,71 @@ class _AssigneeSection extends StatelessWidget {
                   onChanged: (value) => onUpdate(value),
                 ),
               )
-            : GestureDetector(
-                onTap: () => onUpdate(assignedToActorId),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.borderLight),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: AppColors.primaryGradient,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            assignedActor.name[0],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+            : assignedActor != null
+                ? GestureDetector(
+                    onTap: () => onUpdate(assignedToActorId),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.borderLight),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: AppColors.primaryGradient,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                assignedActor.name[0],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
+                          const SizedBox(width: 12),
+                          Text(
+                            assignedActor.name,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.backgroundLight,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.borderLight),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.person_outline,
+                          size: 20,
+                          color: AppColors.textTertiary,
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        assignedActor.name,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
+                        const SizedBox(width: 12),
+                        Text(
+                          'Unassigned',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: AppColors.textTertiary,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
       ],
     );
   }
@@ -483,10 +508,9 @@ class _SubTaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCompleted = subTask.status == WorkStepStatus.completed;
-    final assignedActor = availableActors.firstWhere(
-      (a) => a.id == subTask.assignedToActorId,
-      orElse: () => availableActors.first,
-    );
+    final assignedActor = subTask.assignedToActorId != null && availableActors.isNotEmpty
+        ? availableActors.firstWhereOrNull((a) => a.id == subTask.assignedToActorId)
+        : null;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -524,7 +548,7 @@ class _SubTaskItem extends StatelessWidget {
               ),
             ),
           ),
-          if (subTask.assignedToActorId != null)
+          if (subTask.assignedToActorId != null && assignedActor != null)
             Container(
               width: 28,
               height: 28,

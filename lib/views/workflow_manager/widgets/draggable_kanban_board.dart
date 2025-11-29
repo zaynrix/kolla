@@ -289,7 +289,10 @@ class _WebOptimizedColumn extends StatelessWidget {
                                   itemCount: workSteps.length,
                                   itemBuilder: (context, index) {
                                     final workStep = workSteps[index];
-                                    final task = tasks.firstWhere((t) => t.id == workStep.taskId);
+                                    final task = tasks.firstWhereOrNull((t) => t.id == workStep.taskId);
+                                    if (task == null) {
+                                      return const SizedBox.shrink();
+                                    }
                                     return _DraggableCard(
                                       workStep: workStep,
                                       task: task,
