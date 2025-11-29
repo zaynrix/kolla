@@ -20,10 +20,12 @@ class HomePage extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary.withValues(alpha: 0.1),
+              AppColors.primary.withValues(alpha: 0.08),
               AppColors.secondary.withValues(alpha: 0.05),
+              AppColors.accent.withValues(alpha: 0.02),
               AppColors.backgroundLight,
             ],
+            stops: const [0.0, 0.3, 0.6, 1.0],
           ),
         ),
         child: SafeArea(
@@ -188,9 +190,18 @@ class _ActorCard extends StatelessWidget {
                 height: 56,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: AppColors.primaryGradient,
                   ),
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Center(
                   child: Text(
@@ -249,19 +260,24 @@ class _DashboardCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.accent, AppColors.accent.withValues(alpha: 0.8)],
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.accent.withValues(alpha: 0.3),
-                blurRadius: 15,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppColors.accent,
+                          AppColors.warning,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accent.withValues(alpha: 0.4),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
           child: Row(
             children: [
               Container(
